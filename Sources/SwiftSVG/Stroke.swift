@@ -7,6 +7,7 @@ public struct Stroke {
     public var opacity: Float?
     public var lineCap: LineCap  = .butt
     public var lineJoin: LineJoin = .miter
+    public var miterLimit: Float?
     
     public init() {
         

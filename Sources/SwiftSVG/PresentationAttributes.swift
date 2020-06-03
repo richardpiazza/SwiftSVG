@@ -83,6 +83,7 @@ public extension PresentationAttributes {
         stroke.width = strokeWidth ?? 1.0
         stroke.lineCap = strokeLineCap ?? .butt
         stroke.lineJoin = strokeLineJoin ?? .miter
+        stroke.miterLimit = strokeMiterLimit
         return stroke
     }
 }
