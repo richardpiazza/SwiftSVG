@@ -1,0 +1,25 @@
+{
+  "object": {
+    "pins": [
+      {
+        "package": "Swift2D",
+        "repositoryURL": "https://github.com/richardpiazza/Swift2D.git",
+        "state": {
+          "branch": null,
+          "revision": "9440d0cacae5232e585577cd7562dedd2ab6e5f7",
+          "version": "0.1.1"
+        }
+      },
+      {
+        "package": "XMLCoder",
+        "repositoryURL": "https://github.com/MaxDesiatov/XMLCoder.git",
+        "state": {
+          "branch": null,
+          "revision": "ac411bd6ab342780be0dfe6f679410f791d751d9",
+          "version": "0.11.1"
+        }
+      }
+    ]
+  },
+  "version": 1
+}
