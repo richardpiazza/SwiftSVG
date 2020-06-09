@@ -51,3 +51,10 @@ extension Polyline: DynamicNodeDecoding {
         return .attribute
     }
 }
+
+// MARK: - CommandRepresentable
+extension Polyline: CommandRepresentable {
+    public func commands() throws -> [Path.Command] {
+        return try PolylineProcessor(points: points).commands()
+    }
+}

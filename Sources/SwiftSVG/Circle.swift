@@ -64,3 +64,10 @@ extension Circle: DynamicNodeDecoding {
         return .attribute
     }
 }
+
+// MARK: - DirectionalCommandRepresentable
+extension Circle: DirectionalCommandRepresentable {
+    public func commands(clockwise: Bool) throws -> [Path.Command] {
+        return CircleProcessor(circle: self).commands(clockwise: clockwise)
+    }
+}

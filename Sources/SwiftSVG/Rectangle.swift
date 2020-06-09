@@ -89,3 +89,10 @@ extension Rectangle: DynamicNodeDecoding {
         return .attribute
     }
 }
+
+// MARK: - DirectionalCommandRepresentable
+extension Rectangle: DirectionalCommandRepresentable {
+    public func commands(clockwise: Bool) throws -> [Path.Command] {
+        return RectangleProcessor(rectangle: self).commands(clockwise: clockwise)
+    }
+}

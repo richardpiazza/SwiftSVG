@@ -1,5 +1,6 @@
 import Foundation
 import XMLCoder
+import Swift2D
 
 /// SVG basic shape used to create a line connecting two points.
 ///
@@ -63,5 +64,17 @@ extension Line: DynamicNodeEncoding {
 extension Line: DynamicNodeDecoding {
     public static func nodeDecoding(for key: CodingKey) -> XMLDecoder.NodeDecoding {
         return .attribute
+    }
+}
+
+// MARK: - CommandRepresentable
+extension Line: CommandRepresentable {
+    public func commands() throws -> [Path.Command] {
+        return [
+            .moveTo(point: Point(x: x1, y: y1)),
+            .lineTo(point: Point(x: x2, y: y2)),
+            .lineTo(point: Point(x: x1, y: y1)),
+            .closePath
+        ]
     }
 }

@@ -52,3 +52,10 @@ extension Polygon: DynamicNodeDecoding {
         return .attribute
     }
 }
+
+// MARK: - CommandRepresentable
+extension Polygon: CommandRepresentable {
+    public func commands() throws -> [Path.Command] {
+        return try PolygonProcessor(points: points).commands()
+    }
+}
