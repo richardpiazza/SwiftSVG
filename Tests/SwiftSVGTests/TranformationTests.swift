@@ -6,6 +6,7 @@ final class TransformationTests: XCTestCase {
     static var allTests = [
         ("testTranslateInitialization", testTranslateInitialization),
         ("testMatrixInitialization", testMatrixInitialization),
+        ("testCommandTransformation", testCommandTransformation)
     ]
     
     func testTranslateInitialization() {
@@ -90,6 +91,78 @@ final class TransformationTests: XCTestCase {
             XCTAssertEqual(d, 1.0, accuracy: 0.00001)
             XCTAssertEqual(e, 1449.84, accuracy: 0.00001)
             XCTAssertEqual(f, 322.0, accuracy: 0.00001)
+        } else {
+            XCTFail()
+            return
+        }
+    }
+    
+    func testCommandTransformation() throws {
+        let translate = Transformation.translate(x: 25.0, y: 75.0)
+        var command: Path.Command
+        var result: Path.Command
+        
+        command = .moveTo(point: .init(x: 50.0, y: 50.0))
+        result = command.applying(transformation: translate)
+        
+        if case let .moveTo(point) = result {
+            XCTAssertEqual(point, .init(x: 75.0, y: 125.0))
+        } else {
+            XCTFail()
+            return
+        }
+        
+        command = .lineTo(point: .init(x: -60.0, y: 120.0))
+        result = command.applying(transformation: translate)
+        
+        if case let .lineTo(point) = result {
+            XCTAssertEqual(point, .init(x: -35.0, y: 195.0))
+        } else {
+            XCTFail()
+            return
+        }
+        
+        command = .cubicBezierCurve(cp1: .init(x: -20.0, y: -40.0), cp2: .init(x: 18.0, y: 94.0), point: .init(x: 20.0, y: 20.0))
+        result = command.applying(transformation: translate)
+        
+        if case let .cubicBezierCurve(cp1, cp2, point) = result {
+            XCTAssertEqual(cp1, .init(x: 5.0, y: 35.0))
+            XCTAssertEqual(cp2, .init(x: 43.0, y: 169.0))
+            XCTAssertEqual(point, .init(x: 45.0, y: 95.0))
+        } else {
+            XCTFail()
+            return
+        }
+        
+        command = .quadraticBezierCurve(cp: .init(x: 100.0, y: 50.0), point: .zero)
+        result = command.applying(transformation: translate)
+        
+        if case let .quadraticBezierCurve(cp, point) = result {
+            XCTAssertEqual(cp, .init(x: 125.0, y: 125.0))
+            XCTAssertEqual(point, .init(x: 25.0, y: 75.0))
+        } else {
+            XCTFail()
+            return
+        }
+        
+        command = .ellipticalArcCurve(rx: 14, ry: 6, largeArc: false, clockwise: false, point: .init(x: 4.25, y: 2.68))
+        result = command.applying(transformation: translate)
+        
+        if case let .ellipticalArcCurve(rx, ry, l, c, point) = result {
+            XCTAssertEqual(rx, 14)
+            XCTAssertEqual(ry, 6)
+            XCTAssertFalse(l)
+            XCTAssertFalse(c)
+            XCTAssertEqual(point, .init(x: 29.25, y: 77.68))
+        } else {
+            XCTFail()
+            return
+        }
+        
+        command = .closePath
+        result = command.applying(transformation: translate)
+        
+        if case .closePath = result {
         } else {
             XCTFail()
             return
