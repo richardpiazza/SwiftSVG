@@ -29,6 +29,11 @@ public class Path: Element {
         self.data = data
     }
     
+    public convenience init(commands: [Path.Command]) {
+        self.init()
+        data = commands.map({ $0.description }).joined()
+    }
+    
     public required init(from decoder: Decoder) throws {
         try super.init(from: decoder)
         let container = try decoder.container(keyedBy: CodingKeys.self)
@@ -59,5 +64,18 @@ extension Path: DynamicNodeDecoding {
 extension Path: CommandRepresentable {
     public func commands() throws -> [Command] {
         return try PathProcessor(data: data).commands()
+    }
+}
+
+// MARK: - Equatable
+extension Path: Equatable {
+    public static func == (lhs: Path, rhs: Path) -> Bool {
+        do {
+            let lhsCommands = try lhs.commands()
+            let rhsCommands = try rhs.commands()
+            return lhsCommands == rhsCommands
+        } catch {
+            return false
+        }
     }
 }
