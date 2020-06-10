@@ -145,20 +145,6 @@ final class TransformationTests: XCTestCase {
             return
         }
         
-        command = .ellipticalArcCurve(rx: 14, ry: 6, largeArc: false, clockwise: false, point: .init(x: 4.25, y: 2.68))
-        result = command.applying(transformation: translate)
-        
-        if case let .ellipticalArcCurve(rx, ry, l, c, point) = result {
-            XCTAssertEqual(rx, 14)
-            XCTAssertEqual(ry, 6)
-            XCTAssertFalse(l)
-            XCTAssertFalse(c)
-            XCTAssertEqual(point, .init(x: 29.25, y: 77.68))
-        } else {
-            XCTFail()
-            return
-        }
-        
         command = .closePath
         result = command.applying(transformation: translate)
         

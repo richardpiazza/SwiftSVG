@@ -188,14 +188,6 @@ class PathProcessor {
             _command = .quadraticBezierCurve(cp: lastControlPoint, point: currentPoint)
             positioning = .relative
             argumentPosition = 2
-        case .ellipticalArcCurve:
-            _command = .ellipticalArcCurve(rx: .nan, ry: .nan, largeArc: false, clockwise: false, point: .nan)
-            positioning = .absolute
-            argumentPosition = 0
-        case .relativeEllipticalArcCurve:
-            _command = .ellipticalArcCurve(rx: .nan, ry: .nan, largeArc: false, clockwise: false, point: .nan)
-            positioning = .relative
-            argumentPosition = 0
         default:
             break
         }
@@ -264,21 +256,6 @@ class PathProcessor {
                     break //throw?
                 }
             }
-        case .ellipticalArcCurve:
-            _command = try command.adjustingArgument(at: argumentPosition, by: value)
-            switch positioning {
-            case .absolute:
-                argumentPosition += 1
-            case .relative:
-                switch argumentPosition {
-                case 0...5:
-                    argumentPosition += 1
-                case 6:
-                    argumentPosition = -1
-                default:
-                    break //throw?
-                }
-            }
         case .closePath:
             break
         }
@@ -334,19 +311,6 @@ class PathProcessor {
                     throw Path.Command.Error.invalidRelativeCommand
                 }
                 let c = Path.Command.quadraticBezierCurve(cp: cp, point: point)
-                _command = try c.adjustingArgument(at: 0, by: value)
-                argumentPosition = 1
-            }
-        case .ellipticalArcCurve:
-            switch positioning {
-            case .absolute:
-                _command = .ellipticalArcCurve(rx: value, ry: .nan, largeArc: false, clockwise: false, point: .nan)
-                argumentPosition = 1
-            case .relative:
-                guard case let .ellipticalArcCurve(rx, ry, largeArc, clockwise, point) = command else {
-                    throw Path.Command.Error.invalidRelativeCommand
-                }
-                let c = Path.Command.ellipticalArcCurve(rx: rx, ry: ry, largeArc: largeArc, clockwise: clockwise, point: point)
                 _command = try c.adjustingArgument(at: 0, by: value)
                 argumentPosition = 1
             }
