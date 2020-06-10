@@ -137,11 +137,11 @@ struct RectangleProcessor {
                 point = .init(x: rectangle.x, y: rectangle.y + radius)
                 commands.append(.quadraticBezierCurve(cp: cp, point: point))
                 
-                point = .init(x: rectangle.x, y: rectangle.y + radius)
+                point = .init(x: rectangle.x, y: rectangle.y + rectangle.height - radius)
                 commands.append(.lineTo(point: point))
                 
                 cp = .init(x: rectangle.x, y: rectangle.y + rectangle.height)
-                point = .init(x: rectangle.x + radius, y: rectangle.y)
+                point = .init(x: rectangle.x + radius, y: rectangle.y + rectangle.height)
                 commands.append(.quadraticBezierCurve(cp: cp, point: point))
                 
                 point = .init(x: rectangle.x + rectangle.width - radius, y: rectangle.y + rectangle.height)
@@ -155,7 +155,7 @@ struct RectangleProcessor {
                 commands.append(.lineTo(point: point))
                 
                 cp = .init(x: rectangle.x + rectangle.width, y: rectangle.y)
-                point = .init(x: rectangle.x - radius, y: rectangle.y)
+                point = .init(x: rectangle.x + rectangle.width - radius, y: rectangle.y)
                 commands.append(.quadraticBezierCurve(cp: cp, point: point))
             }
         case (.none, .none):

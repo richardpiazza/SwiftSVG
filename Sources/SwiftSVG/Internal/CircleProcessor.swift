@@ -9,7 +9,7 @@ struct CircleProcessor {
     /// circle as 4 bezier curves.
     ///
     /// [Stack Overflow](https://stackoverflow.com/questions/1734745/how-to-create-circle-with-bézier-curves)
-    var controlPointOffset: Float {
+    static func controlPointOffset(_ circle: Circle) -> Float {
         return (Float(4.0/3.0) * tan(Float.pi / 8.0)) * circle.r
     }
     
@@ -20,7 +20,7 @@ struct CircleProcessor {
     func commands(clockwise: Bool) -> [Path.Command] {
         var commands: [Path.Command] = []
         
-        let offset = controlPointOffset
+        let offset = Self.controlPointOffset(circle)
         
         let zero = Point(x: circle.x + circle.r, y: circle.y)
         let ninety = Point(x: circle.x, y: circle.y - circle.r)

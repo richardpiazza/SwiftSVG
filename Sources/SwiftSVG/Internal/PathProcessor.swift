@@ -295,6 +295,7 @@ class PathProcessor {
             switch positioning {
             case .absolute:
                 _command = .moveTo(point: Point(x: value, y: .nan))
+                argumentPosition = 1
             case .relative:
                 let c = Path.Command.moveTo(point: command.point)
                 _command = try c.adjustingArgument(at: 0, by: value)
@@ -304,6 +305,7 @@ class PathProcessor {
             switch positioning {
             case .absolute:
                 _command = .lineTo(point: Point(x: value, y: .nan))
+                argumentPosition = 1
             case .relative:
                 let c = Path.Command.lineTo(point: command.point)
                 _command = try c.adjustingArgument(at: 0, by: value)
@@ -313,6 +315,7 @@ class PathProcessor {
             switch positioning {
             case .absolute:
                 _command = .cubicBezierCurve(cp1: Point(x: value, y: .nan), cp2: .nan, point: .nan)
+                argumentPosition = 1
             case .relative:
                 guard case let .cubicBezierCurve(cp1, cp2, point) = command else {
                     throw Path.Command.Error.invalidRelativeCommand
@@ -325,6 +328,7 @@ class PathProcessor {
             switch positioning {
             case .absolute:
                 _command = .quadraticBezierCurve(cp: Point(x: value, y: .nan), point: .nan)
+                argumentPosition = 1
             case .relative:
                 guard case let .quadraticBezierCurve(cp, point) = command else {
                     throw Path.Command.Error.invalidRelativeCommand
@@ -337,6 +341,7 @@ class PathProcessor {
             switch positioning {
             case .absolute:
                 _command = .ellipticalArcCurve(rx: value, ry: .nan, largeArc: false, clockwise: false, point: .nan)
+                argumentPosition = 1
             case .relative:
                 guard case let .ellipticalArcCurve(rx, ry, largeArc, clockwise, point) = command else {
                     throw Path.Command.Error.invalidRelativeCommand
@@ -371,11 +376,20 @@ private extension String {
                     component = ""
                 }
                 
-                component.append(String(scalar))
+                components.append(String(scalar))
                 return
             }
             
             if CharacterSet.whitespaces.contains(scalar) {
+                if !component.isEmpty {
+                    components.append(component)
+                    component = ""
+                }
+                
+                return
+            }
+            
+            if CharacterSet(charactersIn: ",").contains(scalar) {
                 if !component.isEmpty {
                     components.append(component)
                     component = ""

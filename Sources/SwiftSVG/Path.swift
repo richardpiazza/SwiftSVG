@@ -16,7 +16,7 @@ public class Path: Element {
     /// Path commands are instructions that define a path to be drawn.
     ///
     /// Each command is composed of a command letter and numbers that represent the command parameters.
-    public enum Command {
+    public enum Command: Equatable, CustomStringConvertible {
         /// Moves the current drawing point
         case moveTo(point: Point)
         /// Draw a straight line from the current point to the point provided
@@ -62,6 +62,25 @@ public class Path: Element {
             case invalidAdjustment(Path.Command)
             case invalidArgumentPosition(Int, Path.Command)
             case invalidRelativeCommand
+        }
+        
+        public var description: String {
+            switch self {
+            case .moveTo(let point):
+                return "\(Prefix.move.rawValue)\(point.x),\(point.y)"
+            case .lineTo(let point):
+                return "\(Prefix.line.rawValue)\(point.x),\(point.y)"
+            case .cubicBezierCurve(let cp1, let cp2, let point):
+                return "\(Prefix.cubicBezierCurve.rawValue)\(cp1.x),\(cp1.y) \(cp2.x),\(cp2.y) \(point.x),\(point.y)"
+            case .quadraticBezierCurve(let cp, let point):
+                return "\(Prefix.quadraticBezierCurve.rawValue)\(cp.x),\(cp.y) \(point.x),\(point.y)"
+            case .ellipticalArcCurve(let rx, let ry, let largeArc, let clockwise, let point):
+                let la = largeArc ? 1 : 0
+                let cw = clockwise ? 1 : 0
+                return "\(Prefix.ellipticalArcCurve.rawValue)\(rx),\(ry) \(la) \(cw) \(point.x),\(point.y)"
+            case .closePath:
+                return "\(Prefix.close.rawValue)"
+            }
         }
     }
     
