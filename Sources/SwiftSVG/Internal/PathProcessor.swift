@@ -219,8 +219,16 @@ class PathProcessor {
             case .relative:
                 switch argumentPosition {
                 case 0:
-                    argumentPosition += 1
+                    if singleValue {
+                        singleValue = false
+                        argumentPosition = -1
+                    } else {
+                        argumentPosition += 1
+                    }
                 case 1:
+                    if singleValue {
+                        singleValue = false
+                    }
                     argumentPosition = -1
                 default:
                     break //throw?
@@ -374,6 +382,12 @@ private extension String {
             }
             
             if CharacterSet(charactersIn: ".").contains(scalar) {
+                if component.contains(".") {
+                    // Already decimal value, this is a new value
+                    components.append(component)
+                    component = ""
+                }
+                
                 component.append(String(scalar))
                 return
             }

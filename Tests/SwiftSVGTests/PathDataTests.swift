@@ -10,6 +10,7 @@ final class PathDataTests: XCTestCase {
         ("testDataFormatSketch", testDataFormatSketch),
         ("testRelativePath", testRelativePath),
         ("testCompareFormats", testCompareFormats),
+        ("testSingleValueProcessing", testSingleValueProcessing),
     ]
     
     func testDataFormatAppleSymbols() throws {
@@ -131,5 +132,14 @@ final class PathDataTests: XCTestCase {
             XCTAssertRoughlyEqual(appleSymbolsCommands[i], pixelmatorCommands[i])
             XCTAssertRoughlyEqual(pixelmatorCommands[i], sketchCommands[i])
         }
+    }
+    
+    func testSingleValueProcessing() throws {
+        let data = "M170.488 118.443h-.537v2.368h.322v-1.936l.752 1.936h.43l.645-1.936v1.936h.429v-2.368h-.644l-.645 1.83-.752-1.83z"
+        
+        let path = Path(data: data)
+        let commands = try path.commands()
+        commands.forEach({ print($0) })
+        XCTAssertEqual(commands.count, 15)
     }
 }
