@@ -69,7 +69,7 @@ public extension CommandRepresentable where Self: Element {
     ///
     /// Than the path created will not only use 'absolute' instructions, but those instructions will be modified to
     /// include the required transformation.
-    func path(applying transformations: [Transformation]) throws -> Path {
+    func path(applying transformations: [Transformation] = []) throws -> Path {
         var _transformations = transformations
         _transformations.append(contentsOf: self.transformations)
         
