@@ -101,3 +101,38 @@ extension Group: DynamicNodeDecoding {
         return .element
     }
 }
+
+// MARK: - Paths
+public extension Group {
+    /// A representation of all the sub-`Path`s in the `Group`.
+    func subpaths(applying transformations: [Transformation]) throws -> [Path] {
+        var _transformations = transformations
+        _transformations.append(contentsOf: self.transformations)
+        
+        var output: [Path] = []
+        
+        if let circles = self.circles {
+            try output.append(contentsOf: circles.compactMap({ try $0.path(applying: _transformations) }))
+        }
+        
+        if let rectangles = self.rectangles {
+            try output.append(contentsOf: rectangles.compactMap({ try $0.path(applying: _transformations) }))
+        }
+        
+        if let polygons = self.polygons {
+            try output.append(contentsOf: polygons.compactMap({ try $0.path(applying: _transformations) }))
+        }
+        
+        if let paths = self.paths {
+            try output.append(contentsOf: paths.map({ try $0.path(applying: _transformations) }))
+        }
+        
+        if let groups = self.groups {
+            try groups.forEach({
+                try output.append(contentsOf: $0.subpaths(applying: _transformations))
+            })
+        }
+        
+        return output
+    }
+}

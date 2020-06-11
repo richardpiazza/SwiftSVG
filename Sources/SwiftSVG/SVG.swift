@@ -19,6 +19,13 @@ public class SVG: Codable {
     public var groups: [Group]?
     public var paths: [Path]?
     
+    /// A non-optional, non-spaced representation of the `title`.
+    public var name: String {
+        let name = title ?? "SVG Document"
+        let newTitle = name.components(separatedBy: .punctuationCharacters).joined(separator: "_")
+        return newTitle.replacingOccurrences(of: " ", with: "_")
+    }
+    
     enum CodingKeys: String, CodingKey {
         case width
         case height
@@ -100,5 +107,33 @@ public extension SVG {
     
     static func make(with data: Data, decoder: XMLDecoder = XMLDecoder()) throws -> SVG {
         return try decoder.decode(SVG.self, from: data)
+    }
+}
+
+// MARK: - Paths
+public extension SVG {
+    /// A collection of all `Path`s in the document.
+    func subpaths() throws -> [Path] {
+        var output: [Path] = []
+        let _transformations: [Transformation] = []
+        
+        if let paths = self.paths {
+            try output.append(contentsOf: paths.map({ try $0.path(applying: _transformations) }))
+        }
+        
+        if let groups = self.groups {
+            try groups.forEach({
+                try output.append(contentsOf: $0.subpaths(applying: _transformations))
+            })
+        }
+        
+        return output
+    }
+    
+    /// A singular path that represents all of the `Command`s within the document.
+    func coalescedPath() throws -> Path {
+        let paths = try subpaths()
+        let commands = try paths.flatMap({ try $0.commands() })
+        return Path(commands: commands)
     }
 }
