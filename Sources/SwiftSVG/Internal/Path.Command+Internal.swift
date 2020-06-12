@@ -11,6 +11,8 @@ extension Path.Command {
             return !cp1.hasNaN && !cp2.hasNaN && !point.hasNaN
         case .quadraticBezierCurve(let cp, let point):
             return !cp.hasNaN && !point.hasNaN
+        case .ellipticalArcCurve(let rx, let ry, let angle, _, _, let point):
+            return !rx.isNaN && !ry.isNaN && !angle.isNaN && !point.hasNaN
         case .closePath:
             return true
         }
@@ -22,6 +24,7 @@ extension Path.Command {
         case .lineTo(let point): return point
         case .cubicBezierCurve(_, _, let point): return point
         case .quadraticBezierCurve(_, let point): return point
+        case .ellipticalArcCurve(_, _, _, _, _, let point): return point
         case .closePath: return .zero
         }
     }
@@ -108,6 +111,25 @@ extension Path.Command {
                 return .quadraticBezierCurve(cp: cp, point: point.adjusting(x: value))
             case 3:
                 return .quadraticBezierCurve(cp: cp, point: point.adjusting(y: value))
+            default:
+                throw Path.Command.Error.invalidArgumentPosition(position, self)
+            }
+        case .ellipticalArcCurve(let rx, let ry, let angle, let largeArc, let clockwise, let point):
+            switch position {
+            case 0:
+                return .ellipticalArcCurve(rx: value, ry: ry, angle: angle, largeArc: largeArc, clockwise: clockwise, point: point)
+            case 1:
+                return .ellipticalArcCurve(rx: rx, ry: value, angle: angle, largeArc: largeArc, clockwise: clockwise, point: point)
+            case 2:
+                return .ellipticalArcCurve(rx: rx, ry: ry, angle: value, largeArc: largeArc, clockwise: clockwise, point: point)
+            case 3:
+                return .ellipticalArcCurve(rx: rx, ry: ry, angle: angle, largeArc: !value.isZero, clockwise: clockwise, point: point)
+            case 4:
+                return .ellipticalArcCurve(rx: rx, ry: ry, angle: angle, largeArc: largeArc, clockwise: !value.isZero, point: point)
+            case 5:
+                return .ellipticalArcCurve(rx: rx, ry: ry, angle: angle, largeArc: largeArc, clockwise: clockwise, point: point.adjusting(x: value))
+            case 6:
+                return .ellipticalArcCurve(rx: rx, ry: ry, angle: angle, largeArc: largeArc, clockwise: clockwise, point: point.adjusting(y: value))
             default:
                 throw Path.Command.Error.invalidArgumentPosition(position, self)
             }

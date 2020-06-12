@@ -35,6 +35,8 @@ extension Path.Command {
             return prefix == .cubicBezierCurve
         case .quadraticBezierCurve:
             return prefix == .quadraticBezierCurve
+        case .ellipticalArcCurve:
+            return prefix == .ellipticalArcCurve
         case .closePath:
             return prefix == .close
         }
@@ -52,6 +54,8 @@ extension Path.Command: RoughEquatability {
             return (lcp1 ~~ rcp1) && (lcp2 ~~ rcp2) && (lpoint ~~ rpoint)
         case (.quadraticBezierCurve(let lcp, let lpoint), .quadraticBezierCurve(let rcp, let rpoint)):
             return (lcp ~~ rcp) && (lpoint ~~ rpoint)
+        case (.ellipticalArcCurve(let lrx, let lry, let langle, let llargeArc, let lclockwise, let lpoint), .ellipticalArcCurve(let rrx, let rry, let rangle, let rlargeArc, let rclockwise, let rpoint)):
+            return (lrx ~~ rrx) && ((lry ~~ rry)) && (langle ~~ rangle) && (llargeArc == rlargeArc) && (lclockwise == rclockwise) && (lpoint ~~ rpoint)
         case (.closePath, .closePath):
             return true
         default:

@@ -14,6 +14,8 @@ public extension Path {
         case cubicBezierCurve(cp1: Point, cp2: Point, point: Point)
         /// Draw a smooth curve using two points (+ origin)
         case quadraticBezierCurve(cp: Point, point: Point)
+        /// Draw a curve defined as a portion of an ellipse
+        case ellipticalArcCurve(rx: Float, ry: Float, angle: Float, largeArc: Bool, clockwise: Bool, point: Point)
         /// ClosePath instructions draw a straight line from the current position to the first point in the path.
         case closePath
         
@@ -34,6 +36,8 @@ public extension Path {
             case relativeQuadraticBezierCurve = "q"
             case smoothQuadraticBezierCurve = "T"
             case relativeSmoothQuadraticBezierCurve = "t"
+            case ellipticalArcCurve = "A"
+            case relativeEllipticalArcCurve = "a"
             case close = "Z"
             case relativeClose = "z"
             
@@ -59,6 +63,10 @@ public extension Path {
                 return "\(Prefix.cubicBezierCurve.rawValue)\(cp1.x),\(cp1.y) \(cp2.x),\(cp2.y) \(point.x),\(point.y)"
             case .quadraticBezierCurve(let cp, let point):
                 return "\(Prefix.quadraticBezierCurve.rawValue)\(cp.x),\(cp.y) \(point.x),\(point.y)"
+            case .ellipticalArcCurve(let rx, let ry, let angle, let largeArc, let clockwise, let point):
+                let la = largeArc ? 1 : 0
+                let cw = clockwise ? 1 : 0
+                return "\(Prefix.ellipticalArcCurve.rawValue)\(rx) \(ry) \(angle) \(la) \(cw) \(point.x) \(point.y)"
             case .closePath:
                 return "\(Prefix.close.rawValue)"
             }
@@ -87,6 +95,9 @@ public extension Path.Command {
                 let _cp = cp.adjusting(x: x).adjusting(y: y)
                 let _point = point.adjusting(x: x).adjusting(y: y)
                 return .quadraticBezierCurve(cp: _cp, point: _point)
+            case .ellipticalArcCurve:
+                #warning("No Implementation")
+                return self
             case .closePath:
                 return self
             }
@@ -125,6 +136,9 @@ public extension Path.Command {
             let _cp = VectorPoint(point: cp, in: from).translate(to: to)
             let _point = VectorPoint(point: point, in: from).translate(to: to)
             return .quadraticBezierCurve(cp: _cp, point: _point)
+        case .ellipticalArcCurve:
+            #warning("No Implementation")
+            return self
         case .closePath:
             return self
         }
