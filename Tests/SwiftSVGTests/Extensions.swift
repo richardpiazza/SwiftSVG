@@ -3,11 +3,11 @@ import Swift2D
 @testable import SwiftSVG
 
 infix operator ~~
-protocol RoughEquatability {
+public protocol RoughEquatability {
     static func ~~ (lhs: Self, rhs: Self) -> Bool
 }
 
-func XCTAssertRoughlyEqual<T>(_ expression1: @autoclosure () throws -> T, _ expression2: @autoclosure () throws -> T, _ message: @autoclosure () -> String = "", file: StaticString = #file, line: UInt = #line) where T : RoughEquatability {
+public func XCTAssertRoughlyEqual<T>(_ expression1: @autoclosure () throws -> T, _ expression2: @autoclosure () throws -> T, _ message: @autoclosure () -> String = "", file: StaticString = #file, line: UInt = #line) where T : RoughEquatability {
     let lhs: T
     let rhs: T
     do {
@@ -24,7 +24,7 @@ func XCTAssertRoughlyEqual<T>(_ expression1: @autoclosure () throws -> T, _ expr
     }
 }
 
-extension Path.Command {
+public extension Path.Command {
     func hasPrefix(_ prefix: Path.Command.Prefix) -> Bool {
         switch self {
         case .moveTo:
@@ -44,7 +44,7 @@ extension Path.Command {
 }
 
 extension Path.Command: RoughEquatability {
-    static func ~~ (lhs: Path.Command, rhs: Path.Command) -> Bool {
+    public static func ~~ (lhs: Path.Command, rhs: Path.Command) -> Bool {
         switch (lhs, rhs) {
         case (.moveTo(let lPoint), .moveTo(let rPoint)):
             return lPoint ~~ rPoint
@@ -65,13 +65,29 @@ extension Path.Command: RoughEquatability {
 }
 
 extension Float: RoughEquatability {
-    static func ~~ (lhs: Float, rhs: Float) -> Bool {
+    public static func ~~ (lhs: Float, rhs: Float) -> Bool {
         return abs(lhs - rhs) < 0.001
     }
 }
 
 extension Point: RoughEquatability {
-    static func ~~ (lhs: Point, rhs: Point) -> Bool {
+    public static func ~~ (lhs: Point, rhs: Point) -> Bool {
         return (lhs.x ~~ rhs.x) && (lhs.y ~~ rhs.y)
+    }
+}
+
+extension Array: RoughEquatability where Element == Path.Command {
+    public static func ~~ (lhs: Array<Element>, rhs: Array<Element>) -> Bool {
+        guard lhs.count == rhs.count else {
+            return false
+        }
+        
+        for (idx, i) in lhs.enumerated() {
+            if !(i ~~ rhs[idx]) {
+                return false
+            }
+        }
+        
+        return true
     }
 }

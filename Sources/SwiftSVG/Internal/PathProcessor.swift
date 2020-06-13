@@ -62,10 +62,10 @@ class PathProcessor {
                     case .absolute:
                         _commands.append(command)
                         _command = nil
-                        currentPoint = command.point
-                        if pathOrigin.hasNaN {
+                        if case .moveTo = command {
                             pathOrigin = command.point
                         }
+                        currentPoint = command.point
                     }
                 }
             } else {
@@ -75,7 +75,7 @@ class PathProcessor {
         
         if let command = _command, command.isComplete {
             _commands.append(command)
-            if pathOrigin.hasNaN {
+            if case .moveTo = command {
                 pathOrigin = command.point
             }
         }
@@ -97,7 +97,7 @@ class PathProcessor {
             positioning = .absolute
             argumentPosition = 0
         case .relativeMove:
-            _command = .moveTo(point: .nan)
+            _command = .moveTo(point: currentPoint)
             positioning = .relative
             argumentPosition = 0
         case .line:
@@ -105,7 +105,7 @@ class PathProcessor {
             positioning = .absolute
             argumentPosition = 0
         case .relativeLine:
-            _command = .lineTo(point: .nan)
+            _command = .lineTo(point: currentPoint)
             positioning = .relative
             argumentPosition = 0
         case .horizontalLine:
@@ -204,16 +204,16 @@ class PathProcessor {
     /// Process Value
     private func continueCommand(_ command: Path.Command, value: Float) throws {
         switch command {
-        case .moveTo:
+        case .moveTo, .cubicBezierCurve, .quadraticBezierCurve, .ellipticalArcCurve:
             _command = try command.adjustingArgument(at: argumentPosition, by: value)
             switch positioning {
             case .absolute:
                  argumentPosition += 1
             case .relative:
                 switch argumentPosition {
-                case 0:
+                case 0...(command.arguments - 2):
                     argumentPosition += 1
-                case 1:
+                case command.arguments - 1:
                     argumentPosition = -1
                 default:
                     break //throw?
@@ -237,51 +237,6 @@ class PathProcessor {
                     if singleValue {
                         singleValue = false
                     }
-                    argumentPosition = -1
-                default:
-                    break //throw?
-                }
-            }
-        case .cubicBezierCurve:
-            _command = try command.adjustingArgument(at: argumentPosition, by: value)
-            switch positioning {
-            case .absolute:
-                argumentPosition += 1
-            case .relative:
-                switch argumentPosition {
-                case 0...4:
-                    argumentPosition += 1
-                case 5:
-                    argumentPosition = -1
-                default:
-                    break //throw?
-                }
-            }
-        case .quadraticBezierCurve:
-            _command = try command.adjustingArgument(at: argumentPosition, by: value)
-            switch positioning {
-            case .absolute:
-                argumentPosition += 1
-            case .relative:
-                switch argumentPosition {
-                case 0...2:
-                    argumentPosition += 1
-                case 3:
-                    argumentPosition = -1
-                default:
-                    break //throw?
-                }
-            }
-        case .ellipticalArcCurve:
-            _command = try command.adjustingArgument(at: argumentPosition, by: value)
-            switch positioning {
-            case .absolute:
-                argumentPosition += 1
-            case .relative:
-                switch argumentPosition {
-                case 0...5:
-                    argumentPosition += 1
-                case 6:
                     argumentPosition = -1
                 default:
                     break //throw?
@@ -325,10 +280,7 @@ class PathProcessor {
                 _command = .cubicBezierCurve(cp1: Point(x: value, y: .nan), cp2: .nan, point: .nan)
                 argumentPosition = 1
             case .relative:
-                guard case let .cubicBezierCurve(cp1, cp2, point) = command else {
-                    throw Path.Command.Error.invalidRelativeCommand
-                }
-                let c = Path.Command.cubicBezierCurve(cp1: cp1, cp2: cp2, point: point)
+                let c = Path.Command.cubicBezierCurve(cp1: command.point, cp2: command.point, point: command.point)
                 _command = try c.adjustingArgument(at: 0, by: value)
                 argumentPosition = 1
             }
@@ -338,10 +290,7 @@ class PathProcessor {
                 _command = .quadraticBezierCurve(cp: Point(x: value, y: .nan), point: .nan)
                 argumentPosition = 1
             case .relative:
-                guard case let .quadraticBezierCurve(cp, point) = command else {
-                    throw Path.Command.Error.invalidRelativeCommand
-                }
-                let c = Path.Command.quadraticBezierCurve(cp: cp, point: point)
+                let c = Path.Command.quadraticBezierCurve(cp: command.point, point: command.point)
                 _command = try c.adjustingArgument(at: 0, by: value)
                 argumentPosition = 1
             }
@@ -351,10 +300,7 @@ class PathProcessor {
                 _command = .ellipticalArcCurve(rx: value, ry: .nan, angle: .nan, largeArc: false, clockwise: false, point: .nan)
                 argumentPosition = 1
             case .relative:
-                guard case let .ellipticalArcCurve(rx, ry, angle, largeArc, clockwise, point) = command else {
-                    throw Path.Command.Error.invalidRelativeCommand
-                }
-                let c = Path.Command.ellipticalArcCurve(rx: rx, ry: ry, angle: angle, largeArc: largeArc, clockwise: clockwise, point: point)
+                let c = Path.Command.ellipticalArcCurve(rx: command.point.x, ry: command.point.y, angle: .nan, largeArc: false, clockwise: false, point: command.point)
                 _command = try c.adjustingArgument(at: 0, by: value)
                 argumentPosition = 1
             }

@@ -52,6 +52,18 @@ extension Path.Command {
         return Point(x: point.x + (point.x - cp.x), y: point.y + (point.y - cp.y))
     }
     
+    /// The total number of argument values the command requires.
+    var arguments: Int {
+        switch self {
+        case .moveTo: return 2
+        case .lineTo: return 2
+        case .cubicBezierCurve: return 6
+        case .quadraticBezierCurve: return 4
+        case .ellipticalArcCurve: return 7
+        case .closePath: return 0
+        }
+    }
+    
     /// Adjusts a Command argument by a specified amount.
     ///
     /// A `Point` consumes two positions. So, in the example `.quadraticBezierCurve(cp: .zero, point: .zero)`:
