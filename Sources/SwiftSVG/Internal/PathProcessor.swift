@@ -109,10 +109,7 @@ class PathProcessor {
             positioning = .relative
             argumentPosition = 0
         case .horizontalLine:
-            guard let command = _commands.last else {
-                throw Path.Command.Error.invalidRelativeCommand
-            }
-            _command = .lineTo(point: Point(x: .nan, y: command.point.y))
+            _command = .lineTo(point: currentPoint.with(x: .nan))
             positioning = .absolute
             argumentPosition = 0
         case .relativeHorizontalLine:
@@ -121,10 +118,7 @@ class PathProcessor {
             argumentPosition = 0
             singleValue = true
         case .verticalLine:
-            guard let command = _commands.last else {
-                throw Path.Command.Error.invalidRelativeCommand
-            }
-            _command = .lineTo(point: Point(x: command.point.x, y: .nan))
+            _command = .lineTo(point: currentPoint.with(y: .nan))
             positioning = .absolute
             argumentPosition = 0
         case .relativeVerticalLine:
@@ -141,23 +135,11 @@ class PathProcessor {
             positioning = .relative
             argumentPosition = 0
         case .smoothCubicBezierCurve:
-            guard let command = _commands.last else {
-                throw Path.Command.Error.invalidRelativeCommand
-            }
-            guard let lastControlPoint = command.lastControlPoint else {
-                throw Path.Command.Error.invalidRelativeCommand
-            }
-            _command = .cubicBezierCurve(cp1: lastControlPoint, cp2: .nan, point: .nan)
+            _command = .cubicBezierCurve(cp1: currentPoint, cp2: .nan, point: .nan)
             positioning = .absolute
             argumentPosition = 0
         case .relativeSmoothCubicBezierCurve:
-            guard let command = _commands.last else {
-                throw Path.Command.Error.invalidRelativeCommand
-            }
-            guard let lastControlPoint = command.lastControlPoint else {
-                throw Path.Command.Error.invalidRelativeCommand
-            }
-            _command = .cubicBezierCurve(cp1: lastControlPoint, cp2: currentPoint, point: currentPoint)
+            _command = .cubicBezierCurve(cp1: currentPoint, cp2: currentPoint, point: currentPoint)
             positioning = .relative
             argumentPosition = 2
         case .quadraticBezierCurve:
