@@ -282,7 +282,7 @@ class PathProcessor {
                 _command = .ellipticalArcCurve(rx: value, ry: .nan, angle: .nan, largeArc: false, clockwise: false, point: .nan)
                 argumentPosition = 1
             case .relative:
-                let c = Path.Command.ellipticalArcCurve(rx: command.point.x, ry: command.point.y, angle: .nan, largeArc: false, clockwise: false, point: command.point)
+                let c = Path.Command.ellipticalArcCurve(rx: .nan, ry: .nan, angle: .nan, largeArc: false, clockwise: false, point: command.point)
                 _command = try c.adjustingArgument(at: 0, by: value)
                 argumentPosition = 1
             }

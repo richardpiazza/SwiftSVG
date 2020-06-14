@@ -95,9 +95,9 @@ public extension Path.Command {
                 let _cp = cp.adjusting(x: x).adjusting(y: y)
                 let _point = point.adjusting(x: x).adjusting(y: y)
                 return .quadraticBezierCurve(cp: _cp, point: _point)
-            case .ellipticalArcCurve:
-                #warning("No Implementation")
-                return self
+            case .ellipticalArcCurve(let rx, let ry, let angle, let largeArc, let clockwise, let point):
+                let _point = point.adjusting(x: x).adjusting(y: y)
+                return .ellipticalArcCurve(rx: rx, ry: ry, angle: angle, largeArc: largeArc, clockwise: clockwise, point: _point)
             case .closePath:
                 return self
             }
@@ -136,9 +136,11 @@ public extension Path.Command {
             let _cp = VectorPoint(point: cp, in: from).translate(to: to)
             let _point = VectorPoint(point: point, in: from).translate(to: to)
             return .quadraticBezierCurve(cp: _cp, point: _point)
-        case .ellipticalArcCurve:
-            #warning("No Implementation")
-            return self
+        case .ellipticalArcCurve(let rx, let ry, let angle, let largeArc, let clockwise, let point):
+            let _rx = rx * (from.size.maxRadius / to.size.minRadius)
+            let _ry = ry * (from.size.maxRadius / to.size.minRadius)
+            let _point = VectorPoint(point: point, in: from).translate(to: to)
+            return .ellipticalArcCurve(rx: _rx, ry: _ry, angle: angle, largeArc: largeArc, clockwise: clockwise, point: _point)
         case .closePath:
             return self
         }
