@@ -36,7 +36,7 @@ struct EllipseProcessor {
         let xOffset = Self.controlPointOffset(rx)
         let yOffset = Self.controlPointOffset(ry)
         
-        let zero = Point(x: x + rx, y: ry)
+        let zero = Point(x: x + rx, y: y)
         let ninety = Point(x: x, y: y - ry)
         let oneEighty = Point(x: x - rx, y: y)
         let twoSeventy = Point(x: x, y: y + ry)
