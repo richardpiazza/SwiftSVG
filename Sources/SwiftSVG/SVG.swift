@@ -16,8 +16,15 @@ public class SVG: Codable {
     public var height: String?
     public var title: String?
     public var desc: String?
+    public var circles: [Circle]?
+    public var ellipses: [Ellipse]?
     public var groups: [Group]?
+    public var lines: [Line]?
     public var paths: [Path]?
+    public var polygons: [Polygon]?
+    public var polylines: [Polyline]?
+    public var rectangles: [Rectangle]?
+    public var texts: [Text]?
     
     /// A non-optional, non-spaced representation of the `title`.
     public var name: String {
@@ -32,8 +39,15 @@ public class SVG: Codable {
         case viewBox
         case title
         case desc
+        case circles = "circle"
+        case ellipses = "ellipse"
         case groups = "g"
+        case lines = "line"
         case paths = "path"
+        case polylines = "polyline"
+        case polygons = "polygon"
+        case rectangles = "rect"
+        case texts = "text"
     }
     
     public init() {
@@ -60,11 +74,32 @@ extension SVG: CustomStringConvertible {
             contents.append("\n<desc>\(desc)</desc>")
         }
         
-        let paths = self.paths?.compactMap({ $0.description }) ?? []
-        paths.forEach({ contents.append("\n\($0)") })
+        let circles = self.circles?.compactMap({ $0.description }) ?? []
+        circles.forEach({ contents.append("\n\($0)") })
+        
+        let ellipses = self.ellipses?.compactMap({ $0.description }) ?? []
+        ellipses.forEach({ contents.append("\n\($0)") })
         
         let groups = self.groups?.compactMap({ $0.description }) ?? []
         groups.forEach({ contents.append("\n\($0)") })
+        
+        let lines = self.lines?.compactMap({ $0.description }) ?? []
+        lines.forEach({ contents.append("\n\($0)") })
+        
+        let paths = self.paths?.compactMap({ $0.description }) ?? []
+        paths.forEach({ contents.append("\n\($0)") })
+        
+        let polylines = self.polylines?.compactMap({ $0.description }) ?? []
+        polylines.forEach({ contents.append("\n\($0)") })
+        
+        let polygons = self.polygons?.compactMap({ $0.description }) ?? []
+        polygons.forEach({ contents.append("\n\($0)") })
+        
+        let rectangles = self.rectangles?.compactMap({ $0.description }) ?? []
+        rectangles.forEach({ contents.append("\n\($0)") })
+        
+        let texts = self.texts?.compactMap({ $0.description }) ?? []
+        texts.forEach({ contents.append("\n\($0)") })
         
         return "<svg viewBox=\"\(viewBox ?? "")\" width=\"\(width ?? "")\" height=\"\(height ?? "")\">\(contents)\n</svg>"
     }
@@ -116,6 +151,26 @@ public extension SVG {
     func subpaths() throws -> [Path] {
         var output: [Path] = []
         let _transformations: [Transformation] = []
+        
+        if let circles = self.circles {
+            try output.append(contentsOf: circles.compactMap({ try $0.path(applying: _transformations) }))
+        }
+        
+        if let ellipses = self.ellipses {
+            try output.append(contentsOf: ellipses.compactMap({ try $0.path(applying: _transformations) }))
+        }
+        
+        if let rectangles = self.rectangles {
+            try output.append(contentsOf: rectangles.compactMap({ try $0.path(applying: _transformations) }))
+        }
+        
+        if let polygons = self.polygons {
+            try output.append(contentsOf: polygons.compactMap({ try $0.path(applying: _transformations) }))
+        }
+        
+        if let polylines = self.polylines {
+            try output.append(contentsOf: polylines.compactMap({ try $0.path(applying: _transformations) }))
+        }
         
         if let paths = self.paths {
             try output.append(contentsOf: paths.map({ try $0.path(applying: _transformations) }))

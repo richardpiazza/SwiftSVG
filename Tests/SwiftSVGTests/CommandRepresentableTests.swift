@@ -16,7 +16,7 @@ final class CommandRepresentableTests: XCTestCase {
     
     func testCircle() throws {
         let circle = Circle(x: 50, y: 50, r: 50)
-        let offset = CircleProcessor.controlPointOffset(circle)
+        let offset = EllipseProcessor.controlPointOffset(circle.r)
         
         var commands = try circle.commands(clockwise: false)
         
@@ -39,6 +39,41 @@ final class CommandRepresentableTests: XCTestCase {
             .cubicBezierCurve(cp1: .init(x: 50.0 - offset, y: 100.0), cp2: .init(x: 0.0, y: 50.0 + offset), point: .init(x: 0.0, y: 50.0)),
             .cubicBezierCurve(cp1: .init(x: 0.0, y: 50.0 - offset), cp2: .init(x: 50.0 - offset, y: 0.0), point: .init(x: 50.0, y: 0.0)),
             .cubicBezierCurve(cp1: .init(x: 50.0 + offset, y: 0.0), cp2: .init(x: 100.0, y: 50.0 - offset), point: .init(x: 100.0, y: 50.0)),
+            .closePath
+        ]
+        
+        XCTAssertEqual(commands, expected)
+    }
+    
+    func testEllipse() throws {
+        let x: Float = 50.0
+        let y: Float = 25.0
+        
+        let ellipse = Ellipse(x: x, y: y, rx: 50, ry: 25)
+        let xOffset = EllipseProcessor.controlPointOffset(ellipse.rx)
+        let yOffset = EllipseProcessor.controlPointOffset(ellipse.ry)
+        
+        var commands = try ellipse.commands(clockwise: false)
+        
+        var expected: [Path.Command] = [
+            .moveTo(point: .init(x: x * 2, y: y)),
+            .cubicBezierCurve(cp1: .init(x: x * 2, y: y - yOffset), cp2: .init(x: x + xOffset, y: 0.0), point: .init(x: x, y: 0.0)),
+            .cubicBezierCurve(cp1: .init(x: x - xOffset, y: 0.0), cp2: .init(x: 0.0, y: y - yOffset), point: .init(x: 0.0, y: y )),
+            .cubicBezierCurve(cp1: .init(x: 0.0, y: y + yOffset), cp2: .init(x: x - xOffset, y: y * 2), point: .init(x: x, y: y * 2)),
+            .cubicBezierCurve(cp1: .init(x: x + xOffset, y: y * 2), cp2: .init(x: x * 2, y: y + yOffset), point: .init(x: x * 2, y: y)),
+            .closePath
+        ]
+        
+        XCTAssertEqual(commands, expected)
+        
+        commands = try ellipse.commands(clockwise: true)
+        
+        expected = [
+            .moveTo(point: .init(x: x * 2, y: y)),
+            .cubicBezierCurve(cp1: .init(x: x * 2, y: y + yOffset), cp2: .init(x: x + xOffset, y: y * 2), point: .init(x: x, y: y * 2)),
+            .cubicBezierCurve(cp1: .init(x: x - xOffset, y: y * 2), cp2: .init(x: 0.0, y: y + yOffset), point: .init(x: 0.0, y: y)),
+            .cubicBezierCurve(cp1: .init(x: 0.0, y: y - yOffset), cp2: .init(x: x - xOffset, y: 0.0), point: .init(x: x, y: 0.0)),
+            .cubicBezierCurve(cp1: .init(x: x + xOffset, y: 0.0), cp2: .init(x: x * 2, y: y - yOffset), point: .init(x: x * 2, y: y)),
             .closePath
         ]
         

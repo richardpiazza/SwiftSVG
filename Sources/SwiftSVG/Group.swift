@@ -12,6 +12,7 @@ import XMLCoder
 public class Group: Element {
     
     public var circles: [Circle]?
+    public var ellipses: [Ellipse]?
     public var groups: [Group]?
     public var lines: [Line]?
     public var paths: [Path]?
@@ -22,6 +23,7 @@ public class Group: Element {
     
     enum CodingKeys: String, CodingKey {
         case circles = "circle"
+        case ellipses = "ellipse"
         case groups = "g"
         case lines = "line"
         case paths = "path"
@@ -39,6 +41,7 @@ public class Group: Element {
         try super.init(from: decoder)
         let container = try decoder.container(keyedBy: CodingKeys.self)
         circles = try container.decodeIfPresent([Circle].self, forKey: .circles)
+        ellipses = try container.decodeIfPresent([Ellipse].self, forKey: .ellipses)
         groups = try container.decodeIfPresent([Group].self, forKey: .groups)
         lines = try container.decodeIfPresent([Line].self, forKey: .lines)
         paths = try container.decodeIfPresent([Path].self, forKey: .paths)
@@ -54,6 +57,9 @@ public class Group: Element {
         
         let circles = self.circles?.compactMap({ $0.description }) ?? []
         circles.forEach({ contents.append("\n\($0)") })
+        
+        let ellipses = self.ellipses?.compactMap({ $0.description }) ?? []
+        ellipses.forEach({ contents.append("\n\($0)") })
         
         let groups = self.groups?.compactMap({ $0.description }) ?? []
         groups.forEach({ contents.append("\n\($0)") })
@@ -113,6 +119,10 @@ public extension Group {
         
         if let circles = self.circles {
             try output.append(contentsOf: circles.compactMap({ try $0.path(applying: _transformations) }))
+        }
+        
+        if let ellipses = self.ellipses {
+            try output.append(contentsOf: ellipses.compactMap({ try $0.path(applying: _transformations) }))
         }
         
         if let rectangles = self.rectangles {

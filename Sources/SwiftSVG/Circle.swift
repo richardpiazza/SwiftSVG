@@ -68,6 +68,6 @@ extension Circle: DynamicNodeDecoding {
 // MARK: - DirectionalCommandRepresentable
 extension Circle: DirectionalCommandRepresentable {
     public func commands(clockwise: Bool) throws -> [Path.Command] {
-        return CircleProcessor(circle: self).commands(clockwise: clockwise)
+        return EllipseProcessor(circle: self).commands(clockwise: clockwise)
     }
 }
