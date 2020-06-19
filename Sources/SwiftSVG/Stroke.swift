@@ -3,11 +3,11 @@ import Foundation
 public struct Stroke {
     
     public var color: String?
-    public var width: Float?
-    public var opacity: Float?
+    public var width: CGFloat?
+    public var opacity: CGFloat?
     public var lineCap: LineCap  = .butt
     public var lineJoin: LineJoin = .miter
-    public var miterLimit: Float?
+    public var miterLimit: CGFloat?
     
     public init() {
         

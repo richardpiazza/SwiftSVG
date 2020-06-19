@@ -1,5 +1,4 @@
 import Foundation
-import Swift2D
 
 struct PolylineProcessor {
     
@@ -12,7 +11,7 @@ struct PolylineProcessor {
     func commands() throws -> [Path.Command] {
         let pairs = points.components(separatedBy: " ")
         let components = pairs.flatMap({ $0.components(separatedBy: ",") })
-        let values = components.compactMap({ Float($0) })
+        let values = components.compactMap({ Float($0) }).map({ CGFloat($0) })
         
         guard values.count > 2 else {
             // More than just a starting point is required.
@@ -29,14 +28,14 @@ struct PolylineProcessor {
         let move = values.prefix(upTo: 2)
         let segments = values.suffix(from: 2)
         
-        commands.append(.moveTo(point: Point(x: move[0], y: move[1])))
+        commands.append(.moveTo(point: CGPoint(x: move[0], y: move[1])))
         
-        var _value: Float = .nan
+        var _value: CGFloat = .nan
         segments.forEach { (value) in
             if _value.isNaN {
                 _value = value
             } else {
-                commands.append(.lineTo(point: Point(x: _value, y: value)))
+                commands.append(.lineTo(point: CGPoint(x: _value, y: value)))
                 _value = .nan
             }
         }
@@ -46,7 +45,7 @@ struct PolylineProcessor {
             if _value.isNaN {
                 _value = value
             } else {
-                commands.append(.lineTo(point: Point(x: _value, y: value)))
+                commands.append(.lineTo(point: CGPoint(x: _value, y: value)))
                 _value = .nan
             }
         }

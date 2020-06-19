@@ -1,5 +1,4 @@
 import XCTest
-import Swift2D
 @testable import SwiftSVG
 
 final class PathDataTests: XCTestCase {

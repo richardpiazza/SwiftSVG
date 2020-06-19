@@ -3,7 +3,7 @@ import Foundation
 public struct Fill {
     
     public var color: String?
-    public var opacity: Float?
+    public var opacity: CGFloat?
     public var rule: Rule = .nonZero
     
     public init() {}
