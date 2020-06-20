@@ -65,7 +65,8 @@ extension Path.Command: RoughEquatability {
 
 extension CGFloat: RoughEquatability {
     public static func ~~ (lhs: CGFloat, rhs: CGFloat) -> Bool {
-        return abs(lhs - rhs) < 0.001
+        // CGFloat.abs is not available on some platforms.
+        return Swift.abs(lhs - rhs) < 0.001
     }
 }
 
