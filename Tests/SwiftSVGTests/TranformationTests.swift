@@ -57,7 +57,7 @@ final class TransformationTests: XCTestCase {
             XCTAssertEqual(b, 0.0, accuracy: 0.00001)
             XCTAssertEqual(c, 0.0, accuracy: 0.00001)
             XCTAssertEqual(d, 1.0, accuracy: 0.00001)
-            XCTAssertEqual(e, 1449.84, accuracy: 0.00001)
+            XCTAssertEqual(e, 1449.84, accuracy: 0.001)
             XCTAssertEqual(f, 322.0, accuracy: 0.00001)
         } else {
             XCTFail()
@@ -73,7 +73,7 @@ final class TransformationTests: XCTestCase {
             XCTAssertEqual(b, 0.0, accuracy: 0.00001)
             XCTAssertEqual(c, 0.0, accuracy: 0.00001)
             XCTAssertEqual(d, 1.0, accuracy: 0.00001)
-            XCTAssertEqual(e, 1449.84, accuracy: 0.00001)
+            XCTAssertEqual(e, 1449.84, accuracy: 0.001)
             XCTAssertEqual(f, 322.0, accuracy: 0.00001)
         } else {
             XCTFail()
@@ -89,7 +89,7 @@ final class TransformationTests: XCTestCase {
             XCTAssertEqual(b, 0.0, accuracy: 0.00001)
             XCTAssertEqual(c, 0.0, accuracy: 0.00001)
             XCTAssertEqual(d, 1.0, accuracy: 0.00001)
-            XCTAssertEqual(e, 1449.84, accuracy: 0.00001)
+            XCTAssertEqual(e, 1449.84, accuracy: 0.001)
             XCTAssertEqual(f, 322.0, accuracy: 0.00001)
         } else {
             XCTFail()

@@ -1,5 +1,4 @@
 import XCTest
-import Swift2D
 @testable import SwiftSVG
 
 final class CommandRepresentableTests: XCTestCase {
@@ -46,8 +45,8 @@ final class CommandRepresentableTests: XCTestCase {
     }
     
     func testEllipse() throws {
-        let x: Float = 50.0
-        let y: Float = 25.0
+        let x: CGFloat = 50.0
+        let y: CGFloat = 25.0
         
         let ellipse = Ellipse(x: x, y: y, rx: 50, ry: 25)
         let xOffset = EllipseProcessor.controlPointOffset(ellipse.rx)
@@ -108,7 +107,7 @@ final class CommandRepresentableTests: XCTestCase {
             .closePath
         ]
         
-        XCTAssertEqual(commands, expected)
+        XCTAssertRoughlyEqual(commands, expected)
     }
     
     func testPolyline() throws {

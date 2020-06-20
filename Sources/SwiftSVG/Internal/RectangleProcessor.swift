@@ -1,5 +1,4 @@
 import Foundation
-import Swift2D
 
 struct RectangleProcessor {
     
@@ -28,9 +27,9 @@ struct RectangleProcessor {
             // Use Cubic Bezier Curve to form rounded corners
             // TODO: Verify that the control points are right
             
-            var cp1: Point = .zero
-            var cp2: Point = .zero
-            var point: Point = Point(x: rectangle.x + radiusX, y: rectangle.y)
+            var cp1: CGPoint = .zero
+            var cp2: CGPoint = .zero
+            var point: CGPoint = CGPoint(x: rectangle.x + radiusX, y: rectangle.y)
             
             commands.append(.moveTo(point: point))
             
@@ -99,8 +98,8 @@ struct RectangleProcessor {
         case (.some(let radius), .none), (.none, .some(let radius)), (.some(let radius), _):
             // use Quadratic Bezier Curve to form rounded corners
 
-            var cp: Point = .zero
-            var point: Point = .init(x: rectangle.x + radius, y: rectangle.y)
+            var cp: CGPoint = .zero
+            var point: CGPoint = CGPoint(x: rectangle.x + radius, y: rectangle.y)
             
             commands.append(.moveTo(point: point))
 
@@ -160,16 +159,16 @@ struct RectangleProcessor {
             }
         case (.none, .none):
             // draw three line segments.
-            commands.append(.moveTo(point: Point(x: rectangle.x, y: rectangle.y)))
+            commands.append(.moveTo(point: CGPoint(x: rectangle.x, y: rectangle.y)))
 
             if clockwise {
-                commands.append(.lineTo(point: Point(x: rectangle.x + rectangle.width, y: rectangle.y)))
-                commands.append(.lineTo(point: Point(x: rectangle.x + rectangle.width, y: rectangle.y + rectangle.height)))
-                commands.append(.lineTo(point: Point(x: rectangle.x, y: rectangle.y + rectangle.height)))
+                commands.append(.lineTo(point: CGPoint(x: rectangle.x + rectangle.width, y: rectangle.y)))
+                commands.append(.lineTo(point: CGPoint(x: rectangle.x + rectangle.width, y: rectangle.y + rectangle.height)))
+                commands.append(.lineTo(point: CGPoint(x: rectangle.x, y: rectangle.y + rectangle.height)))
             } else {
-                commands.append(.lineTo(point: Point(x: rectangle.x, y: rectangle.y + rectangle.height)))
-                commands.append(.lineTo(point: Point(x: rectangle.x + rectangle.width, y: rectangle.y + rectangle.height)))
-                commands.append(.lineTo(point: Point(x: rectangle.x + rectangle.width, y: rectangle.y)))
+                commands.append(.lineTo(point: CGPoint(x: rectangle.x, y: rectangle.y + rectangle.height)))
+                commands.append(.lineTo(point: CGPoint(x: rectangle.x + rectangle.width, y: rectangle.y + rectangle.height)))
+                commands.append(.lineTo(point: CGPoint(x: rectangle.x + rectangle.width, y: rectangle.y)))
             }
         }
         

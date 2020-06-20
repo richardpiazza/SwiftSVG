@@ -13,11 +13,11 @@ import XMLCoder
 public class Circle: Element {
     
     /// The x-axis coordinate of the center of the circle.
-    public var x: Float = 0.0
+    public var x: CGFloat = 0.0
     /// The y-axis coordinate of the center of the circle.
-    public var y: Float = 0.0
+    public var y: CGFloat = 0.0
     /// The radius of the circle.
-    public var r: Float = 0.0
+    public var r: CGFloat = 0.0
     
     enum CodingKeys: String, CodingKey {
         case x = "cx"
@@ -29,7 +29,7 @@ public class Circle: Element {
         super.init()
     }
     
-    public convenience init(x: Float, y: Float, r: Float) {
+    public convenience init(x: CGFloat, y: CGFloat, r: CGFloat) {
         self.init()
         self.x = x
         self.y = y
@@ -39,14 +39,14 @@ public class Circle: Element {
     public required init(from decoder: Decoder) throws {
         try super.init(from: decoder)
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        x = try container.decodeIfPresent(Float.self, forKey: .x) ?? 0.0
-        y = try container.decodeIfPresent(Float.self, forKey: .y) ?? 0.0
-        r = try container.decodeIfPresent(Float.self, forKey: .r) ?? 0.0
+        x = try container.decodeIfPresent(CGFloat.self, forKey: .x) ?? 0.0
+        y = try container.decodeIfPresent(CGFloat.self, forKey: .y) ?? 0.0
+        r = try container.decodeIfPresent(CGFloat.self, forKey: .r) ?? 0.0
     }
     
     // MARK: - CustomStringConvertible
     public override var description: String {
-        let desc = String(format: "<circle cx=\"%.5f\" cy=\"%.5f\" r=\"%.5f\"", x, y, r)
+        let desc = "<circle cx=\"\(x)\" cy=\"\(y)\" r=\"\(r)\""
         return desc + " \(super.description) />"
     }
 }

@@ -1,5 +1,4 @@
 import Foundation
-import Swift2D
 
 public extension Path {
     /// Path commands are instructions that define a path to be drawn.
@@ -7,15 +6,15 @@ public extension Path {
     /// Each command is composed of a command letter and numbers that represent the command parameters.
     enum Command: Equatable, CustomStringConvertible {
         /// Moves the current drawing point
-        case moveTo(point: Point)
+        case moveTo(point: CGPoint)
         /// Draw a straight line from the current point to the point provided
-        case lineTo(point: Point)
+        case lineTo(point: CGPoint)
         /// Draw a smooth curve using three points (+ origin)
-        case cubicBezierCurve(cp1: Point, cp2: Point, point: Point)
+        case cubicBezierCurve(cp1: CGPoint, cp2: CGPoint, point: CGPoint)
         /// Draw a smooth curve using two points (+ origin)
-        case quadraticBezierCurve(cp: Point, point: Point)
+        case quadraticBezierCurve(cp: CGPoint, point: CGPoint)
         /// Draw a curve defined as a portion of an ellipse
-        case ellipticalArcCurve(rx: Float, ry: Float, angle: Float, largeArc: Bool, clockwise: Bool, point: Point)
+        case ellipticalArcCurve(rx: CGFloat, ry: CGFloat, angle: CGFloat, largeArc: Bool, clockwise: Bool, point: CGPoint)
         /// ClosePath instructions draw a straight line from the current position to the first point in the path.
         case closePath
         

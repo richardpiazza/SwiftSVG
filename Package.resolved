@@ -2,15 +2,6 @@
   "object": {
     "pins": [
       {
-        "package": "Swift2D",
-        "repositoryURL": "https://github.com/richardpiazza/Swift2D.git",
-        "state": {
-          "branch": null,
-          "revision": "e4b141b696ac519efa984b0e03a981ab29f893bc",
-          "version": "0.3.0"
-        }
-      },
-      {
         "package": "XMLCoder",
         "repositoryURL": "https://github.com/MaxDesiatov/XMLCoder.git",
         "state": {

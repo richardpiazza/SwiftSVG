@@ -9,13 +9,13 @@ import XMLCoder
 public class Ellipse: Element {
     
     /// The x position of the ellipse.
-    public var x: Float = 0.0
+    public var x: CGFloat = 0.0
     /// The y position of the ellipse.
-    public var y: Float = 0.0
+    public var y: CGFloat = 0.0
     /// The radius of the ellipse on the x axis.
-    public var rx: Float = 0.0
+    public var rx: CGFloat = 0.0
     /// The radius of the ellipse on the y axis.
-    public var ry: Float = 0.0
+    public var ry: CGFloat = 0.0
     
     enum CodingKeys: String, CodingKey {
         case x = "cx"
@@ -28,7 +28,7 @@ public class Ellipse: Element {
         super.init()
     }
     
-    public convenience init(x: Float, y: Float, rx: Float, ry: Float) {
+    public convenience init(x: CGFloat, y: CGFloat, rx: CGFloat, ry: CGFloat) {
         self.init()
         self.x = x
         self.y = y
@@ -39,15 +39,15 @@ public class Ellipse: Element {
     required init(from decoder: Decoder) throws {
         try super.init(from: decoder)
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        x = try container.decodeIfPresent(Float.self, forKey: .x) ?? 0.0
-        y = try container.decodeIfPresent(Float.self, forKey: .y) ?? 0.0
-        rx = try container.decodeIfPresent(Float.self, forKey: .rx) ?? 0.0
-        ry = try container.decodeIfPresent(Float.self, forKey: .ry) ?? 0.0
+        x = try container.decodeIfPresent(CGFloat.self, forKey: .x) ?? 0.0
+        y = try container.decodeIfPresent(CGFloat.self, forKey: .y) ?? 0.0
+        rx = try container.decodeIfPresent(CGFloat.self, forKey: .rx) ?? 0.0
+        ry = try container.decodeIfPresent(CGFloat.self, forKey: .ry) ?? 0.0
     }
     
     // MARK: - CustomStringConvertible
     public override var description: String {
-        let desc = String(format: "<ellipse cx=\"%.5f\" cy=\"%.5f\" rx=\"%.5f\", ry=\"%.5f\"", x, y, rx, ry)
+        let desc = "<ellipse cx=\"\(x)\" cy=\"\(y)\" rx=\"\(rx)\", ry=\"\(ry)\""
         return desc + " \(super.description) />"
     }
 }

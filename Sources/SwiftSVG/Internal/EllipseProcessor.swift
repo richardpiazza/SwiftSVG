@@ -1,19 +1,18 @@
 import Foundation
-import Swift2D
 
 struct EllipseProcessor {
     
-    let x: Float
-    let y: Float
-    let rx: Float
-    let ry: Float
+    let x: CGFloat
+    let y: CGFloat
+    let rx: CGFloat
+    let ry: CGFloat
     
     /// The _optimal_ offset for control points when representing a
     /// circle/ellipse as 4 bezier curves.
     ///
     /// [Stack Overflow](https://stackoverflow.com/questions/1734745/how-to-create-circle-with-bézier-curves)
-    static func controlPointOffset(_ radius: Float) -> Float {
-        return (Float(4.0/3.0) * tan(Float.pi / 8.0)) * radius
+    static func controlPointOffset(_ radius: CGFloat) -> CGFloat {
+        return (CGFloat(4.0/3.0) * tan(CGFloat.pi / 8.0)) * radius
     }
     
     init(ellipse: Ellipse) {
@@ -36,48 +35,48 @@ struct EllipseProcessor {
         let xOffset = Self.controlPointOffset(rx)
         let yOffset = Self.controlPointOffset(ry)
         
-        let zero = Point(x: x + rx, y: y)
-        let ninety = Point(x: x, y: y - ry)
-        let oneEighty = Point(x: x - rx, y: y)
-        let twoSeventy = Point(x: x, y: y + ry)
+        let zero = CGPoint(x: x + rx, y: y)
+        let ninety = CGPoint(x: x, y: y - ry)
+        let oneEighty = CGPoint(x: x - rx, y: y)
+        let twoSeventy = CGPoint(x: x, y: y + ry)
         
-        var cp1: Point = .zero
-        var cp2: Point = .zero
+        var cp1: CGPoint = .zero
+        var cp2: CGPoint = .zero
         
         // Starting at degree 0 (the right most point)
         commands.append(.moveTo(point: zero))
         
         if clockwise {
-            cp1 = Point(x: zero.x, y: zero.y + yOffset)
-            cp2 = Point(x: twoSeventy.x + xOffset, y: twoSeventy.y)
+            cp1 = CGPoint(x: zero.x, y: zero.y + yOffset)
+            cp2 = CGPoint(x: twoSeventy.x + xOffset, y: twoSeventy.y)
             commands.append(.cubicBezierCurve(cp1: cp1, cp2: cp2, point: twoSeventy))
             
-            cp1 = Point(x: twoSeventy.x - xOffset, y: twoSeventy.y)
-            cp2 = Point(x: oneEighty.x, y: oneEighty.y + yOffset)
+            cp1 = CGPoint(x: twoSeventy.x - xOffset, y: twoSeventy.y)
+            cp2 = CGPoint(x: oneEighty.x, y: oneEighty.y + yOffset)
             commands.append(.cubicBezierCurve(cp1: cp1, cp2: cp2, point: oneEighty))
             
-            cp1 = Point(x: oneEighty.x, y: oneEighty.y - yOffset)
-            cp2 = Point(x: ninety.x - xOffset, y: ninety.y)
+            cp1 = CGPoint(x: oneEighty.x, y: oneEighty.y - yOffset)
+            cp2 = CGPoint(x: ninety.x - xOffset, y: ninety.y)
             commands.append(.cubicBezierCurve(cp1: cp1, cp2: cp2, point: ninety))
             
-            cp1 = Point(x: ninety.x + xOffset, y: ninety.y)
-            cp2 = Point(x: zero.x, y: zero.y - yOffset)
+            cp1 = CGPoint(x: ninety.x + xOffset, y: ninety.y)
+            cp2 = CGPoint(x: zero.x, y: zero.y - yOffset)
             commands.append(.cubicBezierCurve(cp1: cp1, cp2: cp2, point: zero))
         } else {
-            cp1 = Point(x: zero.x, y: zero.y - yOffset)
-            cp2 = Point(x: ninety.x + xOffset, y: ninety.y)
+            cp1 = CGPoint(x: zero.x, y: zero.y - yOffset)
+            cp2 = CGPoint(x: ninety.x + xOffset, y: ninety.y)
             commands.append(.cubicBezierCurve(cp1: cp1, cp2: cp2, point: ninety))
             
-            cp1 = Point(x: ninety.x - xOffset, y: ninety.y)
-            cp2 = Point(x: oneEighty.x, y: oneEighty.y - yOffset)
+            cp1 = CGPoint(x: ninety.x - xOffset, y: ninety.y)
+            cp2 = CGPoint(x: oneEighty.x, y: oneEighty.y - yOffset)
             commands.append(.cubicBezierCurve(cp1: cp1, cp2: cp2, point: oneEighty))
             
-            cp1 = Point(x: oneEighty.x, y: oneEighty.y + yOffset)
-            cp2 = Point(x: twoSeventy.x - xOffset, y: twoSeventy.y)
+            cp1 = CGPoint(x: oneEighty.x, y: oneEighty.y + yOffset)
+            cp2 = CGPoint(x: twoSeventy.x - xOffset, y: twoSeventy.y)
             commands.append(.cubicBezierCurve(cp1: cp1, cp2: cp2, point: twoSeventy))
             
-            cp1 = Point(x: twoSeventy.x + xOffset, y: twoSeventy.y)
-            cp2 = Point(x: zero.x, y: zero.y + yOffset)
+            cp1 = CGPoint(x: twoSeventy.x + xOffset, y: twoSeventy.y)
+            cp2 = CGPoint(x: zero.x, y: zero.y + yOffset)
             commands.append(.cubicBezierCurve(cp1: cp1, cp2: cp2, point: zero))
         }
         

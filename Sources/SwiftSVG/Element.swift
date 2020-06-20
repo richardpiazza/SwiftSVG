@@ -25,14 +25,14 @@ public class Element: Codable, CustomStringConvertible,
     
     // PresentationAttributes
     public var fillColor: String?
-    public var fillOpacity: Float?
+    public var fillOpacity: CGFloat?
     public var fillRule: Fill.Rule?
     public var strokeColor: String?
-    public var strokeWidth: Float?
-    public var strokeOpacity: Float?
+    public var strokeWidth: CGFloat?
+    public var strokeOpacity: CGFloat?
     public var strokeLineCap: Stroke.LineCap?
     public var strokeLineJoin: Stroke.LineJoin?
-    public var strokeMiterLimit: Float?
+    public var strokeMiterLimit: CGFloat?
     public var transform: String?
     
     // StylingAttributes

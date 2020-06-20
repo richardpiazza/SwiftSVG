@@ -1,6 +1,5 @@
 import Foundation
 import XMLCoder
-import Swift2D
 
 /// Generic element to define a shape.
 ///

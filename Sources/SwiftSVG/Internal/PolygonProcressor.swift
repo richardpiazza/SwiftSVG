@@ -1,5 +1,4 @@
 import Foundation
-import Swift2D
 
 struct PolygonProcessor {
     
@@ -25,15 +24,17 @@ struct PolygonProcessor {
         
         var firstValue: Bool = true
         for (idx, component) in components.enumerated() {
-            guard let value = Float(component) else {
+            guard let _value = Float(component) else {
                 return commands
             }
             
+            let value = CGFloat(_value)
+            
             if firstValue {
                 if idx == 0 {
-                    commands.append(.moveTo(point: Point(x: value, y: .nan)))
+                    commands.append(.moveTo(point: CGPoint(x: value, y: .nan)))
                 } else {
-                    commands.append(.lineTo(point: Point(x: value, y: .nan)))
+                    commands.append(.lineTo(point: CGPoint(x: value, y: .nan)))
                 }
                 firstValue = false
             } else {

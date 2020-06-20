@@ -1,5 +1,4 @@
 import XCTest
-import Swift2D
 @testable import SwiftSVG
 
 infix operator ~~
@@ -64,14 +63,14 @@ extension Path.Command: RoughEquatability {
     }
 }
 
-extension Float: RoughEquatability {
-    public static func ~~ (lhs: Float, rhs: Float) -> Bool {
+extension CGFloat: RoughEquatability {
+    public static func ~~ (lhs: CGFloat, rhs: CGFloat) -> Bool {
         return abs(lhs - rhs) < 0.001
     }
 }
 
-extension Point: RoughEquatability {
-    public static func ~~ (lhs: Point, rhs: Point) -> Bool {
+extension CGPoint: RoughEquatability {
+    public static func ~~ (lhs: CGPoint, rhs: CGPoint) -> Bool {
         return (lhs.x ~~ rhs.x) && (lhs.y ~~ rhs.y)
     }
 }

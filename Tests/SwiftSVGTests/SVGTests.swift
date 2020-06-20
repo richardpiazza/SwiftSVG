@@ -1,6 +1,5 @@
 import XCTest
 @testable import SwiftSVG
-import Swift2D
 
 final class SVGTests: XCTestCase {
     
@@ -19,7 +18,7 @@ final class SVGTests: XCTestCase {
         let data = try XCTUnwrap(doc.data(using: .utf8))
         let svg = try SVG.make(with: data)
         
-        XCTAssertEqual(svg.outputSize, Size(width: 1024, height: 1024))
+        XCTAssertEqual(svg.outputSize, CGSize(width: 1024, height: 1024))
         let path = try XCTUnwrap(svg.paths?.first)
         XCTAssertEqual(path.id, "Padlock")
         XCTAssertFalse(path.data.isEmpty)
