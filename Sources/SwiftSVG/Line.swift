@@ -1,5 +1,8 @@
 import Foundation
 import XMLCoder
+#if canImport(CoreGraphics)
+import CoreGraphics
+#endif
 
 /// SVG basic shape used to create a line connecting two points.
 ///

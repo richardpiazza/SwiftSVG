@@ -1,4 +1,7 @@
 import Foundation
+#if canImport(CoreGraphics)
+import CoreGraphics
+#endif
 
 public extension Path {
     /// Path commands are instructions that define a path to be drawn.

@@ -1,4 +1,7 @@
 import Foundation
+#if canImport(CoreGraphics)
+import CoreGraphics
+#endif
 
 public protocol PresentationAttributes {
     var fillColor: String? { get set }

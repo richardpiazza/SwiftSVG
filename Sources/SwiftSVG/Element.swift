@@ -1,5 +1,8 @@
 import Foundation
 import XMLCoder
+#if canImport(CoreGraphics)
+import CoreGraphics
+#endif
 
 /// Base class for all SVG elements
 public class Element: Codable, CustomStringConvertible,

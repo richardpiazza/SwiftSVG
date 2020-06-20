@@ -1,5 +1,8 @@
 import Foundation
 import XMLCoder
+#if canImport(CoreGraphics)
+import CoreGraphics
+#endif
 
 /// SVG basic shape, used to create ellipses based on a center coordinate, and both their x and y radius.
 ///

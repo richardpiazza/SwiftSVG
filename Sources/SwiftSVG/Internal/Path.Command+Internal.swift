@@ -1,4 +1,7 @@
 import Foundation
+#if canImport(CoreGraphics)
+import CoreGraphics
+#endif
 
 extension Path.Command {
     /// Determines if all values are provided (i.e. !.isNaN)

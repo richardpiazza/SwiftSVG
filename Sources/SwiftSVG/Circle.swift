@@ -1,5 +1,8 @@
 import Foundation
 import XMLCoder
+#if canImport(CoreGraphics)
+import CoreGraphics
+#endif
 
 /// Basic shape, used to draw circles based on a center point and a radius.
 ///

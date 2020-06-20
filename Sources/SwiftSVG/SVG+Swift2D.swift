@@ -1,4 +1,7 @@
 import Foundation
+#if canImport(CoreGraphics)
+import CoreGraphics
+#endif
 
 public extension SVG {
     /// Original size of the document image.
@@ -17,7 +20,7 @@ public extension SVG {
         return CGSize(width: maxDimension, height: maxDimension)
     }
     
-    /// Size derived from the 'viewbox' document attribute
+    /// Size derived from the `viewBox` document attribute
     var viewBoxSize: CGSize? {
         guard let viewBox = self.viewBox else {
             return nil

@@ -1,5 +1,8 @@
 import Foundation
 import XMLCoder
+#if canImport(CoreGraphics)
+import CoreGraphics
+#endif
 
 /// Basic SVG shape that draws rectangles, defined by their position, width, and height.
 ///
