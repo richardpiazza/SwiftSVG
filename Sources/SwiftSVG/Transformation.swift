@@ -105,9 +105,9 @@ extension Transformation: CustomStringConvertible {
     public var description: String {
         switch self {
         case .translate(let x, let y):
-            return "translate(\(x), \(y)"
+            return "translate(\(x), \(y))"
         case .matrix(let a, let b, let c, let d, let e, let f):
-            return "matrix(\(a), \(b), \(c), \(d), \(e), \(f)"
+            return "matrix(\(a), \(b), \(c), \(d), \(e), \(f))"
         }
     }
 }
