@@ -8,8 +8,9 @@ import XMLCoder
 /// ## Documentation
 /// [Mozilla Developer Network](https://developer.mozilla.org/en-US/docs/Web/SVG/Element/g)
 /// | [W3](https://www.w3.org/TR/SVG11/struct.html#Groups)
-public class Group: Element {
+public struct Group: Container, Element {
     
+    // Container
     public var circles: [Circle]?
     public var ellipses: [Ellipse]?
     public var groups: [Group]?
@@ -19,6 +20,24 @@ public class Group: Element {
     public var polylines: [Polyline]?
     public var rectangles: [Rectangle]?
     public var texts: [Text]?
+    
+    // CoreAttributes
+    public var id: String?
+    
+    // PresentationAttributes
+    public var fillColor: String?
+    public var fillOpacity: Float?
+    public var fillRule: Fill.Rule?
+    public var strokeColor: String?
+    public var strokeWidth: Float?
+    public var strokeOpacity: Float?
+    public var strokeLineCap: Stroke.LineCap?
+    public var strokeLineJoin: Stroke.LineJoin?
+    public var strokeMiterLimit: Float?
+    public var transform: String?
+    
+    // StylingAttributes
+    public var style: String?
     
     enum CodingKeys: String, CodingKey {
         case circles = "circle"
@@ -30,58 +49,26 @@ public class Group: Element {
         case polygons = "polygon"
         case rectangles = "rect"
         case texts = "text"
+        case id
+        case fillColor = "fill"
+        case fillOpacity = "fill-opacity"
+        case fillRule = "fill-rule"
+        case strokeColor = "stroke"
+        case strokeWidth = "stroke-width"
+        case strokeOpacity = "stroke-opacity"
+        case strokeLineCap = "stroke-linecap"
+        case strokeLineJoin = "stroke-linejoin"
+        case strokeMiterLimit = "stroke-miterlimit"
+        case transform
+        case style
     }
     
-    public override init() {
-        super.init()
-    }
-    
-    public required init(from decoder: Decoder) throws {
-        try super.init(from: decoder)
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        circles = try container.decodeIfPresent([Circle].self, forKey: .circles)
-        ellipses = try container.decodeIfPresent([Ellipse].self, forKey: .ellipses)
-        groups = try container.decodeIfPresent([Group].self, forKey: .groups)
-        lines = try container.decodeIfPresent([Line].self, forKey: .lines)
-        paths = try container.decodeIfPresent([Path].self, forKey: .paths)
-        polygons = try container.decodeIfPresent([Polygon].self, forKey: .polygons)
-        polylines = try container.decodeIfPresent([Polyline].self, forKey: .polylines)
-        rectangles = try container.decodeIfPresent([Rectangle].self, forKey: .rectangles)
-        texts = try container.decodeIfPresent([Text].self, forKey: .texts)
+    public init() {
     }
     
     // MARK: - CustomStringConvertible
-    public override var description: String {
-        var contents: String = ""
-        
-        let circles = self.circles?.compactMap({ $0.description }) ?? []
-        circles.forEach({ contents.append("\n\($0)") })
-        
-        let ellipses = self.ellipses?.compactMap({ $0.description }) ?? []
-        ellipses.forEach({ contents.append("\n\($0)") })
-        
-        let groups = self.groups?.compactMap({ $0.description }) ?? []
-        groups.forEach({ contents.append("\n\($0)") })
-        
-        let lines = self.lines?.compactMap({ $0.description }) ?? []
-        lines.forEach({ contents.append("\n\($0)") })
-        
-        let paths = self.paths?.compactMap({ $0.description }) ?? []
-        paths.forEach({ contents.append("\n\($0)") })
-        
-        let polylines = self.polylines?.compactMap({ $0.description }) ?? []
-        polylines.forEach({ contents.append("\n\($0)") })
-        
-        let polygons = self.polygons?.compactMap({ $0.description }) ?? []
-        polygons.forEach({ contents.append("\n\($0)") })
-        
-        let rectangles = self.rectangles?.compactMap({ $0.description }) ?? []
-        rectangles.forEach({ contents.append("\n\($0)") })
-        
-        let texts = self.texts?.compactMap({ $0.description }) ?? []
-        texts.forEach({ contents.append("\n\($0)") })
-        
-        return "<g \(super.description) >\(contents)\n</g>"
+    public var description: String {
+        return "<g \(attributeDescription) >\(containerDescription)\n</g>"
     }
 }
 

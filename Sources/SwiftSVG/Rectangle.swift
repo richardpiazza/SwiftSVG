@@ -9,7 +9,7 @@ import XMLCoder
 /// ## Documentation
 /// [Mozilla Developer Network](https://developer.mozilla.org/en-US/docs/Web/SVG/Element/rect)
 /// | [W3](https://www.w3.org/TR/SVG11/shapes.html#RectElement)
-public class Rectangle: Element {
+public struct Rectangle: Element {
     
     /// The x-axis coordinate of the side of the rectangle which
     /// has the smaller x-axis coordinate value.
@@ -28,6 +28,24 @@ public class Rectangle: Element {
     /// to round off the corners of the rectangle.
     public var ry: Float?
     
+    // CoreAttributes
+    public var id: String?
+    
+    // PresentationAttributes
+    public var fillColor: String?
+    public var fillOpacity: Float?
+    public var fillRule: Fill.Rule?
+    public var strokeColor: String?
+    public var strokeWidth: Float?
+    public var strokeOpacity: Float?
+    public var strokeLineCap: Stroke.LineCap?
+    public var strokeLineJoin: Stroke.LineJoin?
+    public var strokeMiterLimit: Float?
+    public var transform: String?
+    
+    // StylingAttributes
+    public var style: String?
+    
     enum CodingKeys: String, CodingKey {
         case x
         case y
@@ -35,14 +53,24 @@ public class Rectangle: Element {
         case height
         case rx
         case ry
+        case id
+        case fillColor = "fill"
+        case fillOpacity = "fill-opacity"
+        case fillRule = "fill-rule"
+        case strokeColor = "stroke"
+        case strokeWidth = "stroke-width"
+        case strokeOpacity = "stroke-opacity"
+        case strokeLineCap = "stroke-linecap"
+        case strokeLineJoin = "stroke-linejoin"
+        case strokeMiterLimit = "stroke-miterlimit"
+        case transform
+        case style
     }
     
-    public override init() {
-        super.init()
+    public init() {
     }
     
-    public convenience init(x: Float, y: Float, width: Float, height: Float, rx: Float? = nil, ry: Float? = nil) {
-        self.init()
+    public init(x: Float, y: Float, width: Float, height: Float, rx: Float? = nil, ry: Float? = nil) {
         self.x = x
         self.y = y
         self.width = width
@@ -51,19 +79,8 @@ public class Rectangle: Element {
         self.ry = ry
     }
     
-    public required init(from decoder: Decoder) throws {
-        try super.init(from: decoder)
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        x = try container.decodeIfPresent(Float.self, forKey: .x) ?? 0.0
-        y = try container.decodeIfPresent(Float.self, forKey: .y) ?? 0.0
-        width = try container.decodeIfPresent(Float.self, forKey: .width) ?? 0.0
-        height = try container.decodeIfPresent(Float.self, forKey: .height) ?? 0.0
-        rx = try container.decodeIfPresent(Float.self, forKey: .rx)
-        ry = try container.decodeIfPresent(Float.self, forKey: .ry)
-    }
-    
     // MARK: - CustomStringConvertible
-    public override var description: String {
+    public var description: String {
         var desc = "<rect x=\"\(x)\" y=\"\(y)\" width=\"\(width)\" height=\"\(height)\""
         if let rx = self.rx {
             desc.append(" rx=\"\(rx)\"")
@@ -72,7 +89,7 @@ public class Rectangle: Element {
             desc.append(" ry=\"\(ry)\"")
         }
         
-        return desc + " \(super.description) />"
+        return desc + " \(attributeDescription) />"
     }
 }
 

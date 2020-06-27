@@ -6,7 +6,7 @@ import XMLCoder
 /// The arc of an ‘ellipse’ element begins at the "3 o'clock" point on the radius and progresses towards the
 /// "9 o'clock" point. The starting point and direction of the arc are affected by the user space transform in the same
 /// manner as the geometry of the element.
-public class Ellipse: Element {
+public struct Ellipse: Element {
     
     /// The x position of the ellipse.
     public var x: Float = 0.0
@@ -17,38 +17,57 @@ public class Ellipse: Element {
     /// The radius of the ellipse on the y axis.
     public var ry: Float = 0.0
     
+    // CoreAttributes
+    public var id: String?
+    
+    // PresentationAttributes
+    public var fillColor: String?
+    public var fillOpacity: Float?
+    public var fillRule: Fill.Rule?
+    public var strokeColor: String?
+    public var strokeWidth: Float?
+    public var strokeOpacity: Float?
+    public var strokeLineCap: Stroke.LineCap?
+    public var strokeLineJoin: Stroke.LineJoin?
+    public var strokeMiterLimit: Float?
+    public var transform: String?
+    
+    // StylingAttributes
+    public var style: String?
+    
     enum CodingKeys: String, CodingKey {
         case x = "cx"
         case y = "cy"
         case rx
         case ry
+        case id
+        case fillColor = "fill"
+        case fillOpacity = "fill-opacity"
+        case fillRule = "fill-rule"
+        case strokeColor = "stroke"
+        case strokeWidth = "stroke-width"
+        case strokeOpacity = "stroke-opacity"
+        case strokeLineCap = "stroke-linecap"
+        case strokeLineJoin = "stroke-linejoin"
+        case strokeMiterLimit = "stroke-miterlimit"
+        case transform
+        case style
     }
     
-    public override init() {
-        super.init()
+    public init() {
     }
     
-    public convenience init(x: Float, y: Float, rx: Float, ry: Float) {
-        self.init()
+    public init(x: Float, y: Float, rx: Float, ry: Float) {
         self.x = x
         self.y = y
         self.rx = rx
         self.ry = ry
     }
     
-    required init(from decoder: Decoder) throws {
-        try super.init(from: decoder)
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        x = try container.decodeIfPresent(Float.self, forKey: .x) ?? 0.0
-        y = try container.decodeIfPresent(Float.self, forKey: .y) ?? 0.0
-        rx = try container.decodeIfPresent(Float.self, forKey: .rx) ?? 0.0
-        ry = try container.decodeIfPresent(Float.self, forKey: .ry) ?? 0.0
-    }
-    
     // MARK: - CustomStringConvertible
-    public override var description: String {
+    public var description: String {
         let desc = "<ellipse cx=\"\(x)\" cy=\"\(y)\" rx=\"\(rx)\", ry=\"\(ry)\""
-        return desc + " \(super.description) />"
+        return desc + " \(attributeDescription) />"
     }
 }
 

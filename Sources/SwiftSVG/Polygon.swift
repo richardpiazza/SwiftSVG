@@ -8,33 +8,55 @@ import XMLCoder
 /// ## Documentation
 /// [Mozilla Developer Network](https://developer.mozilla.org/en-US/docs/Web/SVG/Element/polygon)
 /// | [W3](https://www.w3.org/TR/SVG11/shapes.html#PolygonElement)
-public class Polygon: Element {
+public struct Polygon: Element {
     
     /// The points that make up the polygon.
     public var points: String = ""
     
+    // CoreAttributes
+    public var id: String?
+    
+    // PresentationAttributes
+    public var fillColor: String?
+    public var fillOpacity: Float?
+    public var fillRule: Fill.Rule?
+    public var strokeColor: String?
+    public var strokeWidth: Float?
+    public var strokeOpacity: Float?
+    public var strokeLineCap: Stroke.LineCap?
+    public var strokeLineJoin: Stroke.LineJoin?
+    public var strokeMiterLimit: Float?
+    public var transform: String?
+    
+    // StylingAttributes
+    public var style: String?
+    
     enum CodingKeys: String, CodingKey {
         case points
+        case id
+        case fillColor = "fill"
+        case fillOpacity = "fill-opacity"
+        case fillRule = "fill-rule"
+        case strokeColor = "stroke"
+        case strokeWidth = "stroke-width"
+        case strokeOpacity = "stroke-opacity"
+        case strokeLineCap = "stroke-linecap"
+        case strokeLineJoin = "stroke-linejoin"
+        case strokeMiterLimit = "stroke-miterlimit"
+        case transform
+        case style
     }
     
-    public override init() {
-        super.init()
+    public init() {
     }
     
-    public convenience init(points: String) {
-        self.init()
+    public init(points: String) {
         self.points = points
     }
     
-    public required init(from decoder: Decoder) throws {
-        try super.init(from: decoder)
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        points = try container.decodeIfPresent(String.self, forKey: .points) ?? ""
-    }
-    
     // MARK: - CustomStringConvertible
-    public override var description: String {
-        return "<polygon points=\"\(points)\" \(super.description) />"
+    public var description: String {
+        return "<polygon points=\"\(points)\" \(attributeDescription) />"
     }
 }
 

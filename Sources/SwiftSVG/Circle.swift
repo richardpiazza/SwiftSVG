@@ -10,7 +10,7 @@ import XMLCoder
 /// ## Documentation
 /// [Mozilla Developer Network](https://developer.mozilla.org/en-US/docs/Web/SVG/Element/circle)
 /// | [W3](https://www.w3.org/TR/SVG11/shapes.html#CircleElement)
-public class Circle: Element {
+public struct Circle: Element {
     
     /// The x-axis coordinate of the center of the circle.
     public var x: Float = 0.0
@@ -19,35 +19,55 @@ public class Circle: Element {
     /// The radius of the circle.
     public var r: Float = 0.0
     
+    // CoreAttributes
+    public var id: String?
+    
+    // PresentationAttributes
+    public var fillColor: String?
+    public var fillOpacity: Float?
+    public var fillRule: Fill.Rule?
+    public var strokeColor: String?
+    public var strokeWidth: Float?
+    public var strokeOpacity: Float?
+    public var strokeLineCap: Stroke.LineCap?
+    public var strokeLineJoin: Stroke.LineJoin?
+    public var strokeMiterLimit: Float?
+    public var transform: String?
+    
+    // StylingAttributes
+    public var style: String?
+    
     enum CodingKeys: String, CodingKey {
         case x = "cx"
         case y = "cy"
         case r = "r"
+        case id
+        case fillColor = "fill"
+        case fillOpacity = "fill-opacity"
+        case fillRule = "fill-rule"
+        case strokeColor = "stroke"
+        case strokeWidth = "stroke-width"
+        case strokeOpacity = "stroke-opacity"
+        case strokeLineCap = "stroke-linecap"
+        case strokeLineJoin = "stroke-linejoin"
+        case strokeMiterLimit = "stroke-miterlimit"
+        case transform
+        case style
     }
     
-    public override init() {
-        super.init()
+    public init() {
     }
     
-    public convenience init(x: Float, y: Float, r: Float) {
-        self.init()
+    public init(x: Float, y: Float, r: Float) {
         self.x = x
         self.y = y
         self.r = r
     }
     
-    public required init(from decoder: Decoder) throws {
-        try super.init(from: decoder)
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        x = try container.decodeIfPresent(Float.self, forKey: .x) ?? 0.0
-        y = try container.decodeIfPresent(Float.self, forKey: .y) ?? 0.0
-        r = try container.decodeIfPresent(Float.self, forKey: .r) ?? 0.0
-    }
-    
     // MARK: - CustomStringConvertible
-    public override var description: String {
+    public var description: String {
         let desc = "<circle cx=\"\(x)\" cy=\"\(y)\" r=\"\(r)\""
-        return desc + " \(super.description) />"
+        return desc + " \(attributeDescription) />"
     }
 }
 
