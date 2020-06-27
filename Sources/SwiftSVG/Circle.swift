@@ -1,8 +1,5 @@
-import Foundation
+import Swift2D
 import XMLCoder
-#if canImport(CoreGraphics)
-import CoreGraphics
-#endif
 
 /// Basic shape, used to draw circles based on a center point and a radius.
 ///
@@ -16,11 +13,11 @@ import CoreGraphics
 public class Circle: Element {
     
     /// The x-axis coordinate of the center of the circle.
-    public var x: CGFloat = 0.0
+    public var x: Float = 0.0
     /// The y-axis coordinate of the center of the circle.
-    public var y: CGFloat = 0.0
+    public var y: Float = 0.0
     /// The radius of the circle.
-    public var r: CGFloat = 0.0
+    public var r: Float = 0.0
     
     enum CodingKeys: String, CodingKey {
         case x = "cx"
@@ -32,7 +29,7 @@ public class Circle: Element {
         super.init()
     }
     
-    public convenience init(x: CGFloat, y: CGFloat, r: CGFloat) {
+    public convenience init(x: Float, y: Float, r: Float) {
         self.init()
         self.x = x
         self.y = y
@@ -42,9 +39,9 @@ public class Circle: Element {
     public required init(from decoder: Decoder) throws {
         try super.init(from: decoder)
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        x = try container.decodeIfPresent(CGFloat.self, forKey: .x) ?? 0.0
-        y = try container.decodeIfPresent(CGFloat.self, forKey: .y) ?? 0.0
-        r = try container.decodeIfPresent(CGFloat.self, forKey: .r) ?? 0.0
+        x = try container.decodeIfPresent(Float.self, forKey: .x) ?? 0.0
+        y = try container.decodeIfPresent(Float.self, forKey: .y) ?? 0.0
+        r = try container.decodeIfPresent(Float.self, forKey: .r) ?? 0.0
     }
     
     // MARK: - CustomStringConvertible

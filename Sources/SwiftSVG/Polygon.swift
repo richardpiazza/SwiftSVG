@@ -1,4 +1,3 @@
-import Foundation
 import XMLCoder
 
 /// Defines a closed shape consisting of a set of connected straight line segments.

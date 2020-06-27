@@ -1,4 +1,3 @@
-import Foundation
 import XMLCoder
 
 /// Graphics element consisting of text

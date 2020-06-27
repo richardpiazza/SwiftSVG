@@ -1,7 +1,4 @@
-import Foundation
-#if canImport(CoreGraphics)
-import CoreGraphics
-#endif
+import Swift2D
 
 extension Path.Command {
     /// Determines if all values are provided (i.e. !.isNaN)
@@ -20,7 +17,7 @@ extension Path.Command {
         }
     }
     
-    var point: CGPoint {
+    var point: Point {
         switch self {
         case .moveTo(let point): return point
         case .lineTo(let point): return point
@@ -34,7 +31,7 @@ extension Path.Command {
     /// The last control point used in drawing the path.
     ///
     /// Only valid for curves.
-    var lastControlPoint: CGPoint? {
+    var lastControlPoint: Point? {
         switch self {
         case .cubicBezierCurve(_, let cp2, _):
             return cp2
@@ -46,12 +43,12 @@ extension Path.Command {
     }
     
     /// A mirror representation of `lastControlPoint`.
-    var lastControlPointMirror: CGPoint? {
+    var lastControlPointMirror: Point? {
         guard let cp = lastControlPoint else {
             return nil
         }
         
-        return CGPoint(x: point.x + (point.x - cp.x), y: point.y + (point.y - cp.y))
+        return Point(x: point.x + (point.x - cp.x), y: point.y + (point.y - cp.y))
     }
     
     /// The total number of argument values the command requires.
@@ -78,7 +75,7 @@ extension Path.Command {
     /// - parameter value: The value to add to the existing value. If the current value equal `.isNaN`, than the
     ///                    supplied value is used as-is.
     /// - throws: `Path.Command.Error`
-    func adjustingArgument(at position: Int, by value: CGFloat) throws -> Path.Command {
+    func adjustingArgument(at position: Int, by value: Float) throws -> Path.Command {
         switch self {
         case .moveTo(let point):
             switch position {

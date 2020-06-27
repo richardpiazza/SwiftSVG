@@ -1,5 +1,3 @@
-import Foundation
-
 public protocol StylingAttributes {
     var style: String? { get set }
 }

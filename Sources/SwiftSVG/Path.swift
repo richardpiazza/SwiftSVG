@@ -1,4 +1,3 @@
-import Foundation
 import XMLCoder
 
 /// Generic element to define a shape.

@@ -1,8 +1,5 @@
-import Foundation
+import Swift2D
 import XMLCoder
-#if canImport(CoreGraphics)
-import CoreGraphics
-#endif
 
 /// SVG basic shape used to create a line connecting two points.
 ///
@@ -12,13 +9,13 @@ import CoreGraphics
 public class Line: Element {
     
     /// Defines the x-axis coordinate of the line starting point.
-    public var x1: CGFloat = 0.0
+    public var x1: Float = 0.0
     /// Defines the x-axis coordinate of the line ending point.
-    public var y1: CGFloat = 0.0
+    public var y1: Float = 0.0
     /// Defines the y-axis coordinate of the line starting point.
-    public var x2: CGFloat = 0.0
+    public var x2: Float = 0.0
     /// Defines the y-axis coordinate of the line ending point.
-    public var y2: CGFloat = 0.0
+    public var y2: Float = 0.0
     
     enum CodingKeys: String, CodingKey {
         case x1
@@ -31,7 +28,7 @@ public class Line: Element {
         super.init()
     }
     
-    public convenience init(x1: CGFloat, y1: CGFloat, x2: CGFloat, y2: CGFloat) {
+    public convenience init(x1: Float, y1: Float, x2: Float, y2: Float) {
         self.init()
         self.x1 = x1
         self.y1 = y1
@@ -42,10 +39,10 @@ public class Line: Element {
     public required init(from decoder: Decoder) throws {
         try super.init(from: decoder)
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        x1 = try container.decodeIfPresent(CGFloat.self, forKey: .x1) ?? 0.0
-        y1 = try container.decodeIfPresent(CGFloat.self, forKey: .y1) ?? 0.0
-        x2 = try container.decodeIfPresent(CGFloat.self, forKey: .x2) ?? 0.0
-        y2 = try container.decodeIfPresent(CGFloat.self, forKey: .y2) ?? 0.0
+        x1 = try container.decodeIfPresent(Float.self, forKey: .x1) ?? 0.0
+        y1 = try container.decodeIfPresent(Float.self, forKey: .y1) ?? 0.0
+        x2 = try container.decodeIfPresent(Float.self, forKey: .x2) ?? 0.0
+        y2 = try container.decodeIfPresent(Float.self, forKey: .y2) ?? 0.0
     }
     
     // MARK: - CustomStringConvertible
@@ -73,9 +70,9 @@ extension Line: DynamicNodeDecoding {
 extension Line: CommandRepresentable {
     public func commands() throws -> [Path.Command] {
         return [
-            .moveTo(point: CGPoint(x: x1, y: y1)),
-            .lineTo(point: CGPoint(x: x2, y: y2)),
-            .lineTo(point: CGPoint(x: x1, y: y1)),
+            .moveTo(point: Point(x: x1, y: y1)),
+            .lineTo(point: Point(x: x2, y: y2)),
+            .lineTo(point: Point(x: x1, y: y1)),
             .closePath
         ]
     }

@@ -1,7 +1,4 @@
-import Foundation
-#if canImport(CoreGraphics)
-import CoreGraphics
-#endif
+import Swift2D
 
 /// A modification that should be applied to an element and its children.
 ///
@@ -35,9 +32,9 @@ import CoreGraphics
 /// | [W3](https://www.w3.org/TR/SVG11/coords.html#TransformAttribute)
 public enum Transformation {
     /// Moves an object by x & y. (Y is assumed to be '0' if not provided)
-    case translate(x: CGFloat, y: CGFloat)
+    case translate(x: Float, y: Float)
     /// Specifies a transformation in the form of a transformation matrix of six values.
-    case matrix(a: CGFloat, b: CGFloat, c: CGFloat, d: CGFloat, e: CGFloat, f: CGFloat)
+    case matrix(a: Float, b: Float, c: Float, d: Float, e: Float, f: Float)
     
     public enum Prefix: String, CaseIterable {
         case translate
@@ -67,7 +64,7 @@ public enum Transformation {
             var components = substring.split(separator: " ", omittingEmptySubsequences: true).map({ String($0) })
             components = components.flatMap({ $0.components(separatedBy: ",") })
             
-            let values = components.compactMap({ Float($0) }).map({ CGFloat($0) })
+            let values = components.compactMap({ Float($0) }).map({ Float($0) })
             guard values.count > 0 else {
                 return nil
             }
@@ -93,7 +90,7 @@ public enum Transformation {
             var components = substring.split(separator: " ", omittingEmptySubsequences: true).map({ String($0) })
             components = components.flatMap({ $0.components(separatedBy: ",") })
             
-            let values = components.compactMap({ Float($0) }).map({ CGFloat($0) })
+            let values = components.compactMap({ Float($0) }).map({ Float($0) })
             guard values.count > 5 else {
                 return nil
             }

@@ -1,4 +1,3 @@
-import Foundation
 import XMLCoder
 
 /// A container used to group other SVG elements.

@@ -1,8 +1,5 @@
-import Foundation
+import Swift2D
 import XMLCoder
-#if canImport(CoreGraphics)
-import CoreGraphics
-#endif
 
 /// Basic SVG shape that draws rectangles, defined by their position, width, and height.
 ///
@@ -16,20 +13,20 @@ public class Rectangle: Element {
     
     /// The x-axis coordinate of the side of the rectangle which
     /// has the smaller x-axis coordinate value.
-    public var x: CGFloat = 0.0
+    public var x: Float = 0.0
     /// The y-axis coordinate of the side of the rectangle which
     /// has the smaller y-axis coordinate value
-    public var y: CGFloat = 0.0
+    public var y: Float = 0.0
     /// The width of the rectangle.
-    public var width: CGFloat = 0.0
+    public var width: Float = 0.0
     /// The height of the rectangle.
-    public var height: CGFloat = 0.0
+    public var height: Float = 0.0
     /// For rounded rectangles, the x-axis radius of the ellipse used
     /// to round off the corners of the rectangle.
-    public var rx: CGFloat?
+    public var rx: Float?
     /// For rounded rectangles, the y-axis radius of the ellipse used
     /// to round off the corners of the rectangle.
-    public var ry: CGFloat?
+    public var ry: Float?
     
     enum CodingKeys: String, CodingKey {
         case x
@@ -44,7 +41,7 @@ public class Rectangle: Element {
         super.init()
     }
     
-    public convenience init(x: CGFloat, y: CGFloat, width: CGFloat, height: CGFloat, rx: CGFloat? = nil, ry: CGFloat? = nil) {
+    public convenience init(x: Float, y: Float, width: Float, height: Float, rx: Float? = nil, ry: Float? = nil) {
         self.init()
         self.x = x
         self.y = y
@@ -57,12 +54,12 @@ public class Rectangle: Element {
     public required init(from decoder: Decoder) throws {
         try super.init(from: decoder)
         let container = try decoder.container(keyedBy: CodingKeys.self)
-        x = try container.decodeIfPresent(CGFloat.self, forKey: .x) ?? 0.0
-        y = try container.decodeIfPresent(CGFloat.self, forKey: .y) ?? 0.0
-        width = try container.decodeIfPresent(CGFloat.self, forKey: .width) ?? 0.0
-        height = try container.decodeIfPresent(CGFloat.self, forKey: .height) ?? 0.0
-        rx = try container.decodeIfPresent(CGFloat.self, forKey: .rx)
-        ry = try container.decodeIfPresent(CGFloat.self, forKey: .ry)
+        x = try container.decodeIfPresent(Float.self, forKey: .x) ?? 0.0
+        y = try container.decodeIfPresent(Float.self, forKey: .y) ?? 0.0
+        width = try container.decodeIfPresent(Float.self, forKey: .width) ?? 0.0
+        height = try container.decodeIfPresent(Float.self, forKey: .height) ?? 0.0
+        rx = try container.decodeIfPresent(Float.self, forKey: .rx)
+        ry = try container.decodeIfPresent(Float.self, forKey: .ry)
     }
     
     // MARK: - CustomStringConvertible

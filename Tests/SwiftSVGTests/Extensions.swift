@@ -1,4 +1,5 @@
 import XCTest
+import Swift2D
 @testable import SwiftSVG
 
 infix operator ~~
@@ -6,6 +7,24 @@ public protocol RoughEquatability {
     static func ~~ (lhs: Self, rhs: Self) -> Bool
 }
 
+#if swift(>=5.3)
+public func XCTAssertRoughlyEqual<T>(_ expression1: @autoclosure () throws -> T, _ expression2: @autoclosure () throws -> T, _ message: @autoclosure () -> String = "", file: StaticString = #filePath, line: UInt = #line) where T : RoughEquatability {
+    let lhs: T
+    let rhs: T
+    do {
+        lhs = try expression1()
+        rhs = try expression2()
+    } catch {
+        XCTFail(error.localizedDescription, file: file, line: line)
+        return
+    }
+    
+    guard lhs ~~ rhs else {
+        XCTFail(message(), file: file, line: line)
+        return
+    }
+}
+#else
 public func XCTAssertRoughlyEqual<T>(_ expression1: @autoclosure () throws -> T, _ expression2: @autoclosure () throws -> T, _ message: @autoclosure () -> String = "", file: StaticString = #file, line: UInt = #line) where T : RoughEquatability {
     let lhs: T
     let rhs: T
@@ -22,6 +41,7 @@ public func XCTAssertRoughlyEqual<T>(_ expression1: @autoclosure () throws -> T,
         return
     }
 }
+#endif
 
 public extension Path.Command {
     func hasPrefix(_ prefix: Path.Command.Prefix) -> Bool {
@@ -63,15 +83,15 @@ extension Path.Command: RoughEquatability {
     }
 }
 
-extension CGFloat: RoughEquatability {
-    public static func ~~ (lhs: CGFloat, rhs: CGFloat) -> Bool {
-        // CGFloat.abs is not available on some platforms.
+extension Float: RoughEquatability {
+    public static func ~~ (lhs: Float, rhs: Float) -> Bool {
+        // Float.abs is not available on some platforms.
         return Swift.abs(lhs - rhs) < 0.001
     }
 }
 
-extension CGPoint: RoughEquatability {
-    public static func ~~ (lhs: CGPoint, rhs: CGPoint) -> Bool {
+extension Point: RoughEquatability {
+    public static func ~~ (lhs: Point, rhs: Point) -> Bool {
         return (lhs.x ~~ rhs.x) && (lhs.y ~~ rhs.y)
     }
 }

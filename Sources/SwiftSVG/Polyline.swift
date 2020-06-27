@@ -1,4 +1,3 @@
-import Foundation
 import XMLCoder
 
 /// SVG basic shape that creates straight lines connecting several points.

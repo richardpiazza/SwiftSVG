@@ -1,12 +1,9 @@
-import Foundation
-#if canImport(CoreGraphics)
-import CoreGraphics
-#endif
+import Swift2D
 
 public struct Fill {
     
     public var color: String?
-    public var opacity: CGFloat?
+    public var opacity: Float?
     public var rule: Rule = .nonZero
     
     public init() {}

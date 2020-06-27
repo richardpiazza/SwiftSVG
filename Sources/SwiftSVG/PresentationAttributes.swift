@@ -1,18 +1,15 @@
-import Foundation
-#if canImport(CoreGraphics)
-import CoreGraphics
-#endif
+import Swift2D
 
 public protocol PresentationAttributes {
     var fillColor: String? { get set }
-    var fillOpacity: CGFloat? { get set }
+    var fillOpacity: Float? { get set }
     var fillRule: Fill.Rule? { get set }
     var strokeColor: String? { get set }
-    var strokeWidth: CGFloat? { get set }
-    var strokeOpacity: CGFloat? { get set }
+    var strokeWidth: Float? { get set }
+    var strokeOpacity: Float? { get set }
     var strokeLineCap: Stroke.LineCap? { get set }
     var strokeLineJoin: Stroke.LineJoin? { get set }
-    var strokeMiterLimit: CGFloat? { get set }
+    var strokeMiterLimit: Float? { get set }
     var transform: String? { get set }
 }
 

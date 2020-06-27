@@ -1,5 +1,3 @@
-import Foundation
-
 public protocol CoreAttributes {
     var id: String? { get set }
 }

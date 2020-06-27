@@ -1,5 +1,3 @@
-import Foundation
-
 /// Elements conforming to `CommandRepresentable` can be expressed in the form of `Path.Command`s.
 public protocol CommandRepresentable {
     func commands() throws -> [Path.Command]
