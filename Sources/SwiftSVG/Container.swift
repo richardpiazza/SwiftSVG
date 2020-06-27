@@ -10,6 +10,18 @@ public protocol Container {
     var texts: [Text]? { get set }
 }
 
+internal enum ContainerKeys: String, CodingKey {
+    case circles = "circle"
+    case ellipses = "ellipse"
+    case groups = "g"
+    case lines = "line"
+    case paths = "path"
+    case polylines = "polyline"
+    case polygons = "polygon"
+    case rectangles = "rect"
+    case texts = "text"
+}
+
 public extension Container {
     var containerDescription: String {
         var contents: String = ""

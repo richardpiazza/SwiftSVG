@@ -75,22 +75,22 @@ public struct Group: Container, Element {
 // MARK: - DynamicNodeEncoding
 extension Group: DynamicNodeEncoding {
     public static func nodeEncoding(for key: CodingKey) -> XMLEncoder.NodeEncoding {
-        guard let _ = key as? CodingKeys else {
-            return .attribute
+        if let _ = ContainerKeys(stringValue: key.stringValue) {
+            return .element
         }
         
-        return .element
+        return .attribute
     }
 }
 
 // MARK: - DynamicNodeDecoding
 extension Group: DynamicNodeDecoding {
     public static func nodeDecoding(for key: CodingKey) -> XMLDecoder.NodeDecoding {
-        guard let _ = key as? CodingKeys else {
-            return .attribute
+        if let _ = ContainerKeys(stringValue: key.stringValue) {
+            return .element
         }
         
-        return .element
+        return .attribute
     }
 }
 
