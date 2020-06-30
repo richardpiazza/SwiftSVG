@@ -18,7 +18,7 @@ A Swift SVG parsing library
 let package = Package(
     ...
     dependencies: [
-        .package(url: "https://github.com/richardpiazza/SwiftSVG.git", from: "0.7.0")
+        .package(url: "https://github.com/richardpiazza/SwiftSVG.git", from: "0.8.0")
     ],
     ...
 )
@@ -31,3 +31,7 @@ import SwiftSVG
 ```
 
 ## Features
+
+## License
+
+**SwiftSVG** is released under an [MIT License](https://github.com/richardpiazza/SwiftSVG/blob/master/LICENSE).
