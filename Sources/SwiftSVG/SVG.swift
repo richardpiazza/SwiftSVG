@@ -9,13 +9,15 @@ import XMLCoder
 /// ## Documentation
 /// [Mozilla Developer Network](https://developer.mozilla.org/en-US/docs/Web/SVG/Element/svg)
 /// | [W3](https://www.w3.org/TR/SVG11/)
-public class SVG: Codable {
+public struct SVG: Container {
     
     public var viewBox: String?
     public var width: String?
     public var height: String?
     public var title: String?
     public var desc: String?
+    
+    // Container
     public var circles: [Circle]?
     public var ellipses: [Ellipse]?
     public var groups: [Group]?
@@ -53,8 +55,7 @@ public class SVG: Codable {
     public init() {
     }
     
-    public convenience init(width: Int, height: Int) {
-        self.init()
+    public init(width: Int, height: Int) {
         self.width = "\(width)px"
         self.height = "\(height)px"
         viewBox = "0 0 \(width) \(height)"
@@ -74,32 +75,7 @@ extension SVG: CustomStringConvertible {
             contents.append("\n<desc>\(desc)</desc>")
         }
         
-        let circles = self.circles?.compactMap({ $0.description }) ?? []
-        circles.forEach({ contents.append("\n\($0)") })
-        
-        let ellipses = self.ellipses?.compactMap({ $0.description }) ?? []
-        ellipses.forEach({ contents.append("\n\($0)") })
-        
-        let groups = self.groups?.compactMap({ $0.description }) ?? []
-        groups.forEach({ contents.append("\n\($0)") })
-        
-        let lines = self.lines?.compactMap({ $0.description }) ?? []
-        lines.forEach({ contents.append("\n\($0)") })
-        
-        let paths = self.paths?.compactMap({ $0.description }) ?? []
-        paths.forEach({ contents.append("\n\($0)") })
-        
-        let polylines = self.polylines?.compactMap({ $0.description }) ?? []
-        polylines.forEach({ contents.append("\n\($0)") })
-        
-        let polygons = self.polygons?.compactMap({ $0.description }) ?? []
-        polygons.forEach({ contents.append("\n\($0)") })
-        
-        let rectangles = self.rectangles?.compactMap({ $0.description }) ?? []
-        rectangles.forEach({ contents.append("\n\($0)") })
-        
-        let texts = self.texts?.compactMap({ $0.description }) ?? []
-        texts.forEach({ contents.append("\n\($0)") })
+        contents.append(containerDescription)
         
         return "<svg viewBox=\"\(viewBox ?? "")\" width=\"\(width ?? "")\" height=\"\(height ?? "")\">\(contents)\n</svg>"
     }

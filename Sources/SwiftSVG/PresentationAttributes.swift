@@ -1,19 +1,29 @@
-import Foundation
-#if canImport(CoreGraphics)
-import CoreGraphics
-#endif
+import Swift2D
 
 public protocol PresentationAttributes {
     var fillColor: String? { get set }
-    var fillOpacity: CGFloat? { get set }
+    var fillOpacity: Float? { get set }
     var fillRule: Fill.Rule? { get set }
     var strokeColor: String? { get set }
-    var strokeWidth: CGFloat? { get set }
-    var strokeOpacity: CGFloat? { get set }
+    var strokeWidth: Float? { get set }
+    var strokeOpacity: Float? { get set }
     var strokeLineCap: Stroke.LineCap? { get set }
     var strokeLineJoin: Stroke.LineJoin? { get set }
-    var strokeMiterLimit: CGFloat? { get set }
+    var strokeMiterLimit: Float? { get set }
     var transform: String? { get set }
+}
+
+internal enum PresentationAttributesKeys: String, CodingKey {
+    case fillColor = "fill"
+    case fillOpacity = "fill-opacity"
+    case fillRule = "fill-rule"
+    case strokeColor = "stroke"
+    case strokeWidth = "stroke-width"
+    case strokeOpacity = "stroke-opacity"
+    case strokeLineCap = "stroke-linecap"
+    case strokeLineJoin = "stroke-linejoin"
+    case strokeMiterLimit = "stroke-miterlimit"
+    case transform
 }
 
 public extension PresentationAttributes {
@@ -21,34 +31,34 @@ public extension PresentationAttributes {
         var attributes: [String] = []
         
         if let fillColor = self.fillColor {
-            attributes.append("\(Element.CodingKeys.fillColor.rawValue)=\"\(fillColor)\"")
+            attributes.append("\(PresentationAttributesKeys.fillColor.rawValue)=\"\(fillColor)\"")
         }
         if let fillOpacity = self.fillOpacity {
-            attributes.append("\(Element.CodingKeys.fillOpacity.rawValue)=\"\(fillOpacity)\"")
+            attributes.append("\(PresentationAttributesKeys.fillOpacity.rawValue)=\"\(fillOpacity)\"")
         }
         if let fillRule = self.fillRule {
-            attributes.append("\(Element.CodingKeys.fillRule.rawValue)=\"\(fillRule.description)\"")
+            attributes.append("\(PresentationAttributesKeys.fillRule.rawValue)=\"\(fillRule.description)\"")
         }
         if let strokeColor = self.strokeColor {
-            attributes.append("\(Element.CodingKeys.strokeColor.rawValue)=\"\(strokeColor)\"")
+            attributes.append("\(PresentationAttributesKeys.strokeColor.rawValue)=\"\(strokeColor)\"")
         }
         if let strokeWidth = self.strokeWidth {
-            attributes.append("\(Element.CodingKeys.strokeWidth.rawValue)=\"\(strokeWidth)\"")
+            attributes.append("\(PresentationAttributesKeys.strokeWidth.rawValue)=\"\(strokeWidth)\"")
         }
         if let strokeOpacity = self.strokeOpacity {
-            attributes.append("\(Element.CodingKeys.strokeOpacity.rawValue)=\"\(strokeOpacity)\"")
+            attributes.append("\(PresentationAttributesKeys.strokeOpacity.rawValue)=\"\(strokeOpacity)\"")
         }
         if let strokeLineCap = self.strokeLineCap {
-            attributes.append("\(Element.CodingKeys.strokeLineCap.rawValue)=\"\(strokeLineCap.description)\"")
+            attributes.append("\(PresentationAttributesKeys.strokeLineCap.rawValue)=\"\(strokeLineCap.description)\"")
         }
         if let strokeLineJoin = self.strokeLineJoin {
-            attributes.append("\(Element.CodingKeys.strokeLineJoin.rawValue)=\"\(strokeLineJoin.description)\"")
+            attributes.append("\(PresentationAttributesKeys.strokeLineJoin.rawValue)=\"\(strokeLineJoin.description)\"")
         }
         if let strokeMiterLimit = self.strokeMiterLimit {
-            attributes.append("\(Element.CodingKeys.strokeMiterLimit.rawValue)=\"\(strokeMiterLimit)\"")
+            attributes.append("\(PresentationAttributesKeys.strokeMiterLimit.rawValue)=\"\(strokeMiterLimit)\"")
         }
         if let transform = self.transform {
-            attributes.append("\(Element.CodingKeys.transform.rawValue)=\"\(transform)\"")
+            attributes.append("\(PresentationAttributesKeys.transform.rawValue)=\"\(transform)\"")
         }
         
         return attributes.joined(separator: " ")
@@ -65,28 +75,45 @@ public extension PresentationAttributes {
     }
     
     var fill: Fill? {
-        if fillColor == nil && fillOpacity == nil {
-            return nil
+        get {
+            if fillColor == nil && fillOpacity == nil {
+                return nil
+            }
+            
+            var fill = Fill()
+            fill.color = fillColor ?? "black"
+            fill.opacity = fillOpacity ?? 1.0
+            return fill
         }
-        
-        var fill = Fill()
-        fill.color = fillColor ?? "black"
-        fill.opacity = fillOpacity ?? 1.0
-        return fill
+        set {
+            fillColor = newValue?.color
+            fillOpacity = newValue?.opacity
+            fillRule = newValue?.rule
+        }
     }
     
     var stroke: Stroke? {
-        if strokeColor == nil && strokeOpacity == nil {
-            return nil
+        get {
+            if strokeColor == nil && strokeOpacity == nil {
+                return nil
+            }
+            
+            var stroke = Stroke()
+            stroke.color = strokeColor ?? "black"
+            stroke.opacity = strokeOpacity ?? 1.0
+            stroke.width = strokeWidth ?? 1.0
+            stroke.lineCap = strokeLineCap ?? .butt
+            stroke.lineJoin = strokeLineJoin ?? .miter
+            stroke.miterLimit = strokeMiterLimit
+            return stroke
         }
-        
-        var stroke = Stroke()
-        stroke.color = strokeColor ?? "black"
-        stroke.opacity = strokeOpacity ?? 1.0
-        stroke.width = strokeWidth ?? 1.0
-        stroke.lineCap = strokeLineCap ?? .butt
-        stroke.lineJoin = strokeLineJoin ?? .miter
-        stroke.miterLimit = strokeMiterLimit
-        return stroke
+        set {
+            strokeColor = newValue?.color
+            strokeOpacity = newValue?.opacity
+            strokeWidth = newValue?.width
+            strokeLineCap = newValue?.lineCap
+            strokeLineJoin = newValue?.lineJoin
+            strokeMiterLimit = newValue?.miterLimit
+        }
     }
 }

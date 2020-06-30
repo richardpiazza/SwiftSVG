@@ -1,27 +1,24 @@
-import Foundation
-#if canImport(CoreGraphics)
-import CoreGraphics
-#endif
+import Swift2D
 
 public extension SVG {
     /// Original size of the document image.
     ///
     /// Primarily uses the `viewBox` attribute, and will fallback to the 'pixelSize'
-    var originalSize: CGSize {
+    var originalSize: Size {
         return (viewBoxSize ?? pixelSize) ?? .zero
     }
     
     /// Size of the design in a square 'viewBox'.
     ///
     /// All paths created by this framework are outputted in a 'square'.
-    var outputSize: CGSize {
+    var outputSize: Size {
         let size = originalSize
         let maxDimension = max(size.width, size.height)
-        return CGSize(width: maxDimension, height: maxDimension)
+        return Size(width: maxDimension, height: maxDimension)
     }
     
     /// Size derived from the `viewBox` document attribute
-    var viewBoxSize: CGSize? {
+    var viewBoxSize: Size? {
         guard let viewBox = self.viewBox else {
             return nil
         }
@@ -39,11 +36,11 @@ public extension SVG {
             return nil
         }
         
-        return CGSize(width: width, height: height)
+        return Size(width: width, height: height)
     }
     
     /// Size derived from the 'width' & 'height' document attributes
-    var pixelSize: CGSize? {
+    var pixelSize: Size? {
         guard let width = self.width, !width.isEmpty else {
             return nil
         }
@@ -59,6 +56,6 @@ public extension SVG {
             return nil
         }
         
-        return CGSize(width: w, height: h)
+        return Size(width: w, height: h)
     }
 }

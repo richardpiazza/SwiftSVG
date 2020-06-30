@@ -1,12 +1,9 @@
-import Foundation
-#if canImport(CoreGraphics)
-import CoreGraphics
-#endif
+import Swift2D
 
 public struct Fill {
     
     public var color: String?
-    public var opacity: CGFloat?
+    public var opacity: Float?
     public var rule: Rule = .nonZero
     
     public init() {}
@@ -25,6 +22,18 @@ public struct Fill {
         /// subtract one each time a path segment crosses the ray from right to left. After counting the crossings, if
         /// the result is zero then the point is outside the path. Otherwise, it is inside.
         case nonZero = "nonzero"
+        
+        public init(from decoder: Decoder) throws {
+            let container = try decoder.singleValueContainer()
+            let rawValue = try container.decode(String.self)
+            guard let rule = Rule(rawValue: rawValue) else {
+                print("Attempts to decode Fill.Rule with rawValue: '\(rawValue)'")
+                self = .nonZero
+                return
+            }
+            
+            self = rule
+        }
     }
 }
 

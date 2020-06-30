@@ -1,4 +1,3 @@
-import Foundation
 import XMLCoder
 
 /// Graphics element consisting of text
@@ -8,7 +7,7 @@ import XMLCoder
 /// ## Documentation
 /// [Mozilla Developer Network](https://developer.mozilla.org/en-US/docs/Web/SVG/Element/text)
 /// | [W3](https://www.w3.org/TR/SVG11/text.html#TextElement)
-public class Text: Element {
+public struct Text: Element {
     
     public var value: String = ""
     public var x: Float?
@@ -16,34 +15,52 @@ public class Text: Element {
     public var dx: Float?
     public var dy: Float?
     
+    // CoreAttributes
+    public var id: String?
+    
+    // PresentationAttributes
+    public var fillColor: String?
+    public var fillOpacity: Float?
+    public var fillRule: Fill.Rule?
+    public var strokeColor: String?
+    public var strokeWidth: Float?
+    public var strokeOpacity: Float?
+    public var strokeLineCap: Stroke.LineCap?
+    public var strokeLineJoin: Stroke.LineJoin?
+    public var strokeMiterLimit: Float?
+    public var transform: String?
+    
+    // StylingAttributes
+    public var style: String?
+    
     enum CodingKeys: String, CodingKey {
         case value = ""
         case x
         case y
         case dx
         case dy
+        case id
+        case fillColor = "fill"
+        case fillOpacity = "fill-opacity"
+        case fillRule = "fill-rule"
+        case strokeColor = "stroke"
+        case strokeWidth = "stroke-width"
+        case strokeOpacity = "stroke-opacity"
+        case strokeLineCap = "stroke-linecap"
+        case strokeLineJoin = "stroke-linejoin"
+        case strokeMiterLimit = "stroke-miterlimit"
+        case transform
+        case style
     }
     
-    public override init() {
-        super.init()
+    public init() {
     }
     
-    public convenience init(value: String) {
-        self.init()
+    public init(value: String) {
         self.value = value
     }
     
-    public required init(from decoder: Decoder) throws {
-        try super.init(from: decoder)
-        let container = try decoder.container(keyedBy: CodingKeys.self)
-        value = try container.decodeIfPresent(String.self, forKey: .value) ?? ""
-        x = try container.decodeIfPresent(Float.self, forKey: .x)
-        y = try container.decodeIfPresent(Float.self, forKey: .y)
-        dx = try container.decodeIfPresent(Float.self, forKey: .dx)
-        dy = try container.decodeIfPresent(Float.self, forKey: .dy)
-    }
-    
-    public override var description: String {
+    public var description: String {
         var components: [String] = []
         
         if let x = self.x, !x.isNaN && !x.isZero {
@@ -59,7 +76,7 @@ public class Text: Element {
             components.append(String(format: "dy=\"%.5f\"", dy))
         }
         
-        components.append(super.description)
+        components.append(attributeDescription)
         
         return "<text " + components.joined(separator: " ") + " >\(value)</text>"
     }

@@ -1,53 +1,10 @@
-import Foundation
-import XMLCoder
-#if canImport(CoreGraphics)
-import CoreGraphics
-#endif
+public protocol Element: CoreAttributes, PresentationAttributes, StylingAttributes {
+}
 
-/// Base class for all SVG elements
-public class Element: Codable, CustomStringConvertible,
-    CoreAttributes, PresentationAttributes, StylingAttributes {
-    
-    public enum CodingKeys: String, CodingKey {
-        case id
-        case fillColor = "fill"
-        case fillOpacity = "fill-opacity"
-        case fillRule = "fill-rule"
-        case strokeColor = "stroke"
-        case strokeWidth = "stroke-width"
-        case strokeOpacity = "stroke-opacity"
-        case strokeLineCap = "stroke-linecap"
-        case strokeLineJoin = "stroke-linejoin"
-        case strokeMiterLimit = "stroke-miterlimit"
-        case transform
-        case style
-    }
-    
-    // CoreAttributes
-    public var id: String?
-    
-    // PresentationAttributes
-    public var fillColor: String?
-    public var fillOpacity: CGFloat?
-    public var fillRule: Fill.Rule?
-    public var strokeColor: String?
-    public var strokeWidth: CGFloat?
-    public var strokeOpacity: CGFloat?
-    public var strokeLineCap: Stroke.LineCap?
-    public var strokeLineJoin: Stroke.LineJoin?
-    public var strokeMiterLimit: CGFloat?
-    public var transform: String?
-    
-    // StylingAttributes
-    public var style: String?
-    
-    public init() {
-        
-    }
-    
-    // MARK: - CustomStringConvertible
-    public var description: String {
+public extension Element {
+    var attributeDescription: String {
         var components: [String] = []
+        
         if !coreDescription.isEmpty {
             components.append(coreDescription)
         }
@@ -78,7 +35,7 @@ public extension CommandRepresentable where Self: Element {
         
         let commands = try self.commands().map({ $0.applying(transformations: _transformations) })
         
-        let path = Path(commands: commands)
+        var path = Path(commands: commands)
         path.fillColor = fillColor
         path.fillOpacity = fillOpacity
         path.strokeColor = strokeColor

@@ -1,7 +1,4 @@
-import Foundation
-#if canImport(CoreGraphics)
-import CoreGraphics
-#endif
+import Swift2D
 
 struct PolygonProcessor {
     
@@ -31,13 +28,13 @@ struct PolygonProcessor {
                 return commands
             }
             
-            let value = CGFloat(_value)
+            let value = Float(_value)
             
             if firstValue {
                 if idx == 0 {
-                    commands.append(.moveTo(point: CGPoint(x: value, y: .nan)))
+                    commands.append(.moveTo(point: Point(x: value, y: .nan)))
                 } else {
-                    commands.append(.lineTo(point: CGPoint(x: value, y: .nan)))
+                    commands.append(.lineTo(point: Point(x: value, y: .nan)))
                 }
                 firstValue = false
             } else {

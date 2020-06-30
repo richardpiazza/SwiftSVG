@@ -1,7 +1,5 @@
+import Swift2D
 import Foundation
-#if canImport(CoreGraphics)
-import CoreGraphics
-#endif
 
 class PathProcessor {
     
@@ -14,8 +12,8 @@ class PathProcessor {
     
     private var _command: Path.Command?
     private var positioning: Positioning = .absolute
-    private var pathOrigin: CGPoint = .nan
-    private var currentPoint: CGPoint = .zero
+    private var pathOrigin: Point = .nan
+    private var currentPoint: Point = .zero
     /// The argument position of the _command to be processed.
     private var argumentPosition: Int = 0
     /// Indicates that only a single `Float` will be processed on the next component pass.
@@ -47,7 +45,7 @@ class PathProcessor {
                     try setupCommand(prefix: prefix)
                 }
             } else if let _value = Float(component) {
-                let value = CGFloat(_value)
+                let value = Float(_value)
                 if let command = _command {
                     try continueCommand(command, value: value)
                 } else {
@@ -187,7 +185,7 @@ class PathProcessor {
     }
     
     /// Process Value
-    private func continueCommand(_ command: Path.Command, value: CGFloat) throws {
+    private func continueCommand(_ command: Path.Command, value: Float) throws {
         switch command {
         case .moveTo, .cubicBezierCurve, .quadraticBezierCurve, .ellipticalArcCurve:
             _command = try command.adjustingArgument(at: argumentPosition, by: value)
@@ -233,7 +231,7 @@ class PathProcessor {
     }
     
     /// New Command (using the last prefix)
-    private func setupNextCommand(value: CGFloat) throws {
+    private func setupNextCommand(value: Float) throws {
         guard let command = _commands.last else {
             throw Path.Command.Error.invalidRelativeCommand
         }
@@ -242,7 +240,7 @@ class PathProcessor {
         case .moveTo:
             switch positioning {
             case .absolute:
-                _command = .moveTo(point: CGPoint(x: value, y: .nan))
+                _command = .moveTo(point: Point(x: value, y: .nan))
                 argumentPosition = 1
             case .relative:
                 let c = Path.Command.moveTo(point: command.point)
@@ -252,7 +250,7 @@ class PathProcessor {
         case .lineTo:
             switch positioning {
             case .absolute:
-                _command = .lineTo(point: CGPoint(x: value, y: .nan))
+                _command = .lineTo(point: Point(x: value, y: .nan))
                 argumentPosition = 1
             case .relative:
                 let c = Path.Command.lineTo(point: command.point)
@@ -262,7 +260,7 @@ class PathProcessor {
         case .cubicBezierCurve:
             switch positioning {
             case .absolute:
-                _command = .cubicBezierCurve(cp1: CGPoint(x: value, y: .nan), cp2: .nan, point: .nan)
+                _command = .cubicBezierCurve(cp1: Point(x: value, y: .nan), cp2: .nan, point: .nan)
                 argumentPosition = 1
             case .relative:
                 let c = Path.Command.cubicBezierCurve(cp1: command.point, cp2: command.point, point: command.point)
@@ -272,7 +270,7 @@ class PathProcessor {
         case .quadraticBezierCurve:
             switch positioning {
             case .absolute:
-                _command = .quadraticBezierCurve(cp: CGPoint(x: value, y: .nan), point: .nan)
+                _command = .quadraticBezierCurve(cp: Point(x: value, y: .nan), point: .nan)
                 argumentPosition = 1
             case .relative:
                 let c = Path.Command.quadraticBezierCurve(cp: command.point, point: command.point)

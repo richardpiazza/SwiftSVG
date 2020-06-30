@@ -1,16 +1,13 @@
-import Foundation
-#if canImport(CoreGraphics)
-import CoreGraphics
-#endif
+import Swift2D
 
 public struct Stroke {
     
     public var color: String?
-    public var width: CGFloat?
-    public var opacity: CGFloat?
+    public var width: Float?
+    public var opacity: Float?
     public var lineCap: LineCap  = .butt
     public var lineJoin: LineJoin = .miter
-    public var miterLimit: CGFloat?
+    public var miterLimit: Float?
     
     public init() {
         

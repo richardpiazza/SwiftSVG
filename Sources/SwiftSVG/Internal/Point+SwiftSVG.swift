@@ -1,11 +1,8 @@
-import Foundation
-#if canImport(CoreGraphics)
-import CoreGraphics
-#endif
+import Swift2D
 
-extension CGPoint {
-    static var nan: CGPoint {
-        return CGPoint(x: CGFloat.nan, y: CGFloat.nan)
+extension Point {
+    static var nan: Point {
+        return Point(x: Float.nan, y: Float.nan)
     }
     
     var hasNaN: Bool {
@@ -13,20 +10,20 @@ extension CGPoint {
     }
     
     /// Returns a copy of the instance with the **x** value replaced with the provided value.
-    func with(x value: CGFloat) -> CGPoint {
-        return CGPoint(x: value, y: y)
+    func with(x value: Float) -> Point {
+        return Point(x: value, y: y)
     }
     
     /// Returns a copy of the instance with the **y** value replaced with the provided value.
-    func with(y value: CGFloat) -> CGPoint {
-        return CGPoint(x: x, y: value)
+    func with(y value: Float) -> Point {
+        return Point(x: x, y: value)
     }
     
     /// Adjusts the **x** value by the provided amount.
     ///
     /// This will explicitly check for `.isNaN`, and if encountered, will simply
     /// use the provided value.
-    func adjusting(x value: CGFloat) -> CGPoint {
+    func adjusting(x value: Float) -> Point {
         return (x.isNaN) ? with(x: value) : with(x: x + value)
     }
     
@@ -34,7 +31,7 @@ extension CGPoint {
     ///
     /// This will explicitly check for `.isNaN`, and if encountered, will simply
     /// use the provided value.
-    func adjusting(y value: CGFloat) -> CGPoint {
+    func adjusting(y value: Float) -> Point {
         return (y.isNaN) ? with(y: value) : with(y: y + value)
     }
 }
