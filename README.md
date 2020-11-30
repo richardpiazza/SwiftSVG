@@ -3,7 +3,7 @@
 A Swift SVG parsing library
 
 <p>
-  <img src="https://github.com/richardpiazza/SwiftSVG/workflows/Swift/badge.svg?branch=master" />
+  <img src="https://github.com/richardpiazza/SwiftSVG/workflows/Swift/badge.svg?branch=main" />
   <img src="https://img.shields.io/badge/Swift-5.2-orange.svg" />
   <a href="https://twitter.com/richardpiazza">
     <img src="https://img.shields.io/badge/twitter-@richardpiazza-blue.svg?style=flat" alt="Twitter: @richardpiazza" />
