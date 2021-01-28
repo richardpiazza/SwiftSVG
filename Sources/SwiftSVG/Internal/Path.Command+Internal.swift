@@ -17,17 +17,6 @@ extension Path.Command {
         }
     }
     
-    var point: Point {
-        switch self {
-        case .moveTo(let point): return point
-        case .lineTo(let point): return point
-        case .cubicBezierCurve(_, _, let point): return point
-        case .quadraticBezierCurve(_, let point): return point
-        case .ellipticalArcCurve(_, _, _, _, _, let point): return point
-        case .closePath: return .zero
-        }
-    }
-    
     /// The last control point used in drawing the path.
     ///
     /// Only valid for curves.
