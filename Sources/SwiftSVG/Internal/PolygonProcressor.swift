@@ -24,11 +24,11 @@ struct PolygonProcessor {
         
         var firstValue: Bool = true
         for (idx, component) in components.enumerated() {
-            guard let _value = Float(component) else {
+            guard let _value = Double(component) else {
                 return commands
             }
             
-            let value = Float(_value)
+            let value = Double(_value)
             
             if firstValue {
                 if idx == 0 {

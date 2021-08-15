@@ -45,8 +45,8 @@ final class CommandRepresentableTests: XCTestCase {
     }
     
     func testEllipse() throws {
-        let x: Float = 50.0
-        let y: Float = 25.0
+        let x: Double = 50.0
+        let y: Double = 25.0
         
         let ellipse = Ellipse(x: x, y: y, rx: 50, ry: 25)
         let xOffset = EllipseProcessor.controlPointOffset(ellipse.rx)

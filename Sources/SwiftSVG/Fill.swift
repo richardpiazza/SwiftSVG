@@ -3,7 +3,7 @@ import Swift2D
 public struct Fill {
     
     public var color: String?
-    public var opacity: Float?
+    public var opacity: Double?
     public var rule: Rule = .nonZero
     
     public init() {}

@@ -16,7 +16,7 @@ class PathProcessor {
     private var currentPoint: Point = .zero
     /// The argument position of the _command to be processed.
     private var argumentPosition: Int = 0
-    /// Indicates that only a single `Float` will be processed on the next component pass.
+    /// Indicates that only a single `Double` will be processed on the next component pass.
     private var singleValue: Bool = false
     private var _commands: [Path.Command] = []
     
@@ -28,7 +28,7 @@ class PathProcessor {
     ///
     /// For each of the command components:
     /// * If a `Path.Command.Prefix` is identified: Setup a new `Command`.
-    /// * If a `Float` is identified: Continue a non-complete `Command`, or begin a new command using the last prefix.
+    /// * If a `Double` is identified: Continue a non-complete `Command`, or begin a new command using the last prefix.
     /// * Ascertain if the command is complete and update `pathOrigin`/`currentPoint`.
     func commands() throws -> [Path.Command] {
         _commands.removeAll()
@@ -44,8 +44,8 @@ class PathProcessor {
                 default:
                     try setupCommand(prefix: prefix)
                 }
-            } else if let _value = Float(component) {
-                let value = Float(_value)
+            } else if let _value = Double(component) {
+                let value = Double(_value)
                 if let command = _command {
                     try continueCommand(command, value: value)
                 } else {
@@ -185,7 +185,7 @@ class PathProcessor {
     }
     
     /// Process Value
-    private func continueCommand(_ command: Path.Command, value: Float) throws {
+    private func continueCommand(_ command: Path.Command, value: Double) throws {
         switch command {
         case .moveTo, .cubicBezierCurve, .quadraticBezierCurve, .ellipticalArcCurve:
             _command = try command.adjustingArgument(at: argumentPosition, by: value)
@@ -231,7 +231,7 @@ class PathProcessor {
     }
     
     /// New Command (using the last prefix)
-    private func setupNextCommand(value: Float) throws {
+    private func setupNextCommand(value: Double) throws {
         guard let command = _commands.last else {
             throw Path.Command.Error.invalidRelativeCommand
         }
