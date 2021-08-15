@@ -64,7 +64,7 @@ extension Path.Command {
     /// - parameter value: The value to add to the existing value. If the current value equal `.isNaN`, than the
     ///                    supplied value is used as-is.
     /// - throws: `Path.Command.Error`
-    func adjustingArgument(at position: Int, by value: Float) throws -> Path.Command {
+    func adjustingArgument(at position: Int, by value: Double) throws -> Path.Command {
         switch self {
         case .moveTo(let point):
             switch position {

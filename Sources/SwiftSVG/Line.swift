@@ -9,27 +9,27 @@ import XMLCoder
 public struct Line: Element {
     
     /// Defines the x-axis coordinate of the line starting point.
-    public var x1: Float = 0.0
+    public var x1: Double = 0.0
     /// Defines the x-axis coordinate of the line ending point.
-    public var y1: Float = 0.0
+    public var y1: Double = 0.0
     /// Defines the y-axis coordinate of the line starting point.
-    public var x2: Float = 0.0
+    public var x2: Double = 0.0
     /// Defines the y-axis coordinate of the line ending point.
-    public var y2: Float = 0.0
+    public var y2: Double = 0.0
     
     // CoreAttributes
     public var id: String?
     
     // PresentationAttributes
     public var fillColor: String?
-    public var fillOpacity: Float?
+    public var fillOpacity: Double?
     public var fillRule: Fill.Rule?
     public var strokeColor: String?
-    public var strokeWidth: Float?
-    public var strokeOpacity: Float?
+    public var strokeWidth: Double?
+    public var strokeOpacity: Double?
     public var strokeLineCap: Stroke.LineCap?
     public var strokeLineJoin: Stroke.LineJoin?
-    public var strokeMiterLimit: Float?
+    public var strokeMiterLimit: Double?
     public var transform: String?
     
     // StylingAttributes
@@ -57,7 +57,7 @@ public struct Line: Element {
     public init() {
     }
     
-    public init(x1: Float, y1: Float, x2: Float, y2: Float) {
+    public init(x1: Double, y1: Double, x2: Double, y2: Double) {
         self.x1 = x1
         self.y1 = y1
         self.x2 = x2

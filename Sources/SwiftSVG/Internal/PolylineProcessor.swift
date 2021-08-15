@@ -11,7 +11,7 @@ struct PolylineProcessor {
     func commands() throws -> [Path.Command] {
         let pairs = points.components(separatedBy: " ")
         let components = pairs.flatMap({ $0.components(separatedBy: ",") })
-        let values = components.compactMap({ Float($0) }).map({ Float($0) })
+        let values = components.compactMap({ Double($0) }).map({ Double($0) })
         
         guard values.count > 2 else {
             // More than just a starting point is required.
@@ -30,7 +30,7 @@ struct PolylineProcessor {
         
         commands.append(.moveTo(point: Point(x: move[0], y: move[1])))
         
-        var _value: Float = .nan
+        var _value: Double = .nan
         segments.forEach { (value) in
             if _value.isNaN {
                 _value = value

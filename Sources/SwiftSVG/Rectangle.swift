@@ -13,34 +13,34 @@ public struct Rectangle: Element {
     
     /// The x-axis coordinate of the side of the rectangle which
     /// has the smaller x-axis coordinate value.
-    public var x: Float = 0.0
+    public var x: Double = 0.0
     /// The y-axis coordinate of the side of the rectangle which
     /// has the smaller y-axis coordinate value
-    public var y: Float = 0.0
+    public var y: Double = 0.0
     /// The width of the rectangle.
-    public var width: Float = 0.0
+    public var width: Double = 0.0
     /// The height of the rectangle.
-    public var height: Float = 0.0
+    public var height: Double = 0.0
     /// For rounded rectangles, the x-axis radius of the ellipse used
     /// to round off the corners of the rectangle.
-    public var rx: Float?
+    public var rx: Double?
     /// For rounded rectangles, the y-axis radius of the ellipse used
     /// to round off the corners of the rectangle.
-    public var ry: Float?
+    public var ry: Double?
     
     // CoreAttributes
     public var id: String?
     
     // PresentationAttributes
     public var fillColor: String?
-    public var fillOpacity: Float?
+    public var fillOpacity: Double?
     public var fillRule: Fill.Rule?
     public var strokeColor: String?
-    public var strokeWidth: Float?
-    public var strokeOpacity: Float?
+    public var strokeWidth: Double?
+    public var strokeOpacity: Double?
     public var strokeLineCap: Stroke.LineCap?
     public var strokeLineJoin: Stroke.LineJoin?
-    public var strokeMiterLimit: Float?
+    public var strokeMiterLimit: Double?
     public var transform: String?
     
     // StylingAttributes
@@ -70,7 +70,7 @@ public struct Rectangle: Element {
     public init() {
     }
     
-    public init(x: Float, y: Float, width: Float, height: Float, rx: Float? = nil, ry: Float? = nil) {
+    public init(x: Double, y: Double, width: Double, height: Double, rx: Double? = nil, ry: Double? = nil) {
         self.x = x
         self.y = y
         self.width = width

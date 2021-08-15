@@ -3,17 +3,17 @@ import Foundation
 
 struct EllipseProcessor {
     
-    let x: Float
-    let y: Float
-    let rx: Float
-    let ry: Float
+    let x: Double
+    let y: Double
+    let rx: Double
+    let ry: Double
     
     /// The _optimal_ offset for control points when representing a
     /// circle/ellipse as 4 bezier curves.
     ///
     /// [Stack Overflow](https://stackoverflow.com/questions/1734745/how-to-create-circle-with-bézier-curves)
-    static func controlPointOffset(_ radius: Float) -> Float {
-        return (Float(4.0/3.0) * tan(Float.pi / 8.0)) * radius
+    static func controlPointOffset(_ radius: Double) -> Double {
+        return (Double(4.0/3.0) * tan(Double.pi / 8.0)) * radius
     }
     
     init(ellipse: Ellipse) {

@@ -15,7 +15,7 @@ public extension Path {
         /// Draw a smooth curve using two points (+ origin)
         case quadraticBezierCurve(cp: Point, point: Point)
         /// Draw a curve defined as a portion of an ellipse
-        case ellipticalArcCurve(rx: Float, ry: Float, angle: Float, largeArc: Bool, clockwise: Bool, point: Point)
+        case ellipticalArcCurve(rx: Double, ry: Double, angle: Double, largeArc: Bool, clockwise: Bool, point: Point)
         /// ClosePath instructions draw a straight line from the current position to the first point in the path.
         case closePath
         

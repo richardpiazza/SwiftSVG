@@ -12,7 +12,7 @@ public extension SVG {
     ///
     /// All paths created by this framework are outputted in a 'square'.
     var outputSize: Size {
-        let size = originalSize
+        let size = (pixelSize ?? viewBoxSize) ?? .zero
         let maxDimension = max(size.width, size.height)
         return Size(width: maxDimension, height: maxDimension)
     }
@@ -28,11 +28,11 @@ public extension SVG {
             return nil
         }
         
-        guard let width = Int(components[2]) else {
+        guard let width = Double(components[2]) else {
             return nil
         }
         
-        guard let height = Int(components[3]) else {
+        guard let height = Double(components[3]) else {
             return nil
         }
         
@@ -52,7 +52,7 @@ public extension SVG {
         let widthRawValue = width.replacingOccurrences(of: "px", with: "", options: .caseInsensitive, range: nil)
         let heightRawValue = height.replacingOccurrences(of: "px", with: "", options: .caseInsensitive, range: nil)
         
-        guard let w = Int(widthRawValue), let h = Int(heightRawValue) else {
+        guard let w = Double(widthRawValue), let h = Double(heightRawValue) else {
             return nil
         }
         

@@ -13,25 +13,25 @@ import XMLCoder
 public struct Circle: Element {
     
     /// The x-axis coordinate of the center of the circle.
-    public var x: Float = 0.0
+    public var x: Double = 0.0
     /// The y-axis coordinate of the center of the circle.
-    public var y: Float = 0.0
+    public var y: Double = 0.0
     /// The radius of the circle.
-    public var r: Float = 0.0
+    public var r: Double = 0.0
     
     // CoreAttributes
     public var id: String?
     
     // PresentationAttributes
     public var fillColor: String?
-    public var fillOpacity: Float?
+    public var fillOpacity: Double?
     public var fillRule: Fill.Rule?
     public var strokeColor: String?
-    public var strokeWidth: Float?
-    public var strokeOpacity: Float?
+    public var strokeWidth: Double?
+    public var strokeOpacity: Double?
     public var strokeLineCap: Stroke.LineCap?
     public var strokeLineJoin: Stroke.LineJoin?
-    public var strokeMiterLimit: Float?
+    public var strokeMiterLimit: Double?
     public var transform: String?
     
     // StylingAttributes
@@ -58,7 +58,7 @@ public struct Circle: Element {
     public init() {
     }
     
-    public init(x: Float, y: Float, r: Float) {
+    public init(x: Double, y: Double, r: Double) {
         self.x = x
         self.y = y
         self.r = r

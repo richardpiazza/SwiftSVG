@@ -3,11 +3,11 @@ import Swift2D
 public struct Stroke {
     
     public var color: String?
-    public var width: Float?
-    public var opacity: Float?
+    public var width: Double?
+    public var opacity: Double?
     public var lineCap: LineCap  = .butt
     public var lineJoin: LineJoin = .miter
-    public var miterLimit: Float?
+    public var miterLimit: Double?
     
     public init() {
         

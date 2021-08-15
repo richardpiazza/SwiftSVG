@@ -18,14 +18,14 @@ public struct Polygon: Element {
     
     // PresentationAttributes
     public var fillColor: String?
-    public var fillOpacity: Float?
+    public var fillOpacity: Double?
     public var fillRule: Fill.Rule?
     public var strokeColor: String?
-    public var strokeWidth: Float?
-    public var strokeOpacity: Float?
+    public var strokeWidth: Double?
+    public var strokeOpacity: Double?
     public var strokeLineCap: Stroke.LineCap?
     public var strokeLineJoin: Stroke.LineJoin?
-    public var strokeMiterLimit: Float?
+    public var strokeMiterLimit: Double?
     public var transform: String?
     
     // StylingAttributes

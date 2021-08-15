@@ -9,27 +9,27 @@ import XMLCoder
 public struct Ellipse: Element {
     
     /// The x position of the ellipse.
-    public var x: Float = 0.0
+    public var x: Double = 0.0
     /// The y position of the ellipse.
-    public var y: Float = 0.0
+    public var y: Double = 0.0
     /// The radius of the ellipse on the x axis.
-    public var rx: Float = 0.0
+    public var rx: Double = 0.0
     /// The radius of the ellipse on the y axis.
-    public var ry: Float = 0.0
+    public var ry: Double = 0.0
     
     // CoreAttributes
     public var id: String?
     
     // PresentationAttributes
     public var fillColor: String?
-    public var fillOpacity: Float?
+    public var fillOpacity: Double?
     public var fillRule: Fill.Rule?
     public var strokeColor: String?
-    public var strokeWidth: Float?
-    public var strokeOpacity: Float?
+    public var strokeWidth: Double?
+    public var strokeOpacity: Double?
     public var strokeLineCap: Stroke.LineCap?
     public var strokeLineJoin: Stroke.LineJoin?
-    public var strokeMiterLimit: Float?
+    public var strokeMiterLimit: Double?
     public var transform: String?
     
     // StylingAttributes
@@ -57,7 +57,7 @@ public struct Ellipse: Element {
     public init() {
     }
     
-    public init(x: Float, y: Float, rx: Float, ry: Float) {
+    public init(x: Double, y: Double, rx: Double, ry: Double) {
         self.x = x
         self.y = y
         self.rx = rx
