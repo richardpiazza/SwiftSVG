@@ -3,12 +3,6 @@ import XCTest
 
 final class TransformationTests: XCTestCase {
     
-    static var allTests = [
-        ("testTranslateInitialization", testTranslateInitialization),
-        ("testMatrixInitialization", testMatrixInitialization),
-        ("testCommandTransformation", testCommandTransformation)
-    ]
-    
     func testTranslateInitialization() {
         var input: String = "translate(0.000000, 39.000000)"
         var transformation: Transformation? = Transformation(input)

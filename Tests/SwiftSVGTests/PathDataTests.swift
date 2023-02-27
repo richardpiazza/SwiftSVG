@@ -3,15 +3,6 @@ import XCTest
 
 final class PathDataTests: XCTestCase {
     
-    static var allTests = [
-        ("testDataFormatAppleSymbols", testDataFormatAppleSymbols),
-        ("testDataFormatPixelmatorPro", testDataFormatPixelmatorPro),
-        ("testDataFormatSketch", testDataFormatSketch),
-        ("testRelativePath", testRelativePath),
-        ("testCompareFormats", testCompareFormats),
-        ("testSingleValueProcessing", testSingleValueProcessing),
-    ]
-    
     func testDataFormatAppleSymbols() throws {
         let pathData = "M 11.709 2.91016 C 17.1582 2.91016 21.6699 -1.60156 21.6699 -7.05078 " +
         "C 21.6699 -12.4902 17.1484 -17.0117 11.6992 -17.0117 C 6.25977 -17.0117 1.74805 -12.4902 1.74805 -7.05078 " +

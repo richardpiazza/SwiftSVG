@@ -3,16 +3,6 @@ import XCTest
 
 final class CommandRepresentableTests: XCTestCase {
     
-    static var allTests = [
-        ("testCircle", testCircle),
-        ("testLine", testLine),
-        ("testPolygon", testPolygon),
-        ("testPolyline", testPolyline),
-        ("testRectangle", testRectangle),
-        ("testRoundedRectangle", testRoundedRectangle),
-        ("testCubicRoundedRectangle", testCubicRoundedRectangle)
-    ]
-    
     func testCircle() throws {
         let circle = Circle(x: 50, y: 50, r: 50)
         let offset = EllipseProcessor.controlPointOffset(circle.r)
