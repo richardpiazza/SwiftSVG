@@ -44,11 +44,11 @@ extension Point {
                 let reflectionY = point.y + (point.y - y)
                 return Point(x: reflectionX, y: reflectionY)
             } else if y > point.y {
-                let reflectionY = point.y - (point.y - y)
+                let reflectionY = point.y - (y - point.y)
                 return Point(x: reflectionX, y: reflectionY)
-            } else {
-                return Point(x: reflectionX, y: y)
             }
+            
+            return Point(x: reflectionX, y: y)
         } else if x > point.x {
             let reflectionX = point.x - (x - point.x)
             
@@ -56,21 +56,21 @@ extension Point {
                 let reflectionY = point.y + (point.y - y)
                 return Point(x: reflectionX, y: reflectionY)
             } else if y > point.y {
-                let reflectionY = point.y - (point.y - y)
+                let reflectionY = point.y - (y - point.y)
                 return Point(x: reflectionX, y: reflectionY)
-            } else {
-                return Point(x: reflectionX, y: y)
             }
-        } else {
-            if y < point.y {
-                let reflectionY = point.y + (point.y - y)
-                return Point(x: x, y: reflectionY)
-            } else if y > point.y {
-                let reflectionY = point.y - (point.y - y)
-                return Point(x: x, y: reflectionY)
-            } else {
-                return Point(x: x, y: y)
-            }
+            
+            return Point(x: reflectionX, y: y)
         }
+        
+        if y < point.y {
+            let reflectionY = point.y + (point.y - y)
+            return Point(x: x, y: reflectionY)
+        } else if y > point.y {
+            let reflectionY = point.y - (y - point.y)
+            return Point(x: x, y: reflectionY)
+        }
+        
+        return Point(x: x, y: y)
     }
 }
