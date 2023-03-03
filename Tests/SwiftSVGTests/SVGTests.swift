@@ -49,12 +49,18 @@ final class SVGTests: XCTestCase {
         let path = try XCTUnwrap(svg.paths?.first)
         XCTAssertEqual(path.data, "M200,300 Q400,50 600,300 T1000,300")
         let commands = try path.commands()
-        print(commands)
         XCTAssertEqual(commands, [
             .moveTo(point: Point(x: 200, y: 300)),
             .quadraticBezierCurve(cp: Point(x: 400, y: 50), point: Point(x: 600, y: 300)),
-            .quadraticBezierCurve(cp: Point(x: 600, y: 300), point: Point(x: 1000, y: 300)),
-            .closePath
+            .quadraticBezierCurve(cp: Point(x: 800, y: 550), point: Point(x: 1000, y: 300)),
         ])
+        
+        let primaryGroup = try XCTUnwrap(svg.groups?.first)
+        let primaryPoints = try XCTUnwrap(primaryGroup.circles)
+        XCTAssertEqual(primaryPoints.count, 3)
+        
+        let secondaryGroup = try XCTUnwrap(svg.groups?.last)
+        let secondaryPoints = try XCTUnwrap(secondaryGroup.circles)
+        XCTAssertEqual(secondaryPoints.count, 2)
     }
 }

@@ -81,12 +81,6 @@ class PathProcessor {
             }
         }
         
-        if case .closePath = _commands.last {
-            // Do Nothing
-        } else {
-            _commands.append(.closePath)
-        }
-        
         return _commands
     }
     
@@ -152,7 +146,7 @@ class PathProcessor {
             positioning = .relative
             argumentPosition = 0
         case .smoothQuadraticBezierCurve:
-            if case .quadraticBezierCurve(_, let cp) = lastCommand {
+            if case .quadraticBezierCurve(let cp, _) = lastCommand {
                 _command = .quadraticBezierCurve(cp: cp.reflection(using: currentPoint), point: .nan)
             } else {
                 _command = .quadraticBezierCurve(cp: currentPoint, point: .nan)

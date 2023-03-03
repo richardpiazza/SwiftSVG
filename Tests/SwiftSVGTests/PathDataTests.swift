@@ -49,9 +49,9 @@ final class PathDataTests: XCTestCase {
         
         let path = Path(data: pathData)
         let commands = try path.commands()
-        XCTAssertEqual(commands.count, 24)
+        XCTAssertEqual(commands.count, 23)
         XCTAssertEqual(commands.filter({ $0.hasPrefix(.move) }).count, 2)
-        XCTAssertEqual(commands.filter({ $0.hasPrefix(.close) }).count, 1)
+        XCTAssertEqual(commands.filter({ $0.hasPrefix(.close) }).count, 0)
     }
     
     func testRelativePath() throws {
