@@ -1,4 +1,4 @@
-// swift-tools-version:5.2
+// swift-tools-version:5.3
 // The swift-tools-version declares the minimum version of Swift required to build this package.
 
 import PackageDescription
@@ -14,7 +14,7 @@ let package = Package(
     dependencies: [
         // Dependencies declare other packages that this package depends on.
         // .package(url: /* package url */, from: "1.0.0"),
-        .package(url: "https://github.com/MaxDesiatov/XMLCoder.git", from: "0.11.1"),
+        .package(url: "https://github.com/CoreOffice/XMLCoder.git", from: "0.15.0"),
         .package(url: "https://github.com/richardpiazza/Swift2D.git", from: "2.0.0"),
     ],
     targets: [
@@ -22,9 +22,19 @@ let package = Package(
         // Targets can depend on other targets in this package, and on products in packages which this package depends on.
         .target(
             name: "SwiftSVG",
-            dependencies: ["XMLCoder", "Swift2D"]),
+            dependencies: [
+                "XMLCoder",
+                "Swift2D"
+            ]
+        ),
         .testTarget(
             name: "SwiftSVGTests",
-            dependencies: ["SwiftSVG"]),
+            dependencies: [
+                "SwiftSVG"
+            ],
+            resources: [
+                .process("Resources")
+            ]
+        ),
     ]
 )

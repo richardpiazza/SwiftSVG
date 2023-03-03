@@ -4,10 +4,6 @@ import Swift2D
 
 final class SVGTests: XCTestCase {
     
-    static var allTests = [
-        ("testSimpleDecode", testSimpleDecode),
-    ]
-    
     func testSimpleDecode() throws {
         let doc = """
         <?xml version="1.0" encoding="UTF-8"?>
@@ -44,5 +40,27 @@ final class SVGTests: XCTestCase {
         let data = try XCTUnwrap(doc.data(using: .utf8))
         let svg = try SVG.make(with: data)
         XCTAssertEqual(svg.outputSize, Size(width: 2500, height: 2500))
+    }
+    
+    func testQuad01Decode() throws {
+        let url = try XCTUnwrap(Bundle.swiftSVGTests.url(forResource: "quad01", withExtension: "svg"))
+        let data = try Data(contentsOf: url)
+        let svg = try SVG.make(with: data)
+        let path = try XCTUnwrap(svg.paths?.first)
+        XCTAssertEqual(path.data, "M200,300 Q400,50 600,300 T1000,300")
+        let commands = try path.commands()
+        XCTAssertEqual(commands, [
+            .moveTo(point: Point(x: 200, y: 300)),
+            .quadraticBezierCurve(cp: Point(x: 400, y: 50), point: Point(x: 600, y: 300)),
+            .quadraticBezierCurve(cp: Point(x: 800, y: 550), point: Point(x: 1000, y: 300)),
+        ])
+        
+        let primaryGroup = try XCTUnwrap(svg.groups?.first)
+        let primaryPoints = try XCTUnwrap(primaryGroup.circles)
+        XCTAssertEqual(primaryPoints.count, 3)
+        
+        let secondaryGroup = try XCTUnwrap(svg.groups?.last)
+        let secondaryPoints = try XCTUnwrap(secondaryGroup.circles)
+        XCTAssertEqual(secondaryPoints.count, 2)
     }
 }

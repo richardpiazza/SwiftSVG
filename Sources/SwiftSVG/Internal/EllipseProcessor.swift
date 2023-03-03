@@ -27,7 +27,7 @@ struct EllipseProcessor {
         x = circle.x
         y = circle.y
         rx = circle.r
-        ry = circle.y
+        ry = circle.r
     }
     
     func commands(clockwise: Bool) -> [Path.Command] {

@@ -42,7 +42,7 @@ class PathProcessor {
                     _command = nil
                     currentPoint = pathOrigin
                 default:
-                    try setupCommand(prefix: prefix)
+                    try setupCommand(prefix: prefix, lastCommand: _commands.last, currentPoint: currentPoint)
                 }
             } else if let _value = Double(component) {
                 let value = Double(_value)
@@ -81,17 +81,11 @@ class PathProcessor {
             }
         }
         
-        if case .closePath = _commands.last {
-            // Do Nothing
-        } else {
-            _commands.append(.closePath)
-        }
-        
         return _commands
     }
     
     /// Setup Command
-    private func setupCommand(prefix: Path.Command.Prefix) throws {
+    private func setupCommand(prefix: Path.Command.Prefix, lastCommand: Path.Command?, currentPoint: Point) throws {
         switch prefix {
         case .move:
             _command = .moveTo(point: .nan)
@@ -138,7 +132,7 @@ class PathProcessor {
         case .smoothCubicBezierCurve:
             _command = .cubicBezierCurve(cp1: currentPoint, cp2: .nan, point: .nan)
             positioning = .absolute
-            argumentPosition = 0
+            argumentPosition = 2
         case .relativeSmoothCubicBezierCurve:
             _command = .cubicBezierCurve(cp1: currentPoint, cp2: currentPoint, point: currentPoint)
             positioning = .relative
@@ -152,15 +146,13 @@ class PathProcessor {
             positioning = .relative
             argumentPosition = 0
         case .smoothQuadraticBezierCurve:
-            guard let command = _commands.last else {
-                throw Path.Command.Error.invalidRelativeCommand
+            if case .quadraticBezierCurve(let cp, _) = lastCommand {
+                _command = .quadraticBezierCurve(cp: cp.reflection(using: currentPoint), point: .nan)
+            } else {
+                _command = .quadraticBezierCurve(cp: currentPoint, point: .nan)
             }
-            guard let lastControlPoint = command.lastControlPoint else {
-                throw Path.Command.Error.invalidRelativeCommand
-            }
-            _command = .quadraticBezierCurve(cp: lastControlPoint, point: .nan)
             positioning = .absolute
-            argumentPosition = 0
+            argumentPosition = 2
         case .relativeSmoothQuadraticBezierCurve:
             guard let command = _commands.last else {
                 throw Path.Command.Error.invalidRelativeCommand
