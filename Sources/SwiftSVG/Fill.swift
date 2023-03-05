@@ -2,11 +2,15 @@ import Swift2D
 
 public struct Fill {
     
-    public var color: String?
-    public var opacity: Double?
+    public var color: String
+    public var opacity: Double
     public var rule: Rule = .nonZero
     
-    public init() {}
+    public init(color: String?, opacity: Double?, rule: Rule?) {
+        self.color = color ?? "black"
+        self.opacity = opacity ?? 1
+        self.rule = rule ?? .nonZero
+    }
     
     /// Presentation attribute defining the algorithm to use to determine the inside part of a shape.
     ///

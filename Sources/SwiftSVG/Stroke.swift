@@ -2,15 +2,20 @@ import Swift2D
 
 public struct Stroke {
     
-    public var color: String?
-    public var width: Double?
-    public var opacity: Double?
+    public var color: String
+    public var width: Double
+    public var opacity: Double
     public var lineCap: LineCap  = .butt
     public var lineJoin: LineJoin = .miter
-    public var miterLimit: Double?
+    public var miterLimit: Double
     
-    public init() {
-        
+    public init(color: String?, width: Double?, opacity: Double?, lineCap: LineCap?, lineJoin: LineJoin?, miterLimit: Double?) {
+        self.color = color ?? "black"
+        self.width = width ?? 1
+        self.opacity = opacity ?? 1
+        self.lineCap = lineCap ?? .butt
+        self.lineJoin = lineJoin ?? .miter
+        self.miterLimit = miterLimit ?? 4
     }
     
     /// Presentation attribute defining the shape to be used at the end of open subpaths when they are stroked.
