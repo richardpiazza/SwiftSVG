@@ -1,8 +1,8 @@
 import Swift2D
 
-public extension Path.Component {
+public extension Path {
     /// Utility used to construct a collection of `Path.Command` from a collection of `Path.Component`.
-    class Parser {
+    class ComponentParser {
         /// The command currently being built
         private var command: Path.Command?
         /// Coordinate system being used

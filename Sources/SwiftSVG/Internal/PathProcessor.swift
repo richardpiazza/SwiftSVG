@@ -1,5 +1,4 @@
 import Foundation
-import Swift2D
 
 struct PathProcessor {
     
@@ -10,8 +9,8 @@ struct PathProcessor {
     }
     
     func commands() throws -> [Path.Command] {
-        let components = Path.Component.components(from: data)
-        let parser = Path.Component.Parser()
+        let parser = Path.ComponentParser()
+        let components = try Path.Component.components(from: data)
         return try parser.parse(components)
     }
 }

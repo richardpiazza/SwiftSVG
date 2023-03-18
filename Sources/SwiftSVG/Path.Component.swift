@@ -7,7 +7,7 @@ public extension Path {
         case value(Double)
         
         /// Interprets a `Path` `data` attribute into individual `Component`s for command processing.
-        public static func components(from data: String) -> [Component] {
+        public static func components(from data: String) throws -> [Component] {
             var blocks: [String] = []
             var block: String = ""
             
@@ -89,6 +89,7 @@ public extension Path {
                     } else if let value = Double($0) {
                         return .value(value)
                     } else {
+                        // throw in the future?
                         return nil
                     }
                 }
