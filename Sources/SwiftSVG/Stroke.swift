@@ -17,6 +17,15 @@ public struct Stroke {
         self.lineJoin = lineJoin ?? .miter
         self.miterLimit = miterLimit ?? 4
     }
+
+    public init() {
+        self.init(color: nil,
+                  width: nil,
+                  opacity: nil,
+                  lineCap: nil,
+                  lineJoin: nil,
+                  miterLimit: nil)
+    }
     
     /// Presentation attribute defining the shape to be used at the end of open subpaths when they are stroked.
     ///

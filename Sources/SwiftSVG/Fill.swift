@@ -11,6 +11,12 @@ public struct Fill {
         self.opacity = opacity ?? 1
         self.rule = rule ?? .nonZero
     }
+
+    public init() {
+        self.init(color: nil,
+                  opacity: nil,
+                  rule: nil)
+    }
     
     /// Presentation attribute defining the algorithm to use to determine the inside part of a shape.
     ///
