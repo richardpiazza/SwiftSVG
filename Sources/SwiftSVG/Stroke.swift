@@ -1,21 +1,41 @@
 import Swift2D
 
 public struct Stroke {
-    
+    public struct Default {
+        public static let color = "none"
+        public static let width = 1.0
+        public static let opacity = 1.0
+        public static let lineCap = LineCap.butt
+        public static let lineJoin = LineJoin.miter
+        public static let miterLimit = 4.0
+    }
+
     public var color: String
     public var width: Double
     public var opacity: Double
-    public var lineCap: LineCap  = .butt
-    public var lineJoin: LineJoin = .miter
+    public var lineCap: LineCap
+    public var lineJoin: LineJoin
     public var miterLimit: Double
     
+    /// Initialize aggregate data related to a `Stroke`.
+    ///
+    /// Any supplied `nil` values are replaced with the corresponding value from `Stroke.Default`
+    ///
+    /// - parameters:
+    ///   - color: Name of or hexadecimal value used to color the stroke.
+    ///   - width: The width of the stroekd line.
+    ///   - opacity: The level of opaqueness given applied to the color.
+    ///   - rule: Algorithm used to determine the inside of the shape.
+    ///   - lineCap: The styling of the endpoints of the stroke.
+    ///   - lineJoin: The styling of the joining points of the stroke.
+    ///   - miterLimit: Threshold for controlling the length of the miter.
     public init(color: String?, width: Double?, opacity: Double?, lineCap: LineCap?, lineJoin: LineJoin?, miterLimit: Double?) {
-        self.color = color ?? "black"
-        self.width = width ?? 1
-        self.opacity = opacity ?? 1
-        self.lineCap = lineCap ?? .butt
-        self.lineJoin = lineJoin ?? .miter
-        self.miterLimit = miterLimit ?? 4
+        self.color = color ?? Stroke.Default.color
+        self.width = width ?? Stroke.Default.width
+        self.opacity = opacity ?? Stroke.Default.opacity
+        self.lineCap = lineCap ?? Stroke.Default.lineCap
+        self.lineJoin = lineJoin ?? Stroke.Default.lineJoin
+        self.miterLimit = miterLimit ?? Stroke.Default.miterLimit
     }
 
     public init() {
