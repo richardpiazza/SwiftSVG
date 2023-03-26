@@ -2,13 +2,9 @@
 
 A Swift SVG parsing library
 
-<p>
-  <img src="https://github.com/richardpiazza/SwiftSVG/workflows/Swift/badge.svg?branch=main" />
-  <img src="https://img.shields.io/badge/Swift-5.2-orange.svg" />
-  <a href="https://twitter.com/richardpiazza">
-    <img src="https://img.shields.io/badge/twitter-@richardpiazza-blue.svg?style=flat" alt="Twitter: @richardpiazza" />
-  </a>
-</p>
+![](https://github.com/richardpiazza/SwiftSVG/workflows/Swift/badge.svg?branch=main)
+[![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Frichardpiazza%2FSwiftSVG%2Fbadge%3Ftype%3Dplatforms)](https://swiftpackageindex.com/richardpiazza/SwiftSVG)
+[![](https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Frichardpiazza%2FSwiftSVG%2Fbadge%3Ftype%3Dswift-versions)](https://swiftpackageindex.com/richardpiazza/SwiftSVG)
 
 ## Usage
 
@@ -31,6 +27,16 @@ import SwiftSVG
 ```
 
 ## Features
+
+## Contributions
+
+Checkout
+
+* [Contributor Guide](https://github.com/richardpiazza/SwiftSVG/.github/blob/main/CONTRIBUTING.md)
+
+* [Code of Conduct](https://github.com/richardpiazza/SwiftSVG/.github/blob/main/CODE_OF_CONDUCT.md)
+
+* [Swift Style Guide](https://github.com/SwiftActions/.github/blob/main/SWIFT_STYLE_GUIDE.md)
 
 ## License
 
