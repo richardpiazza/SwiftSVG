@@ -34,43 +34,4 @@ extension Point {
     func adjusting(y value: Double) -> Point {
         return (y.isNaN) ? with(y: value) : with(y: y + value)
     }
-    
-    /// Determine the reflection
-    func reflection(using point: Point) -> Point {
-        if x < point.x {
-            let reflectionX = point.x + (point.x - x)
-            
-            if y < point.y {
-                let reflectionY = point.y + (point.y - y)
-                return Point(x: reflectionX, y: reflectionY)
-            } else if y > point.y {
-                let reflectionY = point.y - (y - point.y)
-                return Point(x: reflectionX, y: reflectionY)
-            }
-            
-            return Point(x: reflectionX, y: y)
-        } else if x > point.x {
-            let reflectionX = point.x - (x - point.x)
-            
-            if y < point.y {
-                let reflectionY = point.y + (point.y - y)
-                return Point(x: reflectionX, y: reflectionY)
-            } else if y > point.y {
-                let reflectionY = point.y - (y - point.y)
-                return Point(x: reflectionX, y: reflectionY)
-            }
-            
-            return Point(x: reflectionX, y: y)
-        }
-        
-        if y < point.y {
-            let reflectionY = point.y + (point.y - y)
-            return Point(x: x, y: reflectionY)
-        } else if y > point.y {
-            let reflectionY = point.y - (y - point.y)
-            return Point(x: x, y: reflectionY)
-        }
-        
-        return Point(x: x, y: y)
-    }
 }
