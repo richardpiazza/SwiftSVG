@@ -79,11 +79,19 @@ public extension Path {
                 command = .cubicBezierCurve(cp1: currentPoint, cp2: currentPoint, point: currentPoint)
                 coordinates = .relative
             case .smoothCubicBezierCurve:
-                command = .cubicBezierCurve(cp1: currentPoint, cp2: .nan, point: .nan)
+                if case .cubicBezierCurve(_, let cp, _) = lastCommand {
+                    command = .cubicBezierCurve(cp1: cp.reflection(using: currentPoint), cp2: .nan, point: .nan)
+                } else {
+                    command = .cubicBezierCurve(cp1: currentPoint, cp2: .nan, point: .nan)
+                }
                 coordinates = .absolute
                 position = 2
             case .relativeSmoothCubicBezierCurve:
-                command = .cubicBezierCurve(cp1: currentPoint, cp2: currentPoint, point: currentPoint)
+                if case .cubicBezierCurve(_, let cp, _) = lastCommand {
+                    command = .cubicBezierCurve(cp1: cp.reflection(using: cp.reflection(using: currentPoint)), cp2: currentPoint, point: currentPoint)
+                } else {
+                    command = .cubicBezierCurve(cp1: currentPoint, cp2: currentPoint, point: currentPoint)
+                }
                 coordinates = .relative
                 position = 2
             case .quadraticBezierCurve:
@@ -102,9 +110,9 @@ public extension Path {
                 position = 2
             case .relativeSmoothQuadraticBezierCurve:
                 if case .quadraticBezierCurve(let cp, _) = lastCommand {
-                    command = .quadraticBezierCurve(cp: cp.reflection(using: currentPoint), point: .nan)
+                    command = .quadraticBezierCurve(cp: cp.reflection(using: currentPoint), point: currentPoint)
                 } else {
-                    command = .quadraticBezierCurve(cp: currentPoint, point: .nan)
+                    command = .quadraticBezierCurve(cp: currentPoint, point: currentPoint)
                 }
                 coordinates = .relative
                 position = 2
