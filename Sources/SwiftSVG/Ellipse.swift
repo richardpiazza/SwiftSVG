@@ -66,7 +66,7 @@ public struct Ellipse: Element {
     
     // MARK: - CustomStringConvertible
     public var description: String {
-        let desc = "<ellipse cx=\"\(x)\" cy=\"\(y)\" rx=\"\(rx)\", ry=\"\(ry)\""
+        let desc = "<ellipse cx=\"\(x)\" cy=\"\(y)\" rx=\"\(rx)\" ry=\"\(ry)\""
         return desc + " \(attributeDescription) />"
     }
 }
