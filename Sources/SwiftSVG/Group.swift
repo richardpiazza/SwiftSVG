@@ -23,7 +23,9 @@ public struct Group: Container, Element {
     
     // CoreAttributes
     public var id: String?
-    
+    public var title: String?
+    public var desc: String?
+
     // PresentationAttributes
     public var fillColor: String?
     public var fillOpacity: Double?
@@ -50,6 +52,8 @@ public struct Group: Container, Element {
         case rectangles = "rect"
         case texts = "text"
         case id
+        case title
+        case desc
         case fillColor = "fill"
         case fillOpacity = "fill-opacity"
         case fillRule = "fill-rule"
@@ -68,7 +72,19 @@ public struct Group: Container, Element {
     
     // MARK: - CustomStringConvertible
     public var description: String {
-        return "<g \(attributeDescription) >\(containerDescription)\n</g>"
+        var contents: String = ""
+
+        if let title = self.title {
+            contents.append("\n<title>\(title)</title>")
+        }
+
+        if let desc = self.desc {
+            contents.append("\n<desc>\(desc)</desc>")
+        }
+
+        contents.append(containerDescription)
+
+        return "<g \(attributeDescription) >\(contents)\n</g>"
     }
 }
 
