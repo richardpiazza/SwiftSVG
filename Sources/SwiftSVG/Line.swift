@@ -66,7 +66,7 @@ public struct Line: Element {
     
     // MARK: - CustomStringConvertible
     public var description: String {
-        let desc = "<line x1=\"\(x1)\", y1=\"\(y1)\", x2=\"\(x2)\", y2=\"\(y2)\""
+        let desc = "<line x1=\"\(x1)\" y1=\"\(y1)\" x2=\"\(x2)\" y2=\"\(y2)\""
         return desc + " \(attributeDescription) />"
     }
 }
