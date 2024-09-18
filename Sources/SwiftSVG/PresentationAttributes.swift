@@ -80,10 +80,9 @@ public extension PresentationAttributes {
                 return nil
             }
             
-            var fill = Fill()
-            fill.color = fillColor ?? "black"
-            fill.opacity = fillOpacity ?? 1.0
-            return fill
+            return Fill(color: fillColor,
+                        opacity: fillOpacity,
+                        rule: fillRule)
         }
         set {
             fillColor = newValue?.color
@@ -98,14 +97,12 @@ public extension PresentationAttributes {
                 return nil
             }
             
-            var stroke = Stroke()
-            stroke.color = strokeColor ?? "black"
-            stroke.opacity = strokeOpacity ?? 1.0
-            stroke.width = strokeWidth ?? 1.0
-            stroke.lineCap = strokeLineCap ?? .butt
-            stroke.lineJoin = strokeLineJoin ?? .miter
-            stroke.miterLimit = strokeMiterLimit
-            return stroke
+            return Stroke(color: strokeColor,
+                          width: strokeWidth,
+                          opacity: strokeOpacity,
+                          lineCap: strokeLineCap,
+                          lineJoin: strokeLineJoin,
+                          miterLimit: strokeMiterLimit)
         }
         set {
             strokeColor = newValue?.color
