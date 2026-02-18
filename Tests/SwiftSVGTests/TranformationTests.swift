@@ -1,143 +1,127 @@
 import Swift2D
-import XCTest
 @testable import SwiftSVG
+import Testing
 
-final class TransformationTests: XCTestCase {
-    
-    func testTranslateInitialization() {
+struct TransformationTests {
+
+    @Test func translateInitialization() throws {
         var input: String = "translate(0.000000, 39.000000)"
-        var transformation: Transformation? = Transformation(input)
-        
-        XCTAssertNotNil(transformation)
+        var transformation: Transformation = try #require(Transformation(input))
+
         if case let .translate(x, y) = transformation {
-            XCTAssertEqual(x, 0.0, accuracy: 0.00001)
-            XCTAssertEqual(y, 39.0, accuracy: 0.00001)
+            #expect(x == 0.0) // , accuracy: 0.00001
+            #expect(y == 39.0) // , accuracy: 0.00001
         } else {
-            XCTFail()
-            return
+            Issue.record("Unexpected Case")
         }
         
         input = "translate(0.0 39.0)"
-        transformation = Transformation(input)
-        
-        XCTAssertNotNil(transformation)
+        transformation = try #require(Transformation(input))
+
         if case let .translate(x, y) = transformation {
-            XCTAssertEqual(x, 0.0, accuracy: 0.00001)
-            XCTAssertEqual(y, 39.0, accuracy: 0.00001)
+            #expect(x == 0.0) // , accuracy: 0.00001
+            #expect(y == 39.0) // , accuracy: 0.00001
         } else {
-            XCTFail()
-            return
+            Issue.record("Unexpected Case")
         }
         
         input = "TRANSLATE(0.0,39.0)"
-        transformation = Transformation(input)
-        
-        XCTAssertNotNil(transformation)
+        transformation = try #require(Transformation(input))
+
         if case let .translate(x, y) = transformation {
-            XCTAssertEqual(x, 0.0, accuracy: 0.00001)
-            XCTAssertEqual(y, 39.0, accuracy: 0.00001)
+            #expect(x == 0.0) // , accuracy: 0.00001
+            #expect(y == 39.0) // , accuracy: 0.00001
         } else {
-            XCTFail()
-            return
+            Issue.record("Unexpected Case")
         }
     }
     
-    func testMatrixInitialization() {
+    @Test func matrixInitialization() throws {
         var input: String = "matrix(1 0 0 1 1449.84 322)"
-        var transformation: Transformation? = Transformation(input)
-        
-        XCTAssertNotNil(transformation)
+        var transformation: Transformation = try #require(Transformation(input))
+
         if case let .matrix(a, b, c, d, e, f) = transformation {
-            XCTAssertEqual(a, 1.0, accuracy: 0.00001)
-            XCTAssertEqual(b, 0.0, accuracy: 0.00001)
-            XCTAssertEqual(c, 0.0, accuracy: 0.00001)
-            XCTAssertEqual(d, 1.0, accuracy: 0.00001)
-            XCTAssertEqual(e, 1449.84, accuracy: 0.001)
-            XCTAssertEqual(f, 322.0, accuracy: 0.00001)
+            #expect(a == 1.0) // , accuracy: 0.00001
+            #expect(b == 0.0) // , accuracy: 0.00001
+            #expect(c == 0.0) // , accuracy: 0.00001
+            #expect(d == 1.0) // , accuracy: 0.00001
+            #expect(e == 1449.84) // , accuracy: 0.001
+            #expect(f == 322.0) // , accuracy: 0.00001
         } else {
-            XCTFail()
-            return
+            Issue.record("Unexpected Case")
         }
         
         input = "matrix(1, 0, 0, 1, 1449.84, 322)"
-        transformation = Transformation(input)
-        
-        XCTAssertNotNil(transformation)
+        transformation = try #require(Transformation(input))
+
         if case let .matrix(a, b, c, d, e, f) = transformation {
-            XCTAssertEqual(a, 1.0, accuracy: 0.00001)
-            XCTAssertEqual(b, 0.0, accuracy: 0.00001)
-            XCTAssertEqual(c, 0.0, accuracy: 0.00001)
-            XCTAssertEqual(d, 1.0, accuracy: 0.00001)
-            XCTAssertEqual(e, 1449.84, accuracy: 0.001)
-            XCTAssertEqual(f, 322.0, accuracy: 0.00001)
+            #expect(a == 1.0) // , accuracy: 0.00001
+            #expect(b == 0.0) // , accuracy: 0.00001
+            #expect(c == 0.0) // , accuracy: 0.00001
+            #expect(d == 1.0) // , accuracy: 0.00001
+            #expect(e == 1449.84) // 4, accuracy: 0.001
+            #expect(f == 322.0) // , accuracy: 0.00001
         } else {
-            XCTFail()
-            return
+            Issue.record("Unexpected Case")
         }
         
         input = "MATRIX(1,0,0,1,1449.84,322)"
-        transformation = Transformation(input)
-        
-        XCTAssertNotNil(transformation)
+        transformation = try #require(Transformation(input))
+
         if case let .matrix(a, b, c, d, e, f) = transformation {
-            XCTAssertEqual(a, 1.0, accuracy: 0.00001)
-            XCTAssertEqual(b, 0.0, accuracy: 0.00001)
-            XCTAssertEqual(c, 0.0, accuracy: 0.00001)
-            XCTAssertEqual(d, 1.0, accuracy: 0.00001)
-            XCTAssertEqual(e, 1449.84, accuracy: 0.001)
-            XCTAssertEqual(f, 322.0, accuracy: 0.00001)
+            #expect(a == 1.0) // , accuracy: 0.00001
+            #expect(b == 0.0) // , accuracy: 0.00001
+            #expect(c == 0.0) // , accuracy: 0.00001
+            #expect(d == 1.0) // , accuracy: 0.00001
+            #expect(e == 1449.84) // , accuracy: 0.001
+            #expect(f == 322.0) // , accuracy: 0.00001
         } else {
-            XCTFail()
-            return
+            Issue.record("Unexpected Case")
         }
     }
     
-    func testCommandTransformation() throws {
+    @Test func commandTransformation() throws {
         let translate = Transformation.translate(x: 25.0, y: 75.0)
         var command: Path.Command
         var result: Path.Command
         
-        command = .moveTo(point: .init(x: 50.0, y: 50.0))
+        command = .moveTo(point: Point(x: 50.0, y: 50.0))
         result = command.applying(transformation: translate)
         
         if case let .moveTo(point) = result {
-            XCTAssertEqual(point, .init(x: 75.0, y: 125.0))
+            #expect(point == Point(x: 75.0, y: 125.0))
         } else {
-            XCTFail()
-            return
+            Issue.record("Unexpected Case")
         }
         
-        command = .lineTo(point: .init(x: -60.0, y: 120.0))
+        command = .lineTo(point: Point(x: -60.0, y: 120.0))
         result = command.applying(transformation: translate)
         
         if case let .lineTo(point) = result {
-            XCTAssertEqual(point, .init(x: -35.0, y: 195.0))
+            #expect(point == Point(x: -35.0, y: 195.0))
         } else {
-            XCTFail()
-            return
+            Issue.record("Unexpected Case")
         }
         
-        command = .cubicBezierCurve(cp1: .init(x: -20.0, y: -40.0), cp2: .init(x: 18.0, y: 94.0), point: .init(x: 20.0, y: 20.0))
+        command = .cubicBezierCurve(cp1: Point(x: -20.0, y: -40.0), cp2: Point(x: 18.0, y: 94.0), point: Point(x: 20.0, y: 20.0))
         result = command.applying(transformation: translate)
         
         if case let .cubicBezierCurve(cp1, cp2, point) = result {
-            XCTAssertEqual(cp1, .init(x: 5.0, y: 35.0))
-            XCTAssertEqual(cp2, .init(x: 43.0, y: 169.0))
-            XCTAssertEqual(point, .init(x: 45.0, y: 95.0))
+            #expect(cp1 == Point(x: 5.0, y: 35.0))
+            #expect(cp2 == Point(x: 43.0, y: 169.0))
+            #expect(point == Point(x: 45.0, y: 95.0))
         } else {
-            XCTFail()
-            return
+            Issue.record("Unexpected Case")
         }
         
-        command = .quadraticBezierCurve(cp: .init(x: 100.0, y: 50.0), point: .zero)
+        command = .quadraticBezierCurve(cp: Point(x: 100.0, y: 50.0), point: .zero)
         result = command.applying(transformation: translate)
         
         if case let .quadraticBezierCurve(cp, point) = result {
-            XCTAssertEqual(cp, .init(x: 125.0, y: 125.0))
-            XCTAssertEqual(point, .init(x: 25.0, y: 75.0))
+            #expect(cp == Point(x: 125.0, y: 125.0))
+            #expect(point == Point(x: 25.0, y: 75.0))
         } else {
-            XCTFail()
-            return
+            Issue.record("Unexpected Case")
         }
         
         command = .closePath
@@ -145,8 +129,7 @@ final class TransformationTests: XCTestCase {
         
         if case .closePath = result {
         } else {
-            XCTFail()
-            return
+            Issue.record("Unexpected Case")
         }
     }
 }
