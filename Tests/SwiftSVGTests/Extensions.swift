@@ -1,4 +1,4 @@
-import XCTest
+import Foundation
 import Swift2D
 @testable import SwiftSVG
 
@@ -9,23 +9,6 @@ extension Bundle {
 infix operator ~~
 public protocol RoughEquatability {
     static func ~~ (lhs: Self, rhs: Self) -> Bool
-}
-
-public func XCTAssertRoughlyEqual<T>(_ expression1: @autoclosure () throws -> T, _ expression2: @autoclosure () throws -> T, _ message: @autoclosure () -> String = "", file: StaticString = #filePath, line: UInt = #line) where T : RoughEquatability {
-    let lhs: T
-    let rhs: T
-    do {
-        lhs = try expression1()
-        rhs = try expression2()
-    } catch {
-        XCTFail(error.localizedDescription, file: file, line: line)
-        return
-    }
-    
-    guard lhs ~~ rhs else {
-        XCTFail(message(), file: file, line: line)
-        return
-    }
 }
 
 public extension Path.Command {

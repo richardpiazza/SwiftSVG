@@ -22,6 +22,7 @@ let package = Package(
     dependencies: [
         // Dependencies declare other packages that this package depends on.
         // .package(url: /* package url */, from: "1.0.0"),
+        .package(url: "https://github.com/swiftlang/swift-testing.git", from: "6.2.0"),
         .package(url: "https://github.com/CoreOffice/XMLCoder.git", from: "0.18.0"),
         .package(url: "https://github.com/richardpiazza/Swift2D.git", from: "2.2.1"),
     ],
@@ -31,14 +32,15 @@ let package = Package(
         .target(
             name: "SwiftSVG",
             dependencies: [
-                "XMLCoder",
-                "Swift2D"
+                .product(name: "XMLCoder", package: "XMLCoder"),
+                .product(name: "Swift2D", package: "Swift2D"),
             ]
         ),
         .testTarget(
             name: "SwiftSVGTests",
             dependencies: [
-                "SwiftSVG"
+                "SwiftSVG",
+                .product(name: "Testing", package: "swift-testing"),
             ],
             resources: [
                 .process("Resources")

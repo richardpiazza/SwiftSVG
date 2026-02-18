@@ -1,10 +1,11 @@
-import XCTest
+import Foundation
 import Swift2D
 @testable import SwiftSVG
+import Testing
 
-final class SVGTests: XCTestCase {
-    
-    func testSimpleDecode() throws {
+struct SVGTests {
+
+    @Test func simpleDecode() throws {
         let doc = """
         <?xml version="1.0" encoding="UTF-8"?>
         <svg width="1024px" height="1024px" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1">
@@ -12,18 +13,18 @@ final class SVGTests: XCTestCase {
         </svg>
         """
         
-        let data = try XCTUnwrap(doc.data(using: .utf8))
+        let data = try #require(doc.data(using: .utf8))
         let svg = try SVG.make(with: data)
         
-        XCTAssertEqual(svg.outputSize, Size(width: 1024, height: 1024))
-        let path = try XCTUnwrap(svg.paths?.first)
-        XCTAssertEqual(path.id, "Padlock")
-        XCTAssertFalse(path.data.isEmpty)
+        #expect(svg.outputSize == Size(width: 1024, height: 1024))
+        let path = try #require(svg.paths?.first)
+        #expect(path.id == "Padlock")
+        #expect(!path.data.isEmpty)
         let description = path.description
-        XCTAssertTrue(description.hasPrefix("<path"))
+        #expect(description.hasPrefix("<path"))
     }
     
-    func testDecode() throws {
+    @Test func decode() throws {
         let doc = """
         <svg xmlns="http://www.w3.org/2000/svg" width="2500" height="2500" viewBox="0 0 192.756 192.756">
             <g fill-rule="evenodd" clip-rule="evenodd">
@@ -37,30 +38,30 @@ final class SVGTests: XCTestCase {
         </svg>
         """
         
-        let data = try XCTUnwrap(doc.data(using: .utf8))
+        let data = try #require(doc.data(using: .utf8))
         let svg = try SVG.make(with: data)
-        XCTAssertEqual(svg.outputSize, Size(width: 2500, height: 2500))
+        #expect(svg.outputSize == Size(width: 2500, height: 2500))
     }
     
-    func testQuad01Decode() throws {
-        let url = try XCTUnwrap(Bundle.swiftSVGTests.url(forResource: "quad01", withExtension: "svg"))
+    @Test func quad01Decode() throws {
+        let url = try #require(Bundle.swiftSVGTests.url(forResource: "quad01", withExtension: "svg"))
         let data = try Data(contentsOf: url)
         let svg = try SVG.make(with: data)
-        let path = try XCTUnwrap(svg.paths?.first)
-        XCTAssertEqual(path.data, "M200,300 Q400,50 600,300 T1000,300")
+        let path = try #require(svg.paths?.first)
+        #expect(path.data == "M200,300 Q400,50 600,300 T1000,300")
         let commands = try path.commands()
-        XCTAssertEqual(commands, [
+        #expect(commands == [
             .moveTo(point: Point(x: 200, y: 300)),
             .quadraticBezierCurve(cp: Point(x: 400, y: 50), point: Point(x: 600, y: 300)),
             .quadraticBezierCurve(cp: Point(x: 800, y: 550), point: Point(x: 1000, y: 300)),
         ])
         
-        let primaryGroup = try XCTUnwrap(svg.groups?.first)
-        let primaryPoints = try XCTUnwrap(primaryGroup.circles)
-        XCTAssertEqual(primaryPoints.count, 3)
-        
-        let secondaryGroup = try XCTUnwrap(svg.groups?.last)
-        let secondaryPoints = try XCTUnwrap(secondaryGroup.circles)
-        XCTAssertEqual(secondaryPoints.count, 2)
+        let primaryGroup = try #require(svg.groups?.first)
+        let primaryPoints = try #require(primaryGroup.circles)
+        #expect(primaryPoints.count == 3)
+
+        let secondaryGroup = try #require(svg.groups?.last)
+        let secondaryPoints = try #require(secondaryGroup.circles)
+        #expect(secondaryPoints.count == 2)
     }
 }

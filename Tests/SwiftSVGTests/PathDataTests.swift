@@ -1,9 +1,10 @@
-import XCTest
+import Foundation
 @testable import SwiftSVG
+import Testing
 
-final class PathDataTests: XCTestCase {
-    
-    func testDataFormatAppleSymbols() throws {
+struct PathDataTests {
+
+    @Test func dataFormatAppleSymbols() throws {
         let pathData = "M 11.709 2.91016 C 17.1582 2.91016 21.6699 -1.60156 21.6699 -7.05078 " +
         "C 21.6699 -12.4902 17.1484 -17.0117 11.6992 -17.0117 C 6.25977 -17.0117 1.74805 -12.4902 1.74805 -7.05078 " +
         "C 1.74805 -1.60156 6.26953 2.91016 11.709 2.91016 Z M 11.709 1.25 C 7.09961 1.25 3.41797 -2.44141 3.41797 -7.05078 " +
@@ -18,12 +19,12 @@ final class PathDataTests: XCTestCase {
         
         let path = Path(data: pathData)
         let commands = try path.commands()
-        XCTAssertEqual(commands.count, 30)
-        XCTAssertEqual(commands.filter({ $0.hasPrefix(.move) }).count, 3)
-        XCTAssertEqual(commands.filter({ $0.hasPrefix(.close) }).count, 3)
+        #expect(commands.count == 30)
+        #expect(commands.filter({ $0.hasPrefix(.move) }).count == 3)
+        #expect(commands.filter({ $0.hasPrefix(.close) }).count == 3)
     }
     
-    func testDataFormatPixelmatorPro() throws {
+    @Test func dataFormatPixelmatorPro() throws {
         let pathData = "M96.083 307 C82.23 307 71 295.77 71 281.917 L71 145.75 C71 131.899 82.23 120.667 96.083 120.667 " +
         "96.083 120.667 109.056 120.667 128.522 120.667 128.522 92.001 151.578 92 155.425 92 185.826 92 210.976 92.056 243.595 92.056 " +
         "252.61 92.056 271.87 95.585 271.87 120.667 291.116 120.667 303.916 120.667 303.916 120.667 317.768 120.667 329 131.899 329 145.75 " +
@@ -34,12 +35,12 @@ final class PathDataTests: XCTestCase {
         
         let path = Path(data: pathData)
         let commands = try path.commands()
-        XCTAssertEqual(commands.count, 26)
-        XCTAssertEqual(commands.filter({ $0.hasPrefix(.move) }).count, 3)
-        XCTAssertEqual(commands.filter({ $0.hasPrefix(.close) }).count, 3)
+        #expect(commands.count == 26)
+        #expect(commands.filter({ $0.hasPrefix(.move) }).count == 3)
+        #expect(commands.filter({ $0.hasPrefix(.close) }).count == 3)
     }
     
-    func testDataFormatSketch() throws {
+    @Test func dataFormatSketch() throws {
         let pathData = "M22,40.333 C11.875,40.333 3.667,32.125 3.667,22 C3.667,21.988 3.668,21.976 3.668,21.964 " +
         "L14.481,21.964 L19.74,34.229 L25.544,18.92 L27.31,21.964 L33,21.964 C34.013,21.964 34.833,21.143 34.833,20.131 " +
         "C34.833,19.118 34.013,18.297 33,18.297 L29.422,18.297 L24.849,10.413 L19.531,24.437 L16.898,18.297 " +
@@ -49,12 +50,12 @@ final class PathDataTests: XCTestCase {
         
         let path = Path(data: pathData)
         let commands = try path.commands()
-        XCTAssertEqual(commands.count, 23)
-        XCTAssertEqual(commands.filter({ $0.hasPrefix(.move) }).count, 2)
-        XCTAssertEqual(commands.filter({ $0.hasPrefix(.close) }).count, 0)
+        #expect(commands.count == 23)
+        #expect(commands.filter({ $0.hasPrefix(.move) }).count == 2)
+        #expect(commands.filter({ $0.hasPrefix(.close) }).count == 0)
     }
     
-    func testRelativePath() throws {
+    @Test func relativePath() throws {
         let absolute = "M217.074 360.93 C145.835 360.93 88.022 303.209 88.022 231.958 88.022 160.578 145.835 102.899 217.074 102.899 288.375 102.899 346.116 160.578 346.116 231.958 346.116 303.209 288.375 360.93 217.074 360.93 M217.074 38.459 C110.278 38.459 23.675 125.084 23.675 231.958 23.675 338.75 110.278 425.348 217.074 425.348 323.916 425.348 410.655 338.75 410.655 231.958 410.655 125.084 323.916 38.459 217.074 38.459 Z"
         let relative = "M217.074,360.93c-71.239,0-129.052-57.721-129.052-128.972c0-71.38,57.813-129.059,129.052-129.059c71.301,0,129.042,57.679,129.042,129.059C346.116,303.209,288.375,360.93,217.074,360.93 M217.074,38.459c-106.796,0-193.399,86.625-193.399,193.499c0,106.792,86.603,193.39,193.399,193.39c106.842,0,193.581-86.598,193.581-193.39C410.655,125.084,323.916,38.459,217.074,38.459z"
         
@@ -64,14 +65,14 @@ final class PathDataTests: XCTestCase {
         let absoluteCommands = try absolutePath.commands()
         let relativeCommands = try relativePath.commands()
         
-        XCTAssertEqual(absoluteCommands.count, relativeCommands.count)
-        
+        #expect(absoluteCommands.count == relativeCommands.count)
+
         for i in 0..<absoluteCommands.count {
-            XCTAssertRoughlyEqual(absoluteCommands[i], relativeCommands[i])
+            #expect(absoluteCommands[i] ~~ relativeCommands[i])
         }
     }
     
-    func testCompareFormats() throws {
+    @Test func compareFormats() throws {
         let sketchFormat = "M49.231,365 C49.231,365 42.771,306.868 98.187,294.192 C153.604,281.515 170.121,279.704 173.864,267.482 " +
         "C177.606,255.26 178.315,231.869 178.315,231.869 C178.315,231.869 160.526,215.862 152.719,195.979 " +
         "C144.912,176.095 142.703,164.818 142.703,164.818 C142.703,164.818 136.176,163.653 133.939,152.019 " +
@@ -113,62 +114,64 @@ final class PathDataTests: XCTestCase {
         let appleSymbolsCommands = try appleSymbolsPath.commands()
         let pixelmatorCommands = try pixelmatorPath.commands()
         
-        XCTAssertEqual(sketchCommands.count, appleSymbolsCommands.count)
-        XCTAssertEqual(appleSymbolsCommands.count, pixelmatorCommands.count)
-        XCTAssertEqual(pixelmatorCommands.count, sketchCommands.count)
-        
+        #expect(sketchCommands.count == appleSymbolsCommands.count)
+        #expect(appleSymbolsCommands.count == pixelmatorCommands.count)
+        #expect(pixelmatorCommands.count == sketchCommands.count)
+
         for i in 0..<sketchCommands.count {
-            XCTAssertRoughlyEqual(sketchCommands[i], appleSymbolsCommands[i])
-            XCTAssertRoughlyEqual(appleSymbolsCommands[i], pixelmatorCommands[i])
-            XCTAssertRoughlyEqual(pixelmatorCommands[i], sketchCommands[i])
+            #expect(sketchCommands[i] == appleSymbolsCommands[i])
+            #expect(appleSymbolsCommands[i] == pixelmatorCommands[i])
+            #expect(pixelmatorCommands[i] == sketchCommands[i])
         }
     }
     
-    func testSingleValueProcessing() throws {
+    @Test func singleValueProcessing() throws {
         let data = "M170.488 118.443h-.537v2.368h.322v-1.936l.752 1.936h.43l.645-1.936v1.936h.429v-2.368h-.644l-.645 1.83-.752-1.83z"
         
         let path = Path(data: data)
         let commands = try path.commands()
         commands.forEach({ print($0) })
-        XCTAssertEqual(commands.count, 15)
+        #expect(commands.count == 15)
     }
     
-//    func testRelativeToAbsolute() throws {
-//        let relative = """
-//        <svg width="2500" height="1055" viewBox="0 0 256 108" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMin meet"><path d="M152.984 37.214c-5.597 0-9.765 2.748-9.765 9.362 0 4.983 2.747 8.443 9.463 8.443 5.693 0 9.56-3.355 9.56-8.65 0-6-3.46-9.155-9.258-9.155zm-11.19 46.701c-1.325 1.625-2.645 3.353-2.645 5.39 0 4.067 5.186 5.291 12.31 5.291 5.9 0 13.938-.414 13.938-5.9 0-3.261-3.867-3.462-8.753-3.768l-14.85-1.013zm30.113-46.394c1.828 2.34 3.764 5.597 3.764 10.276 0 11.292-8.851 17.904-21.667 17.904-3.259 0-6.209-.406-8.038-.914l-3.359 5.39 9.969.61c17.602 1.122 27.975 1.632 27.975 15.157 0 11.702-10.272 18.311-27.975 18.311-18.413 0-25.433-4.68-25.433-12.716 0-4.578 2.035-7.015 5.596-10.378-3.358-1.419-4.476-3.961-4.476-6.71 0-2.24 1.118-4.273 2.952-6.208 1.83-1.93 3.864-3.865 6.306-6.103-4.984-2.442-8.75-7.732-8.75-15.262 0-11.697 7.733-19.731 23.295-19.731 4.376 0 7.022.402 9.362 1.017h19.84v8.644l-9.361.713zM199.166 19.034c-5.8 0-9.157-3.36-9.157-9.161 0-5.793 3.356-8.95 9.157-8.95 5.9 0 9.258 3.157 9.258 8.95 0 5.801-3.357 9.161-9.258 9.161zM186.04 80.171v-8.033l5.19-.71c1.425-.205 1.627-.509 1.627-2.038V39.48c0-1.116-.304-1.832-1.325-2.134l-5.492-1.935 1.118-8.238h21.061V69.39c0 1.63.098 1.833 1.629 2.039l5.188.71v8.032H186.04zM255.267 76.227c-4.376 2.135-10.785 4.068-16.586 4.068-12.106 0-16.682-4.878-16.682-16.38V37.264c0-.61 0-1.017-.817-1.017h-7.12V27.19c8.955-1.02 12.513-5.496 13.632-16.585h9.666v14.45c0 .71 0 1.017.815 1.017h14.343v10.173H237.36v24.313c0 6.002 1.426 8.34 6.917 8.34 2.852 0 5.799-.71 8.24-1.626l2.75 8.954" fill="#2F2707"/></svg>
-//        """
-//
-//        let absolute = """
-//        <?xml version="1.0" encoding="UTF-8"?>
-//        <svg width="256px" height="108px" viewBox="0 0 256 108" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1">
-//         <!-- Generated by Pixelmator Pro 1.6.4 -->
-//         <path id="Path" d="M152.984 37.214 C147.387 37.214 143.219 39.962 143.219 46.576 143.219 51.559 145.966 55.019 152.682 55.019 158.375 55.019 162.242 51.664 162.242 46.369 162.242 40.369 158.782 37.214 152.984 37.214 Z M141.794 83.915 C140.469 85.54 139.149 87.268 139.149 89.305 139.149 93.372 144.335 94.596 151.459 94.596 157.359 94.596 165.397 94.182 165.397 88.696 165.397 85.435 161.53 85.234 156.644 84.928 Z M171.907 37.521 C173.735 39.861 175.671 43.118 175.671 47.797 175.671 59.089 166.82 65.701 154.004 65.701 150.745 65.701 147.795 65.295 145.966 64.787 L142.607 70.177 152.576 70.787 C170.178 71.909 180.551 72.419 180.551 85.944 180.551 97.646 170.279 104.255 152.576 104.255 134.163 104.255 127.143 99.575 127.143 91.539 127.143 86.961 129.178 84.524 132.739 81.161 129.381 79.742 128.263 77.2 128.263 74.451 128.263 72.211 129.381 70.178 131.215 68.243 133.045 66.313 135.079 64.378 137.521 62.14 132.537 59.698 128.771 54.408 128.771 46.878 128.771 35.181 136.504 27.147 152.066 27.147 156.442 27.147 159.088 27.549 161.428 28.164 L181.268 28.164 181.268 36.808 Z M199.166 19.034 C193.366 19.034 190.009 15.674 190.009 9.873 190.009 4.08 193.365 0.923 199.166 0.923 205.066 0.923 208.424 4.08 208.424 9.873 208.424 15.674 205.067 19.034 199.166 19.034 Z M186.04 80.171 L186.04 72.138 191.23 71.428 C192.655 71.223 192.857 70.919 192.857 69.39 L192.857 39.48 C192.857 38.364 192.553 37.648 191.532 37.346 L186.04 35.411 187.158 27.173 208.219 27.173 208.219 69.39 C208.219 71.02 208.317 71.223 209.848 71.429 L215.036 72.139 215.036 80.171 Z M255.267 76.227 C250.891 78.362 244.482 80.295 238.681 80.295 226.575 80.295 221.999 75.417 221.999 63.915 L221.999 37.264 C221.999 36.654 221.999 36.247 221.182 36.247 L214.062 36.247 214.062 27.19 C223.017 26.17 226.575 21.694 227.694 10.605 L237.36 10.605 237.36 25.055 C237.36 25.765 237.36 26.072 238.175 26.072 L252.518 26.072 252.518 36.245 237.36 36.245 237.36 60.558 C237.36 66.56 238.786 68.898 244.277 68.898 247.129 68.898 250.076 68.188 252.517 67.272 L255.267 76.226" fill="#2f2707" fill-opacity="1" stroke="none"/>
-//        </svg>
-//        """
-//
-//        let relativeData = try XCTUnwrap(relative.data(using: .utf8))
-//        let relativeSVG = try SVG.make(with: relativeData)
-//        let relativeCommands = try XCTUnwrap(relativeSVG.paths?.first?.commands())
-//
-//        let absoluteData = try XCTUnwrap(absolute.data(using: .utf8))
-//        let absoluteSVG = try SVG.make(with: absoluteData)
-//        let absoluteCommands = try XCTUnwrap(absoluteSVG.paths?.first?.commands())
-//
-//        for i in 0...68 {
-//            let lhs = relativeCommands[i]
-//            let rhs = absoluteCommands[i]
-//            print("""
-//
-//            Relative: \(lhs)
-//            Absolute: \(rhs)
-//
-//            """)
-//        }
-//
-//        XCTAssertRoughlyEqual(relativeCommands, absoluteCommands)
-//    }
+    @Test func relativeToAbsolute() throws {
+        withKnownIssue {
+            let relative = """
+            <svg width="2500" height="1055" viewBox="0 0 256 108" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMin meet"><path d="M152.984 37.214c-5.597 0-9.765 2.748-9.765 9.362 0 4.983 2.747 8.443 9.463 8.443 5.693 0 9.56-3.355 9.56-8.65 0-6-3.46-9.155-9.258-9.155zm-11.19 46.701c-1.325 1.625-2.645 3.353-2.645 5.39 0 4.067 5.186 5.291 12.31 5.291 5.9 0 13.938-.414 13.938-5.9 0-3.261-3.867-3.462-8.753-3.768l-14.85-1.013zm30.113-46.394c1.828 2.34 3.764 5.597 3.764 10.276 0 11.292-8.851 17.904-21.667 17.904-3.259 0-6.209-.406-8.038-.914l-3.359 5.39 9.969.61c17.602 1.122 27.975 1.632 27.975 15.157 0 11.702-10.272 18.311-27.975 18.311-18.413 0-25.433-4.68-25.433-12.716 0-4.578 2.035-7.015 5.596-10.378-3.358-1.419-4.476-3.961-4.476-6.71 0-2.24 1.118-4.273 2.952-6.208 1.83-1.93 3.864-3.865 6.306-6.103-4.984-2.442-8.75-7.732-8.75-15.262 0-11.697 7.733-19.731 23.295-19.731 4.376 0 7.022.402 9.362 1.017h19.84v8.644l-9.361.713zM199.166 19.034c-5.8 0-9.157-3.36-9.157-9.161 0-5.793 3.356-8.95 9.157-8.95 5.9 0 9.258 3.157 9.258 8.95 0 5.801-3.357 9.161-9.258 9.161zM186.04 80.171v-8.033l5.19-.71c1.425-.205 1.627-.509 1.627-2.038V39.48c0-1.116-.304-1.832-1.325-2.134l-5.492-1.935 1.118-8.238h21.061V69.39c0 1.63.098 1.833 1.629 2.039l5.188.71v8.032H186.04zM255.267 76.227c-4.376 2.135-10.785 4.068-16.586 4.068-12.106 0-16.682-4.878-16.682-16.38V37.264c0-.61 0-1.017-.817-1.017h-7.12V27.19c8.955-1.02 12.513-5.496 13.632-16.585h9.666v14.45c0 .71 0 1.017.815 1.017h14.343v10.173H237.36v24.313c0 6.002 1.426 8.34 6.917 8.34 2.852 0 5.799-.71 8.24-1.626l2.75 8.954" fill="#2F2707"/></svg>
+            """
+
+            let absolute = """
+            <?xml version="1.0" encoding="UTF-8"?>
+            <svg width="256px" height="108px" viewBox="0 0 256 108" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1">
+             <!-- Generated by Pixelmator Pro 1.6.4 -->
+             <path id="Path" d="M152.984 37.214 C147.387 37.214 143.219 39.962 143.219 46.576 143.219 51.559 145.966 55.019 152.682 55.019 158.375 55.019 162.242 51.664 162.242 46.369 162.242 40.369 158.782 37.214 152.984 37.214 Z M141.794 83.915 C140.469 85.54 139.149 87.268 139.149 89.305 139.149 93.372 144.335 94.596 151.459 94.596 157.359 94.596 165.397 94.182 165.397 88.696 165.397 85.435 161.53 85.234 156.644 84.928 Z M171.907 37.521 C173.735 39.861 175.671 43.118 175.671 47.797 175.671 59.089 166.82 65.701 154.004 65.701 150.745 65.701 147.795 65.295 145.966 64.787 L142.607 70.177 152.576 70.787 C170.178 71.909 180.551 72.419 180.551 85.944 180.551 97.646 170.279 104.255 152.576 104.255 134.163 104.255 127.143 99.575 127.143 91.539 127.143 86.961 129.178 84.524 132.739 81.161 129.381 79.742 128.263 77.2 128.263 74.451 128.263 72.211 129.381 70.178 131.215 68.243 133.045 66.313 135.079 64.378 137.521 62.14 132.537 59.698 128.771 54.408 128.771 46.878 128.771 35.181 136.504 27.147 152.066 27.147 156.442 27.147 159.088 27.549 161.428 28.164 L181.268 28.164 181.268 36.808 Z M199.166 19.034 C193.366 19.034 190.009 15.674 190.009 9.873 190.009 4.08 193.365 0.923 199.166 0.923 205.066 0.923 208.424 4.08 208.424 9.873 208.424 15.674 205.067 19.034 199.166 19.034 Z M186.04 80.171 L186.04 72.138 191.23 71.428 C192.655 71.223 192.857 70.919 192.857 69.39 L192.857 39.48 C192.857 38.364 192.553 37.648 191.532 37.346 L186.04 35.411 187.158 27.173 208.219 27.173 208.219 69.39 C208.219 71.02 208.317 71.223 209.848 71.429 L215.036 72.139 215.036 80.171 Z M255.267 76.227 C250.891 78.362 244.482 80.295 238.681 80.295 226.575 80.295 221.999 75.417 221.999 63.915 L221.999 37.264 C221.999 36.654 221.999 36.247 221.182 36.247 L214.062 36.247 214.062 27.19 C223.017 26.17 226.575 21.694 227.694 10.605 L237.36 10.605 237.36 25.055 C237.36 25.765 237.36 26.072 238.175 26.072 L252.518 26.072 252.518 36.245 237.36 36.245 237.36 60.558 C237.36 66.56 238.786 68.898 244.277 68.898 247.129 68.898 250.076 68.188 252.517 67.272 L255.267 76.226" fill="#2f2707" fill-opacity="1" stroke="none"/>
+            </svg>
+            """
+
+            let relativeData = try #require(relative.data(using: .utf8))
+            let relativeSVG = try SVG.make(with: relativeData)
+            let relativeCommands = try #require(try relativeSVG.paths?.first?.commands())
+
+            let absoluteData = try #require(absolute.data(using: .utf8))
+            let absoluteSVG = try SVG.make(with: absoluteData)
+            let absoluteCommands = try #require(try absoluteSVG.paths?.first?.commands())
+
+            for i in 0...68 {
+                let lhs = relativeCommands[i]
+                let rhs = absoluteCommands[i]
+                print("""
+
+                Relative: \(lhs)
+                Absolute: \(rhs)
+
+                """)
+            }
+
+            #expect(relativeCommands ~~ absoluteCommands)
+        }
+    }
     
-    func testInvalidRelativeCommand() throws {
+    @Test func invalidRelativeCommand() throws {
         let doc = """
         <svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="2500" height="2500">
             <style>.st0{fill:#00a1f1}.st1{fill:#fff}</style>
@@ -195,8 +198,8 @@ final class PathDataTests: XCTestCase {
         </svg>
         """
         
-        let data = try XCTUnwrap(doc.data(using: .utf8))
+        let data = try #require(doc.data(using: .utf8))
         let svg = try SVG.make(with: data)
-        XCTAssertNoThrow(try svg.subpaths())
+        _ = try svg.subpaths()
     }
 }

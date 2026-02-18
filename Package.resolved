@@ -1,25 +1,41 @@
 {
-  "object": {
-    "pins": [
-      {
-        "package": "Swift2D",
-        "repositoryURL": "https://github.com/richardpiazza/Swift2D.git",
-        "state": {
-          "branch": null,
-          "revision": "c49fa308e8d50d3d721b26f5ff8bc276fa84acf2",
-          "version": "2.2.1"
-        }
-      },
-      {
-        "package": "XMLCoder",
-        "repositoryURL": "https://github.com/CoreOffice/XMLCoder.git",
-        "state": {
-          "branch": null,
-          "revision": "5e1ada828d2618ecb79c974e03f79c8f4df90b71",
-          "version": "0.18.0"
-        }
+  "pins" : [
+    {
+      "identity" : "swift-syntax",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/swiftlang/swift-syntax.git",
+      "state" : {
+        "revision" : "4799286537280063c85a32f09884cfbca301b1a1",
+        "version" : "602.0.0"
       }
-    ]
-  },
-  "version": 1
+    },
+    {
+      "identity" : "swift-testing",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/swiftlang/swift-testing.git",
+      "state" : {
+        "revision" : "48a471ab313e858258ab0b9b0bf2cea55a50cefb",
+        "version" : "6.2.3"
+      }
+    },
+    {
+      "identity" : "swift2d",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/richardpiazza/Swift2D.git",
+      "state" : {
+        "revision" : "c49fa308e8d50d3d721b26f5ff8bc276fa84acf2",
+        "version" : "2.2.1"
+      }
+    },
+    {
+      "identity" : "xmlcoder",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/CoreOffice/XMLCoder.git",
+      "state" : {
+        "revision" : "5e1ada828d2618ecb79c974e03f79c8f4df90b71",
+        "version" : "0.18.0"
+      }
+    }
+  ],
+  "version" : 2
 }
