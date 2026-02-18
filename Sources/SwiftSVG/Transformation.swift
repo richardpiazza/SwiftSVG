@@ -36,40 +36,40 @@ public enum Transformation {
     case translate(x: Double, y: Double)
     /// Specifies a transformation in the form of a transformation matrix of six values.
     case matrix(a: Double, b: Double, c: Double, d: Double, e: Double, f: Double)
-    
+
     public enum Prefix: String, CaseIterable {
         case translate
         case matrix
     }
-    
+
     /// Initializes a new `Transformation` with a raw SVG transformation string.
     public init?(_ string: String) {
         guard let prefix = Prefix.allCases.first(where: { string.lowercased().hasPrefix($0.rawValue) }) else {
             return nil
         }
-        
+
         switch prefix {
         case .translate:
             guard let start = string.firstIndex(of: "(") else {
                 return nil
             }
-            
+
             guard let stop = string.lastIndex(of: ")") else {
                 return nil
             }
-            
-            var substring = String(string[start...stop])
+
+            var substring = String(string[start ... stop])
             substring = substring.replacingOccurrences(of: "(", with: "")
             substring = substring.replacingOccurrences(of: ")", with: "")
-            
-            var components = substring.split(separator: " ", omittingEmptySubsequences: true).map({ String($0) })
-            components = components.flatMap({ $0.components(separatedBy: ",") })
-            
-            let values = components.compactMap({ Double($0) }).map({ Double($0) })
+
+            var components = substring.split(separator: " ", omittingEmptySubsequences: true).map { String($0) }
+            components = components.flatMap { $0.components(separatedBy: ",") }
+
+            let values = components.compactMap { Double($0) }.map { Double($0) }
             guard values.count > 0 else {
                 return nil
             }
-            
+
             if values.count > 1 {
                 self = .translate(x: values[0], y: values[1])
             } else {
@@ -79,36 +79,35 @@ public enum Transformation {
             guard let start = string.firstIndex(of: "(") else {
                 return nil
             }
-            
+
             guard let stop = string.lastIndex(of: ")") else {
                 return nil
             }
-            
-            var substring = String(string[start...stop])
+
+            var substring = String(string[start ... stop])
             substring = substring.replacingOccurrences(of: "(", with: "")
             substring = substring.replacingOccurrences(of: ")", with: "")
-            
-            var components = substring.split(separator: " ", omittingEmptySubsequences: true).map({ String($0) })
-            components = components.flatMap({ $0.components(separatedBy: ",") })
-            
-            let values = components.compactMap({ Double($0) }).map({ Double($0) })
+
+            var components = substring.split(separator: " ", omittingEmptySubsequences: true).map { String($0) }
+            components = components.flatMap { $0.components(separatedBy: ",") }
+
+            let values = components.compactMap { Double($0) }.map { Double($0) }
             guard values.count > 5 else {
                 return nil
             }
-            
+
             self = .matrix(a: values[0], b: values[1], c: values[2], d: values[3], e: values[4], f: values[5])
         }
     }
 }
 
-// MARK: - CustomStringConvertible
 extension Transformation: CustomStringConvertible {
     public var description: String {
         switch self {
         case .translate(let x, let y):
-            return "translate(\(x), \(y))"
+            "translate(\(x), \(y))"
         case .matrix(let a, let b, let c, let d, let e, let f):
-            return "matrix(\(a), \(b), \(c), \(d), \(e), \(f))"
+            "matrix(\(a), \(b), \(c), \(d), \(e), \(f))"
         }
     }
 }

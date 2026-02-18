@@ -1,5 +1,5 @@
-import Swift2D
 import Foundation
+import Swift2D
 
 public extension Path {
     /// Path commands are instructions that define a path to be drawn.
@@ -18,7 +18,7 @@ public extension Path {
         case ellipticalArcCurve(rx: Double, ry: Double, angle: Double, largeArc: Bool, clockwise: Bool, point: Point)
         /// ClosePath instructions draw a straight line from the current position to the first point in the path.
         case closePath
-        
+
         public enum Prefix: Character, CaseIterable {
             case move = "M"
             case relativeMove = "m"
@@ -40,24 +40,24 @@ public extension Path {
             case relativeEllipticalArcCurve = "a"
             case close = "Z"
             case relativeClose = "z"
-            
+
             public static var characterSet: CharacterSet {
-                return CharacterSet(charactersIn: allCases.map({ String($0.rawValue) }).joined())
+                CharacterSet(charactersIn: allCases.map { String($0.rawValue) }.joined())
             }
         }
-        
+
         public enum Coordinates {
             case absolute
             case relative
         }
-        
+
         public enum Error: Swift.Error {
             case message(String)
             case invalidAdjustment(Path.Command)
             case invalidArgumentPosition(Int, Path.Command)
             case invalidRelativeCommand
         }
-        
+
         public var description: String {
             switch self {
             case .moveTo(let point):
@@ -76,16 +76,16 @@ public extension Path {
                 return "\(Prefix.close.rawValue)"
             }
         }
-        
+
         /// The primary point that dictates the commands action.
         public var point: Point {
             switch self {
-            case .moveTo(let point): return point
-            case .lineTo(let point): return point
-            case .cubicBezierCurve(_, _, let point): return point
-            case .quadraticBezierCurve(_, let point): return point
-            case .ellipticalArcCurve(_, _, _, _, _, let point): return point
-            case .closePath: return .zero
+            case .moveTo(let point): point
+            case .lineTo(let point): point
+            case .cubicBezierCurve(_, _, let point): point
+            case .quadraticBezierCurve(_, let point): point
+            case .ellipticalArcCurve(_, _, _, _, _, let point): point
+            case .closePath: .zero
             }
         }
     }
@@ -123,71 +123,71 @@ public extension Path.Command {
             return self
         }
     }
-    
+
     /// Applies multiple transformations in the order they are specified.
     func applying(transformations: [Transformation]) -> Path.Command {
         var command = self
-        
-        transformations.forEach { (transformation) in
+
+        for transformation in transformations {
             command = command.applying(transformation: transformation)
         }
-        
+
         return command
     }
 }
 
-internal extension Path.Command {
+extension Path.Command {
     /// Determines if all values are provided (i.e. !.isNaN)
     var isComplete: Bool {
         switch self {
         case .moveTo(let point), .lineTo(let point):
-            return !point.hasNaN
+            !point.hasNaN
         case .cubicBezierCurve(let cp1, let cp2, let point):
-            return !cp1.hasNaN && !cp2.hasNaN && !point.hasNaN
+            !cp1.hasNaN && !cp2.hasNaN && !point.hasNaN
         case .quadraticBezierCurve(let cp, let point):
-            return !cp.hasNaN && !point.hasNaN
+            !cp.hasNaN && !point.hasNaN
         case .ellipticalArcCurve(let rx, let ry, let angle, _, _, let point):
-            return !rx.isNaN && !ry.isNaN && !angle.isNaN && !point.hasNaN
+            !rx.isNaN && !ry.isNaN && !angle.isNaN && !point.hasNaN
         case .closePath:
-            return true
+            true
         }
     }
-    
+
     /// The last control point used in drawing the path.
     ///
     /// Only valid for curves.
     var lastControlPoint: Point? {
         switch self {
         case .cubicBezierCurve(_, let cp2, _):
-            return cp2
+            cp2
         case .quadraticBezierCurve(let cp, _):
-            return cp
+            cp
         default:
-            return nil
+            nil
         }
     }
-    
+
     /// A mirror representation of `lastControlPoint`.
     var lastControlPointMirror: Point? {
         guard let cp = lastControlPoint else {
             return nil
         }
-        
+
         return Point(x: point.x + (point.x - cp.x), y: point.y + (point.y - cp.y))
     }
-    
+
     /// The total number of argument values the command requires.
     var arguments: Int {
         switch self {
-        case .moveTo: return 2
-        case .lineTo: return 2
-        case .cubicBezierCurve: return 6
-        case .quadraticBezierCurve: return 4
-        case .ellipticalArcCurve: return 7
-        case .closePath: return 0
+        case .moveTo: 2
+        case .lineTo: 2
+        case .cubicBezierCurve: 6
+        case .quadraticBezierCurve: 4
+        case .ellipticalArcCurve: 7
+        case .closePath: 0
         }
     }
-    
+
     /// Adjusts a Command argument by a specified amount.
     ///
     /// A `Point` consumes two positions. So, in the example `.quadraticBezierCurve(cp: .zero, point: .zero)`:

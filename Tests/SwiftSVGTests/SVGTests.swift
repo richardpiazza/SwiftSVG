@@ -12,10 +12,10 @@ struct SVGTests {
          <path id="Padlock" d="M168.044 945 C118.866 945 79 905.133 79 855.956 L79 474.339 C79 425.166 118.866 385.295 168.044 385.295 168.044 385.295 192.485 385.295 232.144 385.295 232.144 271.21 273.793 80 511.5 80 717.82 80 791.775 269.222 791.775 385.295 830.889 385.295 854.955 385.295 854.955 385.295 904.129 385.295 944 425.166 944 474.339 L944 855.956 C944 905.133 904.129 945 854.955 945 L168.044 945 Z M512.295 741.869 C536.854 741.584 536.643 723.198 536.643 686.365 566.441 675.977 587.823 647.61 587.823 614.265 587.823 572.117 553.648 537.941 511.5 537.941 469.347 537.941 435.176 572.117 435.176 614.265 435.176 647.994 455.869 676.624 486.208 686.713 486.208 721.604 486.295 742.174 512.295 741.869 Z M333.734 385.916 L689.588 385.692 689.588 346.736 C689.588 346.736 690.726 181.367 511.897 181.367 333.066 181.367 333.014 349.12 333.014 349.12 L333.734 385.916 Z" fill="none" stroke="#f9e231" stroke-width="20" stroke-opacity="1" stroke-linejoin="round"/>
         </svg>
         """
-        
+
         let data = try #require(doc.data(using: .utf8))
         let svg = try SVG.make(with: data)
-        
+
         #expect(svg.outputSize == Size(width: 1024, height: 1024))
         let path = try #require(svg.paths?.first)
         #expect(path.id == "Padlock")
@@ -23,7 +23,7 @@ struct SVGTests {
         let description = path.description
         #expect(description.hasPrefix("<path"))
     }
-    
+
     @Test func decode() throws {
         let doc = """
         <svg xmlns="http://www.w3.org/2000/svg" width="2500" height="2500" viewBox="0 0 192.756 192.756">
@@ -37,12 +37,12 @@ struct SVGTests {
             </g>
         </svg>
         """
-        
+
         let data = try #require(doc.data(using: .utf8))
         let svg = try SVG.make(with: data)
         #expect(svg.outputSize == Size(width: 2500, height: 2500))
     }
-    
+
     @Test func quad01Decode() throws {
         let url = try #require(Bundle.swiftSVGTests.url(forResource: "quad01", withExtension: "svg"))
         let data = try Data(contentsOf: url)
@@ -55,7 +55,7 @@ struct SVGTests {
             .quadraticBezierCurve(cp: Point(x: 400, y: 50), point: Point(x: 600, y: 300)),
             .quadraticBezierCurve(cp: Point(x: 800, y: 550), point: Point(x: 1000, y: 300)),
         ])
-        
+
         let primaryGroup = try #require(svg.groups?.first)
         let primaryPoints = try #require(primaryGroup.circles)
         #expect(primaryPoints.count == 3)

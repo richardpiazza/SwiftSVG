@@ -7,7 +7,7 @@ struct PointTests {
     let rect = Rect(origin: .zero, size: Size(width: 500, height: 500))
     var center: Point { rect.center }
 
-    @Test func pointReflecting() throws {
+    @Test func pointReflecting() {
         // x=x y=y
         var point = Point(x: 250, y: 250)
         var reflection = point.reflecting(around: center)

@@ -10,6 +10,6 @@ public protocol DirectionalCommandRepresentable: CommandRepresentable {
 public extension DirectionalCommandRepresentable {
     /// Defaults to anti/counter-clockwise commands.
     func commands() throws -> [Path.Command] {
-        return try commands(clockwise: false)
+        try commands(clockwise: false)
     }
 }

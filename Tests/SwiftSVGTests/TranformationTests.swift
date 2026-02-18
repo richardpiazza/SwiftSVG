@@ -14,7 +14,7 @@ struct TransformationTests {
         } else {
             Issue.record("Unexpected Case")
         }
-        
+
         input = "translate(0.0 39.0)"
         transformation = try #require(Transformation(input))
 
@@ -24,7 +24,7 @@ struct TransformationTests {
         } else {
             Issue.record("Unexpected Case")
         }
-        
+
         input = "TRANSLATE(0.0,39.0)"
         transformation = try #require(Transformation(input))
 
@@ -35,7 +35,7 @@ struct TransformationTests {
             Issue.record("Unexpected Case")
         }
     }
-    
+
     @Test func matrixInitialization() throws {
         var input: String = "matrix(1 0 0 1 1449.84 322)"
         var transformation: Transformation = try #require(Transformation(input))
@@ -50,7 +50,7 @@ struct TransformationTests {
         } else {
             Issue.record("Unexpected Case")
         }
-        
+
         input = "matrix(1, 0, 0, 1, 1449.84, 322)"
         transformation = try #require(Transformation(input))
 
@@ -64,7 +64,7 @@ struct TransformationTests {
         } else {
             Issue.record("Unexpected Case")
         }
-        
+
         input = "MATRIX(1,0,0,1,1449.84,322)"
         transformation = try #require(Transformation(input))
 
@@ -79,33 +79,33 @@ struct TransformationTests {
             Issue.record("Unexpected Case")
         }
     }
-    
-    @Test func commandTransformation() throws {
+
+    @Test func commandTransformation() {
         let translate = Transformation.translate(x: 25.0, y: 75.0)
         var command: Path.Command
         var result: Path.Command
-        
+
         command = .moveTo(point: Point(x: 50.0, y: 50.0))
         result = command.applying(transformation: translate)
-        
+
         if case let .moveTo(point) = result {
             #expect(point == Point(x: 75.0, y: 125.0))
         } else {
             Issue.record("Unexpected Case")
         }
-        
+
         command = .lineTo(point: Point(x: -60.0, y: 120.0))
         result = command.applying(transformation: translate)
-        
+
         if case let .lineTo(point) = result {
             #expect(point == Point(x: -35.0, y: 195.0))
         } else {
             Issue.record("Unexpected Case")
         }
-        
+
         command = .cubicBezierCurve(cp1: Point(x: -20.0, y: -40.0), cp2: Point(x: 18.0, y: 94.0), point: Point(x: 20.0, y: 20.0))
         result = command.applying(transformation: translate)
-        
+
         if case let .cubicBezierCurve(cp1, cp2, point) = result {
             #expect(cp1 == Point(x: 5.0, y: 35.0))
             #expect(cp2 == Point(x: 43.0, y: 169.0))
@@ -113,20 +113,20 @@ struct TransformationTests {
         } else {
             Issue.record("Unexpected Case")
         }
-        
+
         command = .quadraticBezierCurve(cp: Point(x: 100.0, y: 50.0), point: .zero)
         result = command.applying(transformation: translate)
-        
+
         if case let .quadraticBezierCurve(cp, point) = result {
             #expect(cp == Point(x: 125.0, y: 125.0))
             #expect(point == Point(x: 25.0, y: 75.0))
         } else {
             Issue.record("Unexpected Case")
         }
-        
+
         command = .closePath
         result = command.applying(transformation: translate)
-        
+
         if case .closePath = result {
         } else {
             Issue.record("Unexpected Case")

@@ -1,10 +1,9 @@
-public protocol Element: CoreAttributes, PresentationAttributes, StylingAttributes {
-}
+public protocol Element: CoreAttributes, PresentationAttributes, StylingAttributes {}
 
 public extension Element {
     var attributeDescription: String {
         var components: [String] = []
-        
+
         if !coreDescription.isEmpty {
             components.append(coreDescription)
         }
@@ -14,7 +13,7 @@ public extension Element {
         if !stylingDescription.isEmpty {
             components.append(stylingDescription)
         }
-        
+
         return components.joined(separator: " ")
     }
 }
@@ -32,16 +31,16 @@ public extension CommandRepresentable where Self: Element {
     func path(applying transformations: [Transformation] = []) throws -> Path {
         var _transformations = transformations
         _transformations.append(contentsOf: self.transformations)
-        
-        let commands = try self.commands().map({ $0.applying(transformations: _transformations) })
-        
+
+        let commands = try commands().map { $0.applying(transformations: _transformations) }
+
         var path = Path(commands: commands)
         path.fillColor = fillColor
         path.fillOpacity = fillOpacity
         path.strokeColor = strokeColor
         path.strokeOpacity = strokeOpacity
         path.strokeWidth = strokeWidth
-        
+
         return path
     }
 }

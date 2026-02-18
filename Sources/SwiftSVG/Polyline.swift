@@ -9,13 +9,15 @@ import XMLCoder
 /// [Mozilla Developer Network](https://developer.mozilla.org/en-US/docs/Web/SVG/Element/polyline)
 /// | [W3](https://www.w3.org/TR/SVG11/shapes.html#PolylineElement)
 public struct Polyline: Element {
-    
+
     public var points: String = ""
-    
-    // CoreAttributes
+
+    // MARK: CoreAttributes
+
     public var id: String?
-    
-    // PresentationAttributes
+
+    // MARK: PresentationAttributes
+
     public var fillColor: String?
     public var fillOpacity: Double?
     public var fillRule: Fill.Rule?
@@ -26,10 +28,11 @@ public struct Polyline: Element {
     public var strokeLineJoin: Stroke.LineJoin?
     public var strokeMiterLimit: Double?
     public var transform: String?
-    
-    // StylingAttributes
+
+    // MARK: StylingAttributes
+
     public var style: String?
-    
+
     enum CodingKeys: String, CodingKey {
         case points
         case id
@@ -45,37 +48,34 @@ public struct Polyline: Element {
         case transform
         case style
     }
-    
-    public init() {
-    }
-    
+
+    public init() {}
+
     public init(points: String) {
         self.points = points
     }
-    
-    // MARK: - CustomStringConvertible
-    public var description: String {
-        return "<polyline points=\"\(points)\" \(attributeDescription) />"
-    }
 }
 
-// MARK: - DynamicNodeEncoding
-extension Polyline: DynamicNodeEncoding {
-    public static func nodeEncoding(for key: any CodingKey) -> XMLEncoder.NodeEncoding {
-        return .attribute
-    }
-}
-
-// MARK: - DynamicNodeDecoding
-extension Polyline: DynamicNodeDecoding {
-    public static func nodeDecoding(for key: any CodingKey) -> XMLDecoder.NodeDecoding {
-        return .attribute
-    }
-}
-
-// MARK: - CommandRepresentable
 extension Polyline: CommandRepresentable {
     public func commands() throws -> [Path.Command] {
-        return try PolylineProcessor(points: points).commands()
+        try PolylineProcessor(points: points).commands()
+    }
+}
+
+extension Polyline: CustomStringConvertible {
+    public var description: String {
+        "<polyline points=\"\(points)\" \(attributeDescription) />"
+    }
+}
+
+extension Polyline: DynamicNodeDecoding {
+    public static func nodeDecoding(for key: any CodingKey) -> XMLDecoder.NodeDecoding {
+        .attribute
+    }
+}
+
+extension Polyline: DynamicNodeEncoding {
+    public static func nodeEncoding(for key: any CodingKey) -> XMLEncoder.NodeEncoding {
+        .attribute
     }
 }

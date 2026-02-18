@@ -14,7 +14,7 @@ public protocol PresentationAttributes {
     var transform: String? { get set }
 }
 
-internal enum PresentationAttributesKeys: String, CodingKey {
+enum PresentationAttributesKeys: String, CodingKey {
     case fillColor = "fill"
     case fillOpacity = "fill-opacity"
     case fillRule = "fill-rule"
@@ -30,57 +30,57 @@ internal enum PresentationAttributesKeys: String, CodingKey {
 public extension PresentationAttributes {
     var presentationDescription: String {
         var attributes: [String] = []
-        
-        if let fillColor = self.fillColor {
+
+        if let fillColor {
             attributes.append("\(PresentationAttributesKeys.fillColor.rawValue)=\"\(fillColor)\"")
         }
-        if let fillOpacity = self.fillOpacity {
+        if let fillOpacity {
             attributes.append("\(PresentationAttributesKeys.fillOpacity.rawValue)=\"\(fillOpacity)\"")
         }
-        if let fillRule = self.fillRule {
+        if let fillRule {
             attributes.append("\(PresentationAttributesKeys.fillRule.rawValue)=\"\(fillRule.description)\"")
         }
-        if let strokeColor = self.strokeColor {
+        if let strokeColor {
             attributes.append("\(PresentationAttributesKeys.strokeColor.rawValue)=\"\(strokeColor)\"")
         }
-        if let strokeWidth = self.strokeWidth {
+        if let strokeWidth {
             attributes.append("\(PresentationAttributesKeys.strokeWidth.rawValue)=\"\(strokeWidth)\"")
         }
-        if let strokeOpacity = self.strokeOpacity {
+        if let strokeOpacity {
             attributes.append("\(PresentationAttributesKeys.strokeOpacity.rawValue)=\"\(strokeOpacity)\"")
         }
-        if let strokeLineCap = self.strokeLineCap {
+        if let strokeLineCap {
             attributes.append("\(PresentationAttributesKeys.strokeLineCap.rawValue)=\"\(strokeLineCap.description)\"")
         }
-        if let strokeLineJoin = self.strokeLineJoin {
+        if let strokeLineJoin {
             attributes.append("\(PresentationAttributesKeys.strokeLineJoin.rawValue)=\"\(strokeLineJoin.description)\"")
         }
-        if let strokeMiterLimit = self.strokeMiterLimit {
+        if let strokeMiterLimit {
             attributes.append("\(PresentationAttributesKeys.strokeMiterLimit.rawValue)=\"\(strokeMiterLimit)\"")
         }
-        if let transform = self.transform {
+        if let transform {
             attributes.append("\(PresentationAttributesKeys.transform.rawValue)=\"\(transform)\"")
         }
-        
+
         return attributes.joined(separator: " ")
     }
-    
+
     var transformations: [Transformation] {
         let value = transform?.replacingOccurrences(of: " ", with: "") ?? ""
         guard !value.isEmpty else {
             return []
         }
-        
-        let values = value.split(separator: ")").map({ $0.appending(")") })
-        return values.compactMap({ Transformation($0) })
+
+        let values = value.split(separator: ")").map { $0.appending(")") }
+        return values.compactMap { Transformation($0) }
     }
-    
+
     var fill: Fill? {
         get {
-            if fillColor == nil && fillOpacity == nil {
+            if fillColor == nil, fillOpacity == nil {
                 return nil
             }
-            
+
             var fill = Fill()
             fill.color = fillColor ?? "black"
             fill.opacity = fillOpacity ?? 1.0
@@ -92,13 +92,13 @@ public extension PresentationAttributes {
             fillRule = newValue?.rule
         }
     }
-    
+
     var stroke: Stroke? {
         get {
-            if strokeColor == nil && strokeOpacity == nil {
+            if strokeColor == nil, strokeOpacity == nil {
                 return nil
             }
-            
+
             var stroke = Stroke()
             stroke.color = strokeColor ?? "black"
             stroke.opacity = strokeOpacity ?? 1.0
