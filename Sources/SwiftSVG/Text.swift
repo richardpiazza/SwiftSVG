@@ -1,3 +1,4 @@
+import Foundation
 import XMLCoder
 
 /// Graphics element consisting of text
@@ -84,7 +85,7 @@ public struct Text: Element {
 
 // MARK: - DynamicNodeEncoding
 extension Text: DynamicNodeEncoding {
-    public static func nodeEncoding(for key: CodingKey) -> XMLEncoder.NodeEncoding {
+    public static func nodeEncoding(for key: any CodingKey) -> XMLEncoder.NodeEncoding {
         switch key {
         case CodingKeys.value:
             return .element
@@ -96,7 +97,7 @@ extension Text: DynamicNodeEncoding {
 
 // MARK: - DynamicNodeDecoding
 extension Text: DynamicNodeDecoding {
-    public static func nodeDecoding(for key: CodingKey) -> XMLDecoder.NodeDecoding {
+    public static func nodeDecoding(for key: any CodingKey) -> XMLDecoder.NodeDecoding {
         switch key {
         case CodingKeys.value:
             return .element

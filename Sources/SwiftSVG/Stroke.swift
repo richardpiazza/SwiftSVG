@@ -16,7 +16,7 @@ public struct Stroke {
     /// Presentation attribute defining the shape to be used at the end of open subpaths when they are stroked.
     ///
     /// The default `LineCap` is `.butt`
-    public enum LineCap: String, Codable, CaseIterable {
+    public enum LineCap: String, Sendable, Codable, CaseIterable {
         /// The stroke for each subpath does not extend beyond its two endpoints.
         case butt
         /// The end of each subpath the stroke will be extended by a half circle with a diameter equal to the stroke
@@ -30,7 +30,7 @@ public struct Stroke {
     /// Presentation attribute defining the shape to be used at the corners of paths when they are stroked.
     ///
     /// The default `LineJoin` is `.miter`
-    public enum LineJoin: String, Codable, CaseIterable {
+    public enum LineJoin: String, Sendable, Codable, CaseIterable {
         /// An arcs corner is to be used to join path segments.
         ///
         /// The arcs shape is formed by extending the outer edges of the stroke at the join point with arcs that have

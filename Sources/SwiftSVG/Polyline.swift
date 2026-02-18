@@ -61,14 +61,14 @@ public struct Polyline: Element {
 
 // MARK: - DynamicNodeEncoding
 extension Polyline: DynamicNodeEncoding {
-    public static func nodeEncoding(for key: CodingKey) -> XMLEncoder.NodeEncoding {
+    public static func nodeEncoding(for key: any CodingKey) -> XMLEncoder.NodeEncoding {
         return .attribute
     }
 }
 
 // MARK: - DynamicNodeDecoding
 extension Polyline: DynamicNodeDecoding {
-    public static func nodeDecoding(for key: CodingKey) -> XMLDecoder.NodeDecoding {
+    public static func nodeDecoding(for key: any CodingKey) -> XMLDecoder.NodeDecoding {
         return .attribute
     }
 }

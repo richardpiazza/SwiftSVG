@@ -1,3 +1,4 @@
+import Foundation
 import Swift2D
 
 /// A modification that should be applied to an element and its children.

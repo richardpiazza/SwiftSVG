@@ -90,7 +90,7 @@ public struct Group: Container, Element {
 
 // MARK: - DynamicNodeEncoding
 extension Group: DynamicNodeEncoding {
-    public static func nodeEncoding(for key: CodingKey) -> XMLEncoder.NodeEncoding {
+    public static func nodeEncoding(for key: any CodingKey) -> XMLEncoder.NodeEncoding {
         if let _ = ContainerKeys(stringValue: key.stringValue) {
             return .element
         }
@@ -101,7 +101,7 @@ extension Group: DynamicNodeEncoding {
 
 // MARK: - DynamicNodeDecoding
 extension Group: DynamicNodeDecoding {
-    public static func nodeDecoding(for key: CodingKey) -> XMLDecoder.NodeDecoding {
+    public static func nodeDecoding(for key: any CodingKey) -> XMLDecoder.NodeDecoding {
         if let _ = ContainerKeys(stringValue: key.stringValue) {
             return .element
         }

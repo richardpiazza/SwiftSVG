@@ -11,7 +11,7 @@ public struct Fill {
     /// Presentation attribute defining the algorithm to use to determine the inside part of a shape.
     ///
     /// The default `Rule` is `.nonzero`.
-    public enum Rule: String, Codable, CaseIterable {
+    public enum Rule: String, Sendable, Codable, CaseIterable {
         /// The value evenodd determines the "insideness" of a point in the shape by drawing a ray from that point to
         /// infinity in any direction and counting the number of path segments from the given shape that the ray
         /// crosses. If this number is odd, the point is inside; if even, the point is outside.
@@ -23,7 +23,7 @@ public struct Fill {
         /// the result is zero then the point is outside the path. Otherwise, it is inside.
         case nonZero = "nonzero"
         
-        public init(from decoder: Decoder) throws {
+        public init(from decoder: any Decoder) throws {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(String.self)
             guard let rule = Rule(rawValue: rawValue) else {

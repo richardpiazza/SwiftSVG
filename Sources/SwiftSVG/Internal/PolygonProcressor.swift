@@ -1,3 +1,4 @@
+import Foundation
 import Swift2D
 
 struct PolygonProcessor {

@@ -3,7 +3,7 @@ import Swift2D
 @testable import SwiftSVG
 
 extension Bundle {
-    static var swiftSVGTests: Bundle = .module
+    static let swiftSVGTests: Bundle = .module
 }
 
 infix operator ~~
