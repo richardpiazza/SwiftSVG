@@ -10,7 +10,7 @@ import XMLCoder
 /// [Mozilla Developer Network](https://developer.mozilla.org/en-US/docs/Web/SVG/Element/rect)
 /// | [W3](https://www.w3.org/TR/SVG11/shapes.html#RectElement)
 public struct Rectangle: Element {
-    
+
     /// The x-axis coordinate of the side of the rectangle which
     /// has the smaller x-axis coordinate value.
     public var x: Double = 0.0
@@ -27,11 +27,13 @@ public struct Rectangle: Element {
     /// For rounded rectangles, the y-axis radius of the ellipse used
     /// to round off the corners of the rectangle.
     public var ry: Double?
-    
-    // CoreAttributes
+
+    // MARK: CoreAttributes
+
     public var id: String?
-    
-    // PresentationAttributes
+
+    // MARK: PresentationAttributes
+
     public var fillColor: String?
     public var fillOpacity: Double?
     public var fillRule: Fill.Rule?
@@ -42,10 +44,11 @@ public struct Rectangle: Element {
     public var strokeLineJoin: Stroke.LineJoin?
     public var strokeMiterLimit: Double?
     public var transform: String?
-    
-    // StylingAttributes
+
+    // MARK: StylingAttributes
+
     public var style: String?
-    
+
     enum CodingKeys: String, CodingKey {
         case x
         case y
@@ -66,10 +69,9 @@ public struct Rectangle: Element {
         case transform
         case style
     }
-    
-    public init() {
-    }
-    
+
+    public init() {}
+
     public init(x: Double, y: Double, width: Double, height: Double, rx: Double? = nil, ry: Double? = nil) {
         self.x = x
         self.y = y
@@ -78,38 +80,36 @@ public struct Rectangle: Element {
         self.rx = rx
         self.ry = ry
     }
-    
-    // MARK: - CustomStringConvertible
+}
+
+extension Rectangle: CustomStringConvertible {
     public var description: String {
         var desc = "<rect x=\"\(x)\" y=\"\(y)\" width=\"\(width)\" height=\"\(height)\""
-        if let rx = self.rx {
+        if let rx {
             desc.append(" rx=\"\(rx)\"")
         }
-        if let ry = self.ry {
+        if let ry {
             desc.append(" ry=\"\(ry)\"")
         }
-        
+
         return desc + " \(attributeDescription) />"
     }
 }
 
-// MARK: - DynamicNodeEncoding
-extension Rectangle: DynamicNodeEncoding {
-    public static func nodeEncoding(for key: any CodingKey) -> XMLEncoder.NodeEncoding {
-        return .attribute
-    }
-}
-
-// MARK: - DynamicNodeDecoding
-extension Rectangle: DynamicNodeDecoding {
-    public static func nodeDecoding(for key: any CodingKey) -> XMLDecoder.NodeDecoding {
-        return .attribute
-    }
-}
-
-// MARK: - DirectionalCommandRepresentable
 extension Rectangle: DirectionalCommandRepresentable {
     public func commands(clockwise: Bool) throws -> [Path.Command] {
-        return RectangleProcessor(rectangle: self).commands(clockwise: clockwise)
+        RectangleProcessor(rectangle: self).commands(clockwise: clockwise)
+    }
+}
+
+extension Rectangle: DynamicNodeDecoding {
+    public static func nodeDecoding(for key: any CodingKey) -> XMLDecoder.NodeDecoding {
+        .attribute
+    }
+}
+
+extension Rectangle: DynamicNodeEncoding {
+    public static func nodeEncoding(for key: any CodingKey) -> XMLEncoder.NodeEncoding {
+        .attribute
     }
 }

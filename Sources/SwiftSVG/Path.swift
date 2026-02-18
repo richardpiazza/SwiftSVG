@@ -10,14 +10,16 @@ import XMLCoder
 /// [Mozilla Developer Network](https://developer.mozilla.org/en-US/docs/Web/SVG/Element/path)
 /// | [W3](https://www.w3.org/TR/SVG11/paths.html)
 public struct Path: Element {
-    
+
     /// The definition of the outline of a shape.
     public var data: String = ""
-    
-    // CoreAttributes
+
+    // MARK: CoreAttributes
+
     public var id: String?
-    
-    // PresentationAttributes
+
+    // MARK: PresentationAttributes
+
     public var fillColor: String?
     public var fillOpacity: Double?
     public var fillRule: Fill.Rule?
@@ -28,10 +30,11 @@ public struct Path: Element {
     public var strokeLineJoin: Stroke.LineJoin?
     public var strokeMiterLimit: Double?
     public var transform: String?
-    
-    // StylingAttributes
+
+    // MARK: StylingAttributes
+
     public var style: String?
-    
+
     enum CodingKeys: String, CodingKey {
         case data = "d"
         case id
@@ -48,47 +51,43 @@ public struct Path: Element {
         case style
     }
 
-    public init() {
-    }
-    
+    public init() {}
+
     public init(data: String) {
         self.init()
         self.data = data
     }
-    
+
     public init(commands: [Path.Command]) {
         self.init()
-        data = commands.map({ $0.description }).joined()
-    }
-    
-    // MARK: - CustomStringConvertible
-    public var description: String {
-        return "<path d=\"\(data)\" \(attributeDescription) />"
+        data = commands.map(\.description).joined()
     }
 }
 
-// MARK: - DynamicNodeEncoding
-extension Path: DynamicNodeEncoding {
-    public static func nodeEncoding(for key: any CodingKey) -> XMLEncoder.NodeEncoding {
-        return .attribute
-    }
-}
-
-// MARK: - DynamicNodeDecoding
-extension Path: DynamicNodeDecoding {
-    public static func nodeDecoding(for key: any CodingKey) -> XMLDecoder.NodeDecoding {
-        return .attribute
-    }
-}
-
-// MARK: - CommandRepresentable
 extension Path: CommandRepresentable {
     public func commands() throws -> [Command] {
-        return try PathProcessor(data: data).commands()
+        try PathProcessor(data: data).commands()
     }
 }
 
-// MARK: - Equatable
+extension Path: CustomStringConvertible {
+    public var description: String {
+        "<path d=\"\(data)\" \(attributeDescription) />"
+    }
+}
+
+extension Path: DynamicNodeDecoding {
+    public static func nodeDecoding(for key: any CodingKey) -> XMLDecoder.NodeDecoding {
+        .attribute
+    }
+}
+
+extension Path: DynamicNodeEncoding {
+    public static func nodeEncoding(for key: any CodingKey) -> XMLEncoder.NodeEncoding {
+        .attribute
+    }
+}
+
 extension Path: Equatable {
     public static func == (lhs: Path, rhs: Path) -> Bool {
         do {

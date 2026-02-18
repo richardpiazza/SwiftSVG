@@ -11,18 +11,20 @@ import XMLCoder
 /// [Mozilla Developer Network](https://developer.mozilla.org/en-US/docs/Web/SVG/Element/circle)
 /// | [W3](https://www.w3.org/TR/SVG11/shapes.html#CircleElement)
 public struct Circle: Element {
-    
+
     /// The x-axis coordinate of the center of the circle.
     public var x: Double = 0.0
     /// The y-axis coordinate of the center of the circle.
     public var y: Double = 0.0
     /// The radius of the circle.
     public var r: Double = 0.0
-    
-    // CoreAttributes
+
+    // MARK: CoreAttributes
+
     public var id: String?
-    
-    // PresentationAttributes
+
+    // MARK: PresentationAttributes
+
     public var fillColor: String?
     public var fillOpacity: Double?
     public var fillRule: Fill.Rule?
@@ -33,14 +35,15 @@ public struct Circle: Element {
     public var strokeLineJoin: Stroke.LineJoin?
     public var strokeMiterLimit: Double?
     public var transform: String?
-    
-    // StylingAttributes
+
+    // MARK: StylingAttributes
+
     public var style: String?
-    
+
     enum CodingKeys: String, CodingKey {
         case x = "cx"
         case y = "cy"
-        case r = "r"
+        case r
         case id
         case fillColor = "fill"
         case fillOpacity = "fill-opacity"
@@ -54,40 +57,37 @@ public struct Circle: Element {
         case transform
         case style
     }
-    
-    public init() {
-    }
-    
+
+    public init() {}
+
     public init(x: Double, y: Double, r: Double) {
         self.x = x
         self.y = y
         self.r = r
     }
-    
-    // MARK: - CustomStringConvertible
+}
+
+extension Circle: CustomStringConvertible {
     public var description: String {
         let desc = "<circle cx=\"\(x)\" cy=\"\(y)\" r=\"\(r)\""
         return desc + " \(attributeDescription) />"
     }
 }
 
-// MARK: - DynamicNodeEncoding
-extension Circle: DynamicNodeEncoding {
-    public static func nodeEncoding(for key: any CodingKey) -> XMLEncoder.NodeEncoding {
-        return .attribute
-    }
-}
-
-// MARK: - DynamicNodeDecoding
-extension Circle: DynamicNodeDecoding {
-    public static func nodeDecoding(for key: any CodingKey) -> XMLDecoder.NodeDecoding {
-        return .attribute
-    }
-}
-
-// MARK: - DirectionalCommandRepresentable
 extension Circle: DirectionalCommandRepresentable {
     public func commands(clockwise: Bool) throws -> [Path.Command] {
-        return EllipseProcessor(circle: self).commands(clockwise: clockwise)
+        EllipseProcessor(circle: self).commands(clockwise: clockwise)
+    }
+}
+
+extension Circle: DynamicNodeDecoding {
+    public static func nodeDecoding(for key: any CodingKey) -> XMLDecoder.NodeDecoding {
+        .attribute
+    }
+}
+
+extension Circle: DynamicNodeEncoding {
+    public static func nodeEncoding(for key: any CodingKey) -> XMLEncoder.NodeEncoding {
+        .attribute
     }
 }

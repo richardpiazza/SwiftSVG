@@ -9,14 +9,16 @@ import XMLCoder
 /// [Mozilla Developer Network](https://developer.mozilla.org/en-US/docs/Web/SVG/Element/polygon)
 /// | [W3](https://www.w3.org/TR/SVG11/shapes.html#PolygonElement)
 public struct Polygon: Element {
-    
+
     /// The points that make up the polygon.
     public var points: String = ""
-    
-    // CoreAttributes
+
+    // MARK: CoreAttributes
+
     public var id: String?
-    
-    // PresentationAttributes
+
+    // MARK: PresentationAttributes
+
     public var fillColor: String?
     public var fillOpacity: Double?
     public var fillRule: Fill.Rule?
@@ -27,10 +29,11 @@ public struct Polygon: Element {
     public var strokeLineJoin: Stroke.LineJoin?
     public var strokeMiterLimit: Double?
     public var transform: String?
-    
-    // StylingAttributes
+
+    // MARK: StylingAttributes
+
     public var style: String?
-    
+
     enum CodingKeys: String, CodingKey {
         case points
         case id
@@ -46,37 +49,34 @@ public struct Polygon: Element {
         case transform
         case style
     }
-    
-    public init() {
-    }
-    
+
+    public init() {}
+
     public init(points: String) {
         self.points = points
     }
-    
-    // MARK: - CustomStringConvertible
-    public var description: String {
-        return "<polygon points=\"\(points)\" \(attributeDescription) />"
-    }
 }
 
-// MARK: - DynamicNodeEncoding
-extension Polygon: DynamicNodeEncoding {
-    public static func nodeEncoding(for key: any CodingKey) -> XMLEncoder.NodeEncoding {
-        return .attribute
-    }
-}
-
-// MARK: - DynamicNodeDecoding
-extension Polygon: DynamicNodeDecoding {
-    public static func nodeDecoding(for key: any CodingKey) -> XMLDecoder.NodeDecoding {
-        return .attribute
-    }
-}
-
-// MARK: - CommandRepresentable
 extension Polygon: CommandRepresentable {
     public func commands() throws -> [Path.Command] {
-        return try PolygonProcessor(points: points).commands()
+        try PolygonProcessor(points: points).commands()
+    }
+}
+
+extension Polygon: CustomStringConvertible {
+    public var description: String {
+        "<polygon points=\"\(points)\" \(attributeDescription) />"
+    }
+}
+
+extension Polygon: DynamicNodeDecoding {
+    public static func nodeDecoding(for key: any CodingKey) -> XMLDecoder.NodeDecoding {
+        .attribute
+    }
+}
+
+extension Polygon: DynamicNodeEncoding {
+    public static func nodeEncoding(for key: any CodingKey) -> XMLEncoder.NodeEncoding {
+        .attribute
     }
 }

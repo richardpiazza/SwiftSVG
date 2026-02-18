@@ -1,13 +1,13 @@
 import Swift2D
 
 public struct Fill {
-    
+
     public var color: String?
     public var opacity: Double?
     public var rule: Rule = .nonZero
-    
+
     public init() {}
-    
+
     /// Presentation attribute defining the algorithm to use to determine the inside part of a shape.
     ///
     /// The default `Rule` is `.nonzero`.
@@ -22,7 +22,7 @@ public struct Fill {
         /// subtract one each time a path segment crosses the ray from right to left. After counting the crossings, if
         /// the result is zero then the point is outside the path. Otherwise, it is inside.
         case nonZero = "nonzero"
-        
+
         public init(from decoder: any Decoder) throws {
             let container = try decoder.singleValueContainer()
             let rawValue = try container.decode(String.self)
@@ -31,7 +31,7 @@ public struct Fill {
                 self = .nonZero
                 return
             }
-            
+
             self = rule
         }
     }
@@ -39,6 +39,6 @@ public struct Fill {
 
 extension Fill.Rule: CustomStringConvertible {
     public var description: String {
-        return self.rawValue
+        rawValue
     }
 }

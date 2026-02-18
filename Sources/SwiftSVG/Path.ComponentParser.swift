@@ -15,34 +15,34 @@ public extension Path {
         private var pathOrigin: Point = .nan
         /// The last point as processed by the parser.
         private var currentPoint: Point = .zero
-        
+
         public init() {}
-        
+
         public func parse(_ components: [Path.Component]) throws -> [Path.Command] {
             var commands: [Path.Command] = []
-            
+
             try components.forEach { component in
                 if let command = try parse(component, lastCommand: commands.last) {
                     commands.append(command)
                 }
             }
-            
+
             return commands
         }
-        
+
         private func parse(_ component: Path.Component, lastCommand: Path.Command?) throws -> Path.Command? {
             switch component {
             case .prefix(let prefix):
-                return setup(prefix: prefix, lastCommand: lastCommand)
+                setup(prefix: prefix, lastCommand: lastCommand)
             case .value(let value):
-                return try process(value: value, lastCommand: lastCommand)
+                try process(value: value, lastCommand: lastCommand)
             }
         }
-        
+
         private func setup(prefix: Path.Command.Prefix, lastCommand: Path.Command?) -> Path.Command? {
             position = 0
             singleValue = false
-            
+
             switch prefix {
             case .move:
                 command = .moveTo(point: .nan)
@@ -127,24 +127,24 @@ public extension Path {
                 reset()
                 return .closePath
             }
-            
+
             return nil
         }
-        
+
         private func process(value: Double, lastCommand: Path.Command?) throws -> Path.Command? {
-            if let command = command {
+            if let command {
                 try continueCommand(command, with: value)
             } else {
                 try nextCommand(with: value, lastCommand: lastCommand)
             }
-            
-            if let command = command, command.isComplete {
+
+            if let command, command.isComplete {
                 switch coordinates {
                 case .relative:
                     guard position == -1 else {
                         return nil
                     }
-                    
+
                     fallthrough
                 case .absolute:
                     currentPoint = command.point
@@ -158,22 +158,22 @@ public extension Path {
                 return nil
             }
         }
-        
+
         private func continueCommand(_ command: Path.Command, with value: Double) throws {
             switch command {
             case .moveTo, .cubicBezierCurve, .quadraticBezierCurve, .ellipticalArcCurve:
                 self.command = try command.adjustingArgument(at: position, by: value)
                 switch coordinates {
                 case .absolute:
-                     position += 1
+                    position += 1
                 case .relative:
                     switch position {
-                    case 0...(command.arguments - 2):
+                    case 0 ... (command.arguments - 2):
                         position += 1
                     case command.arguments - 1:
                         position = -1
                     default:
-                        break //throw?
+                        break // throw?
                     }
                 }
             case .lineTo:
@@ -196,19 +196,19 @@ public extension Path {
                         }
                         position = -1
                     default:
-                        break //throw?
+                        break // throw?
                     }
                 }
             case .closePath:
                 break
             }
         }
-        
+
         private func nextCommand(with value: Double, lastCommand: Path.Command?) throws {
             guard let command = lastCommand else {
                 throw Path.Command.Error.invalidRelativeCommand
             }
-            
+
             switch command {
             case .moveTo:
                 switch coordinates {
@@ -264,7 +264,7 @@ public extension Path {
                 break
             }
         }
-        
+
         private func reset() {
             command = nil
             coordinates = .absolute
