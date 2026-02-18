@@ -83,7 +83,7 @@ extension SVG: CustomStringConvertible {
 
 // MARK: - DynamicNodeEncoding
 extension SVG: DynamicNodeEncoding {
-    public static func nodeEncoding(for key: CodingKey) -> XMLEncoder.NodeEncoding {
+    public static func nodeEncoding(for key: any CodingKey) -> XMLEncoder.NodeEncoding {
         switch key {
         case CodingKeys.width, CodingKeys.height, CodingKeys.viewBox:
             return .attribute
@@ -95,7 +95,7 @@ extension SVG: DynamicNodeEncoding {
 
 // MARK: - DynamicNodeDecoding
 extension SVG: DynamicNodeDecoding {
-    public static func nodeDecoding(for key: CodingKey) -> XMLDecoder.NodeDecoding {
+    public static func nodeDecoding(for key: any CodingKey) -> XMLDecoder.NodeDecoding {
         switch key {
         case CodingKeys.width, CodingKeys.height, CodingKeys.viewBox:
             return .attribute

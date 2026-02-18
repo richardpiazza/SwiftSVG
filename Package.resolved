@@ -6,8 +6,8 @@
         "repositoryURL": "https://github.com/richardpiazza/Swift2D.git",
         "state": {
           "branch": null,
-          "revision": "f9e993c0075013339c5c132ab01fc78750b8774f",
-          "version": "2.1.0"
+          "revision": "c49fa308e8d50d3d721b26f5ff8bc276fa84acf2",
+          "version": "2.2.1"
         }
       },
       {
@@ -15,8 +15,8 @@
         "repositoryURL": "https://github.com/CoreOffice/XMLCoder.git",
         "state": {
           "branch": null,
-          "revision": "c438dad94f6a243b411b70a4b4bac54595064808",
-          "version": "0.15.0"
+          "revision": "5e1ada828d2618ecb79c974e03f79c8f4df90b71",
+          "version": "0.18.0"
         }
       }
     ]

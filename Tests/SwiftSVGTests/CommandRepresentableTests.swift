@@ -1,3 +1,4 @@
+import Swift2D
 import XCTest
 @testable import SwiftSVG
 

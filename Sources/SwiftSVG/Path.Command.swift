@@ -5,7 +5,7 @@ public extension Path {
     /// Path commands are instructions that define a path to be drawn.
     ///
     /// Each command is composed of a command letter and numbers that represent the command parameters.
-    enum Command: Equatable, CustomStringConvertible {
+    enum Command: Equatable, Sendable, CustomStringConvertible {
         /// Moves the current drawing point
         case moveTo(point: Point)
         /// Draw a straight line from the current point to the point provided
